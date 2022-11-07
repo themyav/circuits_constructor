@@ -2,28 +2,32 @@ const LAMP = 'lamp';
 const WIRE = 'wire';
 
 var current = 'lamp';
+var action  = chooseElement
+
+
 
 $(document).ready(function (){
+
+    //Отлавливаем клик по картинке и всегда ее заменяем на что-то указанной функцией
     $('body').on('click', 'img', function (event){
-
-        //console.log(event.which);
-
-        let isFree = $(this).attr('free');
-        //let rotation = $(this).attr('rotation');
-
-        if(isFree === 'false') {
-            $(this).attr('src', 'resource/element/desk.png');
-            isFree = 'true';
-        }
-        else{
-            $(this).attr('src', 'resource/element/' + current.toString() + '/' + current.toString() + '.png');
-            isFree = 'false';
-        }
-        $(this).attr('free', isFree);
+        action(this);
     });
 
+    // Отлавливаем нажатие на кнопку и выбираем, с каким эдементом меню заботаем
     $('button').on('click', function (){
         current = this.id;
-        console.log(current);
+        let category = document.getElementById(current).closest('table').classList[0];
+
+        switch (category){
+            case 'elements':
+                action = chooseElement;
+                break;
+            case 'instruments':
+                action = chooseInstrument;
+                break;
+            default:
+                break;
+        }
+
     });
 });
