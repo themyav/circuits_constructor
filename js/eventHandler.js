@@ -9,14 +9,14 @@ $(document).ready(function (){
         //console.log(event.which);
 
         let isFree = $(this).attr('free');
-        let rotation = $(this).attr('rotation');
+        //let rotation = $(this).attr('rotation');
 
         if(isFree === 'false') {
-            $(this).attr('src', 'resource/desk.png');
+            $(this).attr('src', 'resource/element/desk.png');
             isFree = 'true';
         }
         else{
-            $(this).attr('src', 'resource/' + current.toString() + '.jpg');
+            $(this).attr('src', 'resource/element/' + current.toString() + '/' + current.toString() + '.png');
             isFree = 'false';
         }
         $(this).attr('free', isFree);
