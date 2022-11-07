@@ -1,39 +1,52 @@
-function rotate_left(){
-    console.log("left")
+function rotate_left(cell){
+    let rotation = Number($(cell).attr('rotation'));
+    let angle = rotation - 90;
+    if(angle === -360) angle = 0;
+    document.getElementById(cell.id).style.transform = 'rotate(' + angle + 'deg)';
+    $(cell).attr('rotation', angle.toString());
 }
 
 function rotate_right(cell){
     let rotation = Number($(cell).attr('rotation'));
-    let angle = ((rotation + 90) % 360);
+    let angle = rotation + 90;
+    if(angle === 360) angle = 0;
     document.getElementById(cell.id).style.transform = 'rotate(' + angle + 'deg)';
     $(cell).attr('rotation', angle.toString());
 
 }
 
-function clean(){
-    console.log("clean")
+function reset(cell){
+    document.getElementById(cell.id).style.transform = 'rotate(0deg)';
+    $(cell).attr('rotation', "0");
+}
+
+function clean(cell){
+    reset(cell);
+    picture.attr('src', 'resource/element/desk.png');
+    picture.attr('free', 'true');
+
 }
 
 function chooseInstrument(cell){
     //бороться со столом
-    //console.log(cell.id);
     let fn = window[current];
     fn(cell);
 }
 
 function chooseElement(cell){
 
-    cell = $(cell);
-    let isFree = cell.attr('free');
+    picture = $(cell);
+    let isFree = picture.attr('free');
+    reset(cell);
 
     if(isFree === 'false') {
-        cell.attr('src', 'resource/element/desk.png');
+        picture.attr('src', 'resource/element/desk.png');
         isFree = 'true';
     }
     else{
-        cell.attr('src', 'resource/element/' + current.toString() + '/' + current.toString() + '.png');
+        picture.attr('src', 'resource/element/' + current.toString() + '/' + current.toString() + '.png');
         isFree = 'false';
     }
-    cell.attr('free', isFree);
+    picture.attr('free', isFree);
 
 }
