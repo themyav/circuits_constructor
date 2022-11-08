@@ -17,9 +17,13 @@ $(document).ready(function (){
     $('button').on('click', function (){
         current = this.id;
         let category = document.getElementById(current).closest('table').classList[0];
-
+        let menue = document.getElementById(current).classList[0];
         switch (category){
-            case 'elements':
+            case 'elements': //выбираем элемент
+                if(menue === "drop_wires") {
+                    current = "wire";
+                    wires();
+                }
                 action = chooseElement;
                 break;
             case 'instruments':
@@ -40,7 +44,7 @@ function default_circuits() {
   // Закрыть раскрывающийся список, если пользователь щелкнет за его пределами.
 window.onclick = function(event) {
 if (!event.target.matches('.drop_circuits')) {
-    var dropdowns = document.getElementsByClassName("circuits_dropdown");
+    let dropdowns = document.getElementsByClassName("circuits_dropdown");
     var i;
     for (i = 0; i < dropdowns.length; i++) {
     var openDropdown = dropdowns[i];

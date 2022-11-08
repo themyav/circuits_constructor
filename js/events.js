@@ -91,10 +91,9 @@ function chooseInstrument(cell){
 }
 
 function chooseElement(cell){
-
     picture = $(cell);
     let isFree = picture.attr('free');
-    reset(cell);
+    if(picture.attr('id')) reset(cell);
 
     if(isFree === 'false') {
         picture.attr('src', 'resource/element/desk.png');
