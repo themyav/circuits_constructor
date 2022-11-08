@@ -68,7 +68,7 @@ button:hover{
 
 
 /* Для выпадающего меню с готовыим цепями */
-.dropbtn {
+.drop_circuits {
   background-color: #76b2da;
   color: black;
   width: 100px;
@@ -77,7 +77,7 @@ button:hover{
   cursor: pointer;
 }
 
-.dropbtn:hover, .dropbtn:focus {
+.drop_circuits:hover, .dropbtn:focus {
   background-color: #427aa0;
 }
 
@@ -101,12 +101,56 @@ button:hover{
   padding: 12px 16px;
   text-decoration: none;
   display: block;
-
-
   width: 300px;
   border: 0;
 }
 
 .dropdown button:hover {background-color: #ddd;}
 
-.show {display: block;}
+.show_circuits {display: block;}
+
+
+
+
+
+/* Для выпадающего меню с проводами */
+  
+#myWires button{
+    color: black;
+    background-color: #f1f1f1;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    height: 90px;
+    border: 0;
+}
+
+#myWires button:hover{
+    background-color: lightpink;
+}
+
+ .wires_dropdown {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 200px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  .wires_dropdown button {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    width: 100px;
+    border: 0;
+  }
+
+  .wires_dropdown button :hover{
+    background-color: #ddd;
+  }
+  
+  
+  .show_wires {display: block;}

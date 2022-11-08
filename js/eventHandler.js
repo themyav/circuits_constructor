@@ -35,21 +35,43 @@ $(document).ready(function (){
 
 
 function default_circuits() {
-    document.getElementById("myСircuits").classList.toggle("show");
+    document.getElementById("myСircuits").classList.toggle("show_circuits");
   }
   // Закрыть раскрывающийся список, если пользователь щелкнет за его пределами.
 window.onclick = function(event) {
-if (!event.target.matches('.dropbtn')) {
+if (!event.target.matches('.drop_circuits')) {
     var dropdowns = document.getElementsByClassName("circuits_dropdown");
     var i;
     for (i = 0; i < dropdowns.length; i++) {
     var openDropdown = dropdowns[i];
-    if (openDropdown.classList.contains('show')) {
-        openDropdown.classList.remove('show');
+    if (openDropdown.classList.contains('show_circuits')) {
+        openDropdown.classList.remove('show_circuits');
     }
     }
+  }
 }
+
+
+function wires() {
+    document.getElementById("myWires").classList.toggle("show_wires");
+  }
+  // Закрыть раскрывающийся список, если пользователь щелкнет за его пределами.
+window.onclick = function(event) {
+if (!event.target.matches('.drop_wires')) {
+    var dropdowns = document.getElementsByClassName("wires_dropdown");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+    var openDropdown = dropdowns[i];
+    if (openDropdown.classList.contains('show_wires')) {
+        openDropdown.classList.remove('show_wires');
+    }
+    }
+  }
 }
+
+
+
+
 
 function circuits_one() {
     console.log("did first");
