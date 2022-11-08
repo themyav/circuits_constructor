@@ -8,6 +8,12 @@
   <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,400i|Nunito:300,300i" rel="stylesheet">
   <link rel="stylesheet" href="css/main.css">
   <title>Конструктор электрических цепей</title>
+
+
+
+
+
+
 </head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="js/deskCreator.js"></script>
@@ -53,7 +59,32 @@
       </tr>
       <tr>
         <td><button id="clean">Удалить</button></td>
-      </tr></table>
+      </tr>
+    </table>
+
+
+
+
+
+
+
+
+
+
+
+    <table class="default_circuits">
+      <button onclick="default_circuits()" class="dropbtn">Готовые цепи</button>
+      <div id="myСircuits" class="circuits_dropdown">
+        <button onclick="circuits_one()">Переменный ток, параллельное соединение</button>
+        <button onclick="circuits_two()">Переменный ток, последовательное соединение</button>
+        <button onclick="circuits_three()">Постоянный ток, параллельное соединение</button>
+        <button onclick="circuits_four()">Постоянный ток, последовательное соединение</button>
+      </div>
+    </table>
+
+
+
+
 
 
   </aside>

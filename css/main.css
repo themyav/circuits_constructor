@@ -62,3 +62,51 @@ button:hover{
     opacity: 0.5;
 }
 
+
+
+
+
+
+/* Для выпадающего меню с готовыим цепями */
+.dropbtn {
+  background-color: #76b2da;
+  color: black;
+  width: 100px;
+  height: 50px;
+  border: 0;
+  cursor: pointer;
+}
+
+.dropbtn:hover, .dropbtn:focus {
+  background-color: #427aa0;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.circuits_dropdown {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  overflow: auto;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.circuits_dropdown button {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+
+
+  width: 300px;
+  border: 0;
+}
+
+.dropdown button:hover {background-color: #ddd;}
+
+.show {display: block;}
