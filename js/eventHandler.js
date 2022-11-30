@@ -1,9 +1,39 @@
 const LAMP = 'lamp';
 const WIRE = 'wire';
+const BUILD = 0
+const RUN = 1
 
-var current = 'lamp';
-var action  = chooseElement
+let current = 'lamp';
+let action  = chooseElement
+let mode = BUILD
 
+function switchMode(newMode){
+    if(mode === newMode) return;
+    mode = newMode;
+    createBuildAside(newMode);
+}
+
+function handleRunMode(){
+}
+
+function handleBuildMode(){
+    let category = document.getElementById(current).closest('table').classList[0];
+    let menu = document.getElementById(current).classList[0];
+    switch (category){
+        case 'elements': //выбираем элемент
+            if(menu === "drop_wires") {
+                current = "wire";
+                wires();
+            }
+            action = chooseElement;
+            break;
+        case 'instruments':
+            action = chooseInstrument;
+            break;
+        default:
+            break;
+    }
+}
 
 
 $(document).ready(function (){
@@ -24,23 +54,12 @@ $(document).ready(function (){
     $('button').on('click', function (){
         current = this.id;
         if(current === '') return;
-        let category = document.getElementById(current).closest('table').classList[0];
-        let menue = document.getElementById(current).classList[0];
-        switch (category){
-            case 'elements': //выбираем элемент
-                if(menue === "drop_wires") {
-                    current = "wire";
-                    wires();
-                }
-                action = chooseElement;
-                break;
-            case 'instruments':
-                action = chooseInstrument;
-                break;
-            default:
-                break;
+        if(current === "runMode" || current === "buildMode") {
+            switchMode(current === "runMode" ? RUN : BUILD);
+            return;
         }
-
+        if(mode === RUN) handleRunMode()
+        else handleBuildMode()
     });
 });
 
