@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -15,7 +16,6 @@
 
 
 </head>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="js/deskCreator.js"></script>
 <script src="js/events.js"></script>
 <script src="js/eventHandler.js"></script>
@@ -31,6 +31,7 @@
   </nav>
   <aside>
     <table class="elements">
+      <tr><td><p>Элементы цепи</p></td></tr>
       <tr>
         <td><button id="lamp">Лампа</button></td>
         <td><button id="heating">Нагревательный эл-т</button></td>
@@ -70,18 +71,31 @@
         <td><button id="ammeter">Амперметр</button></td>
         <td><button id="voltmeter">Вольтметр</button></td>
       </tr>
+      <tr>
+        <td><button id="coil">Катушка</button></td>
+        <td><button id="current_source">Источник тока</button></td>
+      </tr>
+      <tr>
+        <td><button id="engine">Двигатель</button></td>
+        <td><button id="galvanometer">Гальванометр</button></td>
+      </tr>
+      <tr>
+        <td><button id="generator">Генератор</button></td>
+        <td><button id="key">Ключ</button></td>
+      </tr>
     </table>
     <table class="instruments">
+      <tr><td><p>Инструменты</p></td></tr>
       <tr>
         <td><button id="rotate_left">Поворот влево</button></td>
         <td><button id="rotate_right">Поворот вправо</button></td>
       </tr>
       <tr>
-        <td><button id="clean">Удалить</button></td>
-      </tr>
-      <tr>
         <td><button id="flip_vertically">Отразить по вертикали</button></td>
         <td><button id="flip_horizontally">Отразить по горизонтали</button></td>
+      </tr>
+      <tr>
+        <td><button id="clean">Удалить</button></td>
       </tr>
     </table>
 
@@ -95,7 +109,6 @@
         <button onclick="circuits_four()">Постоянный ток, последовательное соединение</button>
       </div>
     </table>
-
   </aside>
   <div class="gallery" id="gallery"></div>
   <footer>
