@@ -46,9 +46,12 @@ $(document).ready(function (){
 
 
 
+
 function default_circuits() {
     document.getElementById("myСircuits").classList.toggle("show_circuits");
   }
+
+
   // Закрыть раскрывающийся список, если пользователь щелкнет за его пределами.
 window.onclick = function(event) {
 if (!event.target.matches('.drop_circuits')) {

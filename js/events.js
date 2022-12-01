@@ -16,7 +16,6 @@ function rotate_right(cell){
 
 }
 
-
 function flip_horizontally(cell){
     reflectionX = Number($(cell).attr('reflectionX'));
     reflectionY = Number($(cell).attr('reflectionY'));
@@ -104,5 +103,11 @@ function chooseElement(cell){
         isFree = 'false';
     }
     picture.attr('free', isFree);
+}
 
+
+function switchMode(shown, hidden) {
+    document.getElementById(hidden).style.display='block';
+    document.getElementById(shown).style.display='none';
+    return false;
 }
