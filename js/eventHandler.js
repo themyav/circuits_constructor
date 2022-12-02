@@ -30,8 +30,9 @@ $(document).ready(function (){
 
     // Отлавливаем нажатие на кнопку и выбираем, с каким элементом меню заботаем
     $('button').on('click', function (){
+
+        if(this.id === '') return;
         current = this.id;
-        if(current === '') return;
         let category = document.getElementById(current).closest('table').classList[0];
         let menue = document.getElementById(current).classList[0];
         switch (category){
@@ -108,6 +109,9 @@ function circuits_three() {
 
 //постоянный ток, последовательное соединение
 function circuits_four() {
+    let oldCurrent = current;
+    let oldAction = action;
+
     console.log("did fourth");
     let start = M + Math.round(M/2)
     let next = M
@@ -128,6 +132,7 @@ function circuits_four() {
         chooseElement(cell)
         if(sheme[i].length > 2) sheme[i][2](cell)
     }
-
+    current = oldCurrent;
+    action = oldAction;
 
 }
