@@ -1,39 +1,9 @@
 const LAMP = 'lamp';
 const WIRE = 'wire';
-const BUILD = 0
-const RUN = 1
 
-let current = 'lamp';
-let action  = chooseElement
-let mode = BUILD
+var current = 'lamp';
+var action  = chooseElement
 
-function switchMode(newMode){
-    if(mode === newMode) return;
-    mode = newMode;
-    createBuildAside(newMode);
-}
-
-function handleRunMode(){
-}
-
-function handleBuildMode(){
-    let category = document.getElementById(current).closest('table').classList[0];
-    let menu = document.getElementById(current).classList[0];
-    switch (category){
-        case 'elements': //выбираем элемент
-            if(menu === "drop_wires") {
-                current = "wire";
-                wires();
-            }
-            action = chooseElement;
-            break;
-        case 'instruments':
-            action = chooseInstrument;
-            break;
-        default:
-            break;
-    }
-}
 
 
 $(document).ready(function (){
@@ -54,12 +24,23 @@ $(document).ready(function (){
     $('button').on('click', function (){
         current = this.id;
         if(current === '') return;
-        if(current === "runMode" || current === "buildMode") {
-            switchMode(current === "runMode" ? RUN : BUILD);
-            return;
+        let category = document.getElementById(current).closest('table').classList[0];
+        let menue = document.getElementById(current).classList[0];
+        switch (category){
+            case 'elements': //выбираем элемент
+                if(menue === "drop_wires") {
+                    current = "wire";
+                    wires();
+                }
+                action = chooseElement;
+                break;
+            case 'instruments':
+                action = chooseInstrument;
+                break;
+            default:
+                break;
         }
-        if(mode === RUN) handleRunMode()
-        else handleBuildMode()
+
     });
 });
 
@@ -68,39 +49,39 @@ $(document).ready(function (){
 
 function default_circuits() {
     document.getElementById("myСircuits").classList.toggle("show_circuits");
-  }
+}
 
 
-  // Закрыть раскрывающийся список, если пользователь щелкнет за его пределами.
+// Закрыть раскрывающийся список, если пользователь щелкнет за его пределами.
 window.onclick = function(event) {
-if (!event.target.matches('.drop_circuits')) {
-    let dropdowns = document.getElementsByClassName("circuits_dropdown");
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-    var openDropdown = dropdowns[i];
-    if (openDropdown.classList.contains('show_circuits')) {
-        openDropdown.classList.remove('show_circuits');
+    if (!event.target.matches('.drop_circuits')) {
+        let dropdowns = document.getElementsByClassName("circuits_dropdown");
+        var i;
+        for (i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show_circuits')) {
+                openDropdown.classList.remove('show_circuits');
+            }
+        }
     }
-    }
-  }
 }
 
 
 function wires() {
     document.getElementById("myWires").classList.toggle("show_wires");
-  }
-  // Закрыть раскрывающийся список, если пользователь щелкнет за его пределами.
+}
+// Закрыть раскрывающийся список, если пользователь щелкнет за его пределами.
 window.onclick = function(event) {
-if (!event.target.matches('.drop_wires')) {
-    var dropdowns = document.getElementsByClassName("wires_dropdown");
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-    var openDropdown = dropdowns[i];
-    if (openDropdown.classList.contains('show_wires')) {
-        openDropdown.classList.remove('show_wires');
+    if (!event.target.matches('.drop_wires')) {
+        var dropdowns = document.getElementsByClassName("wires_dropdown");
+        var i;
+        for (i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show_wires')) {
+                openDropdown.classList.remove('show_wires');
+            }
+        }
     }
-    }
-  }
 }
 
 

@@ -107,6 +107,9 @@ function chooseElement(cell){
 
 
 function switchMode(shown, hidden) {
+    if(shown === 'buildingMode') MODE = WORK
+    else MODE = BUILD
+    setCookie()
     document.getElementById(hidden).style.display='block';
     document.getElementById(shown).style.display='none';
     return false;
