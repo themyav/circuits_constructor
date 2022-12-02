@@ -10,6 +10,8 @@ $(document).ready(function (){
 
     //Отлавливаем клик по картинке и всегда ее заменяем на что-то указанной функцией
     $('body').on('click', 'img', function (event){
+        let previousElementName = current;
+        let previousAction = action;
         if (event.ctrlKey){
             if(event.shiftKey){
                 current = "rotate_left";
@@ -17,7 +19,13 @@ $(document).ready(function (){
             else current = "rotate_right";
             action = chooseInstrument;
         }
+        else if(event.altKey){
+            current = 'clean';
+            action = chooseInstrument;
+        }
         action(this);
+        current = previousElementName;
+        action = previousAction;
     });
 
     // Отлавливаем нажатие на кнопку и выбираем, с каким элементом меню заботаем
