@@ -16,7 +16,8 @@ function setCookie(){
 }
 
 function createAside(){
-    MODE = getCookie('mode') //какой сейчас мод
+    let currentMode = getCookie('mode');
+    if(currentMode) MODE = currentMode; //какой сейчас мод
     console.log("current mode is " + MODE)
 
     if(MODE === WORK) switchMode('buildingMode', 'workingMode' )

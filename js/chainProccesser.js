@@ -1,5 +1,3 @@
-let M = 10;
-let N = 7;
 
 let runnable = false;
 const KEY = "resource/element/key/key.png";
