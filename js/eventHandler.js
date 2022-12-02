@@ -30,9 +30,10 @@ $(document).ready(function (){
 
     // Отлавливаем нажатие на кнопку и выбираем, с каким элементом меню заботаем
     $('button').on('click', function (){
-
+        document.getElementById(current).style.filter = '';
         if(this.id === '') return;
         current = this.id;
+        document.getElementById(current).style.filter = 'brightness(50%)';
         let category = document.getElementById(current).closest('table').classList[0];
         let menue = document.getElementById(current).classList[0];
         switch (category){
@@ -90,6 +91,8 @@ window.onclick = function(event) {
                 openDropdown.classList.remove('show_wires');
             }
         }
+        document.getElementById('drop_wires').style.filter = '';
+
     }
 }
 
