@@ -99,7 +99,10 @@ function chooseElement(cell){
 
 
 function switchMode(shown, hidden) {
-    if(shown === 'buildingMode') MODE = WORK
+    if(shown === 'buildingMode') {
+        MODE = WORK
+        addRAndU();
+    }
     else MODE = BUILD
     setCookie()
     document.getElementById(hidden).style.display='block';
