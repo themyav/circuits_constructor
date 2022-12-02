@@ -10,6 +10,8 @@ $(document).ready(function (){
 
     //Отлавливаем клик по картинке и всегда ее заменяем на что-то указанной функцией
     $('body').on('click', 'img', function (event){
+        let previousElementName = current;
+        let previousAction = action;
         if (event.ctrlKey){
             if(event.shiftKey){
                 current = "rotate_left";
@@ -17,7 +19,13 @@ $(document).ready(function (){
             else current = "rotate_right";
             action = chooseInstrument;
         }
+        else if(event.altKey){
+            current = 'clean';
+            action = chooseInstrument;
+        }
         action(this);
+        current = previousElementName;
+        action = previousAction;
     });
 
     // Отлавливаем нажатие на кнопку и выбираем, с каким элементом меню заботаем
@@ -49,39 +57,39 @@ $(document).ready(function (){
 
 function default_circuits() {
     document.getElementById("myСircuits").classList.toggle("show_circuits");
-  }
+}
 
 
-  // Закрыть раскрывающийся список, если пользователь щелкнет за его пределами.
+// Закрыть раскрывающийся список, если пользователь щелкнет за его пределами.
 window.onclick = function(event) {
-if (!event.target.matches('.drop_circuits')) {
-    let dropdowns = document.getElementsByClassName("circuits_dropdown");
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-    var openDropdown = dropdowns[i];
-    if (openDropdown.classList.contains('show_circuits')) {
-        openDropdown.classList.remove('show_circuits');
+    if (!event.target.matches('.drop_circuits')) {
+        let dropdowns = document.getElementsByClassName("circuits_dropdown");
+        var i;
+        for (i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show_circuits')) {
+                openDropdown.classList.remove('show_circuits');
+            }
+        }
     }
-    }
-  }
 }
 
 
 function wires() {
     document.getElementById("myWires").classList.toggle("show_wires");
-  }
-  // Закрыть раскрывающийся список, если пользователь щелкнет за его пределами.
+}
+// Закрыть раскрывающийся список, если пользователь щелкнет за его пределами.
 window.onclick = function(event) {
-if (!event.target.matches('.drop_wires')) {
-    var dropdowns = document.getElementsByClassName("wires_dropdown");
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-    var openDropdown = dropdowns[i];
-    if (openDropdown.classList.contains('show_wires')) {
-        openDropdown.classList.remove('show_wires');
+    if (!event.target.matches('.drop_wires')) {
+        var dropdowns = document.getElementsByClassName("wires_dropdown");
+        var i;
+        for (i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show_wires')) {
+                openDropdown.classList.remove('show_wires');
+            }
+        }
     }
-    }
-  }
 }
 
 

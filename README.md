@@ -12,3 +12,4 @@
 
 * click + ctrl &mdash; вращение элемента вправо
 * click + ctrl + shift &mdash; вращение элемента влево
+* click + alt &mdash; удаление элемента

@@ -1,0 +1,79 @@
+<table class="elements">
+    <tr><td><p>Элементы цепи</p></td></tr>
+    <tr>
+        <td><button id="lamp">Лампа</button></td>
+        <td><button id="heating">Нагревательный эл-т</button></td>
+    </tr>
+    <tr>
+        <td><button id="rheostat">Реостат</button></td>
+        <td><button id="resistor">Резистр</button></td>
+    </tr>
+    <tr>
+
+        <td><button id="drop_wires" class="drop_wires">Провод</button>
+            <div id="myWires" class="wires_dropdown" style="background-color: #f1f1f1;" >
+                <table>
+                    <tr>
+                        <td><button id="wire"><img src="resource/element/wire/wire.png" alt="Кнопка «button»" width=50px height=50px></button></td>
+                        <td><button id="wire_2"><img src="resource/element/wire_2/wire_2.png" alt="Кнопка «button»" width=50px height=50px></button></td>
+                    </tr>
+                    <tr>
+                        <td><button id="corner_wire" ><img src="resource/element/corner_wire/corner_wire.png" alt="Кнопка «button»" width=50px height=50px></button></td>
+                        <td><button id="corner_wire_2"><img src="resource/element/corner_wire_2/corner_wire_2.png" alt="Кнопка «button»" width=50px height=50px></button></td>
+                    </tr>
+                    <tr>
+                        <td><button id="corner_wire_3"><img src="resource/element/corner_wire_3/corner_wire_3.png" alt="Кнопка «button»" width=50px height=50px></button></td>
+                        <td><button id="corner_wire_4"><img src="resource/element/corner_wire_4/corner_wire_4.png" alt="Кнопка «button»" width=50px height=50px></button></td>
+                    </tr>
+                </table>
+            </div>
+        </td>
+
+        <td><button id="fuse">Предохранитель</button></td>
+    </tr>
+    <tr>
+        <td><button id="battery_of_elements">Батарея элементов</button></td>
+        <td><button id="capacitor">Конденсатор</button></td>
+    </tr>
+    <tr>
+        <td><button id="ammeter">Амперметр</button></td>
+        <td><button id="voltmeter">Вольтметр</button></td>
+    </tr>
+    <tr>
+        <td><button id="coil">Катушка</button></td>
+        <td><button id="current_source">Источник тока</button></td>
+    </tr>
+    <tr>
+        <td><button id="engine">Двигатель</button></td>
+        <td><button id="galvanometer">Гальванометр</button></td>
+    </tr>
+    <tr>
+        <td><button id="generator">Генератор</button></td>
+        <td><button id="key">Ключ</button></td>
+    </tr>
+</table>
+<table class="instruments">
+    <tr><td><p>Инструменты</p></td></tr>
+    <tr>
+        <td><button id="rotate_left">Поворот влево</button></td>
+        <td><button id="rotate_right">Поворот вправо</button></td>
+    </tr>
+    <tr>
+        <td><button id="flip_vertically">Отразить по вертикали</button></td>
+        <td><button id="flip_horizontally">Отразить по горизонтали</button></td>
+    </tr>
+    <tr>
+        <td><button id="clean">Удалить</button></td>
+    </tr>
+</table>
+
+
+<table class="default_circuits">
+    <button onclick="default_circuits()" class="drop_circuits">Готовые цепи</button>
+    <div id="myСircuits" class="circuits_dropdown">
+        <button onclick="circuits_one()">Переменный ток, параллельное соединение</button>
+        <button onclick="circuits_two()">Переменный ток, последовательное соединение</button>
+        <button onclick="circuits_three()">Постоянный ток, параллельное соединение</button>
+        <button onclick="circuits_four()">Постоянный ток, последовательное соединение</button>
+    </div>
+</table>
