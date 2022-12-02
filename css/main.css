@@ -69,6 +69,7 @@ button:hover{
 }
 
 .gallery__img:hover{
+    color: #555555;
     opacity: 0.5;
 }
 
