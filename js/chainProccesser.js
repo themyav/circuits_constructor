@@ -1,4 +1,3 @@
-
 let runnable = false;
 const KEY = "resource/element/key/key.png";
 
@@ -32,20 +31,23 @@ function searchKey() {
             runnable = true;
         }
     }
-
-
 }
 
 
 function addRAndU() {
     let cell;
     let element;
-    let table = document.getElementsByClassName("value");
+    let table = document.getElementById("value");
     for (let i = 0; i < N * M; i++) {
         cell = document.getElementById("img_" + i);
-        if (APPLIANCES.has(cell.getAttribute("src"))) {
-            element = Object.keys(APPLIANCES).find(key => APPLIANCES[key] === cell.getAttribute("src"));
-            table.innerHTML += '<tr><td><input type="button" class ="valuesOfUR" >" + element.toString() + "</td></tr>';
+        if (cell.getAttribute("free").toString()==="false") {
+            for (let pair of APPLIANCES.entries()) {
+                if(cell.getAttribute("src")===pair[1]) element = pair[0];
+            }
+            console.log("element is "+ element.toString());
+
+            table.innerHTML += "<tr><td><button class =\"valuesOfUR\">" + element.toString() + "</button></td></tr>";
+            //table.innerHTML = "<tr><td>hello</td></tr>";
         }
     }
     let elements = document.getElementsByClassName("valuesOfUR");

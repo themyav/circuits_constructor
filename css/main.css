@@ -50,6 +50,13 @@ button:hover{
     width: 100%;
 }
 
+.valuesOfUR {
+    background-color: aliceblue;
+    width: 100px;
+    height: 50px;
+    border: 0;
+}
+
 .container {
     width: 60%;
     margin: 2rem auto;
