@@ -87,13 +87,12 @@ function default_circuits() {
 }
 
 
-// Закрыть раскрывающийся список, если пользователь щелкнет за его пределами.
+//TODO: Закрыть раскрывающийся список, если пользователь щелкнет за его пределами.
 window.onclick = function(event) {
     if (!event.target.matches('.drop_circuits')) {
         let dropdowns = document.getElementsByClassName("circuits_dropdown");
-        var i;
-        for (i = 0; i < dropdowns.length; i++) {
-            var openDropdown = dropdowns[i];
+        for (let i = 0; i < dropdowns.length; i++) {
+            let openDropdown = dropdowns[i];
             if (openDropdown.classList.contains('show_circuits')) {
                 openDropdown.classList.remove('show_circuits');
             }
@@ -105,19 +104,17 @@ window.onclick = function(event) {
 function wires() {
     document.getElementById("myWires").classList.toggle("show_wires");
 }
-// Закрыть раскрывающийся список, если пользователь щелкнет за его пределами.
+//TODO: Закрыть раскрывающийся список, если пользователь щелкнет за его пределами.
 window.onclick = function(event) {
     if (!event.target.matches('.drop_wires')) {
-        var dropdowns = document.getElementsByClassName("wires_dropdown");
-        var i;
-        for (i = 0; i < dropdowns.length; i++) {
-            var openDropdown = dropdowns[i];
+        let dropdowns = document.getElementsByClassName("wires_dropdown");
+        for (let i = 0; i < dropdowns.length; i++) {
+            let openDropdown = dropdowns[i];
             if (openDropdown.classList.contains('show_wires')) {
                 openDropdown.classList.remove('show_wires');
             }
         }
         document.getElementById('drop_wires').style.filter = '';
-
     }
 }
 

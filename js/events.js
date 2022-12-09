@@ -102,7 +102,7 @@ function chooseElement(cell){
 function switchMode(shown, hidden) {
     if(shown === 'buildingMode') {
         MODE = WORK
-        addRAndU();
+        addElementButton();
     }
     else MODE = BUILD
     setCookie()

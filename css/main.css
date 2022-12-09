@@ -50,6 +50,17 @@ button:hover{
     width: 100%;
 }
 
+#value button {
+    background-color: aliceblue;
+    width: 100px;
+    height: 50px;
+    border: 0;
+}
+
+#value button:hover{
+    background-color: lightpink;
+}
+
 .container {
     width: 60%;
     margin: 2rem auto;
