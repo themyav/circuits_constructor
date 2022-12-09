@@ -45,7 +45,13 @@ function addElementButton() {
                 if (cell.getAttribute("src") === pair[1]) element = pair[0];
             }
             if (element !== undefined) {
-                str += "<tr><td><button id='button_' is_show='false'" + i + " onclick='addUAndR.apply(this)()'>" + element + "</button></td></tr>";
+                str += "<tr><td><button id='button_" + i + "' is_show='false'" + i +
+                    " onclick='add_U_and_R(this)' onmouseover='light_picture(this, \"on\")' onmouseout='light_picture(this, \"out\")'>" + element + "</button></td></tr>" +
+                    "<tr><td><div id=\"UandR_" + i + "\" class=\"UandR_dropdown\">" +
+                    "<table><tr><td><input type=\"input\" class='show_U_and_R'>" + "Напряжение" +
+                    "</td></tr><tr><td><input type=\"input\" class='show_U_and_R'>" + "Сопротивление" +
+                    "</td></tr></table>" +
+                    "</div></td></tr>";
             }
         }
     }
@@ -53,24 +59,13 @@ function addElementButton() {
 }
 
 
-function addUAndR() {
-    let id = this.getAttribute("id");
-    let str = "<div id=\"UandR_" + id + "\" class=\"UandR_dropdown\"><input type=\"input\">" + "Напряжение" + "</td></tr><tr><div><input type=\"input\">" + "Сопротивление" + "</div>";
-    //element.insertAdjacentHTML("afterend", str);
-    // const span = document.querySelector("UandR_" + id);
-    // const classes = span.classList;
-    // span.addEventListener('click', () => {
-    //     const result = classes.toggle("c");
-    //     span.textContent = `'c' ${result ? "added" : "removed"}; classList is now "${classes}".`;
-    // })
-    // document.getElementById("UandR_" + id).toggle("", undefined);
-    if (this.getAttribute("is_show") === "false") {
-        console.log("is show is false");
-        this.setAttribute("is_show", "true");
-        this.insertAdjacentHTML("afterend", str);
-    } else {
-        this.setAttribute("is_show", "false");
-        let element = document.getElementById("UandR_" + id);
-        element.parentNode.removeChild(element);
-    }
+function add_U_and_R(e) {
+    let id = e.getAttribute("id").toString().split("_");
+    document.getElementById("UandR_"+id[1]).classList.toggle("show_circuits");
+}
+
+function light_picture(e, where){
+    let id = e.getAttribute("id").toString().split("_");
+    if(where === "on") document.getElementById("img_"+id[1]).setAttribute("style", "filter: brightness(50%);")
+    if(where === "out") document.getElementById("img_"+id[1]).setAttribute("style", "filter: brightness(100%);")
 }
