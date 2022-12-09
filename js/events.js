@@ -77,9 +77,19 @@ function reset(cell){
 }
 
 function clean(cell){
+    let picture = $(cell)
     reset(cell);
     picture.attr('src', 'resource/element/desk.png');
     picture.attr('free', 'true');
+
+}
+
+function clean_all(){
+    if(!confirm("Вы действительно хотите все удалить?")) return;
+    for(let i = 0; i < N * M; i++){
+        let cell = document.getElementById('img_' + i.toString());
+        clean(cell);
+    }
 
 }
 

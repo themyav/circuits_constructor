@@ -50,6 +50,10 @@ function handleBuildModeButton(cell){
             action = chooseElement;
             break;
         case 'instruments':
+            if(current === 'clean_all'){
+                clean_all();
+                return;
+            }
             action = chooseInstrument;
             break;
         default:
