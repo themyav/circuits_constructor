@@ -34,19 +34,19 @@ function searchKey() {
 
 
 function addElementButton() {
-    //TODO: добавляется слишком много или одна
     let cell;
-    let element;
     let str = "";
     let table = document.getElementById("value");
     for (let i = 0; i < N * M; i++) {
         cell = document.getElementById("img_" + i);
         if (cell.getAttribute("free").toString() === "false") {
+            let element;
             for (let pair of APPLIANCES.entries()) {
                 if (cell.getAttribute("src") === pair[1]) element = pair[0];
             }
-            console.log("element is " + element);
-            str += "<tr><td><button id='button_'" + i + " onclick='addUAndR.apply(this)()'>" + element + "</button></td></tr>";
+            if (element !== undefined) {
+                str += "<tr><td><button id='button_' is_show='false'" + i + " onclick='addUAndR.apply(this)()'>" + element + "</button></td></tr>";
+            }
         }
     }
     table.innerHTML = str;
@@ -54,21 +54,23 @@ function addElementButton() {
 
 
 function addUAndR() {
-    let element = this;
     let id = this.getAttribute("id");
     let str = "<div id=\"UandR_" + id + "\" class=\"UandR_dropdown\"><input type=\"input\">" + "Напряжение" + "</td></tr><tr><div><input type=\"input\">" + "Сопротивление" + "</div>";
-    element.insertAdjacentHTML("afterend", str);
-
-    //TODO: супер уродски смотрится
-
-    document.getElementById("UandR_" + id).classList.toggle("show_UandR");
-    window.onclick = function () {
-        let dropdowns = document.getElementsByClassName("UandR_dropdown");
-        for (let i = 0; i < dropdowns.length; i++) {
-            let openDropdown = dropdowns[i];
-            if (openDropdown.classList.contains('show_UandR')) {
-                openDropdown.classList.remove('show_UandR');
-            }
-        }
+    //element.insertAdjacentHTML("afterend", str);
+    // const span = document.querySelector("UandR_" + id);
+    // const classes = span.classList;
+    // span.addEventListener('click', () => {
+    //     const result = classes.toggle("c");
+    //     span.textContent = `'c' ${result ? "added" : "removed"}; classList is now "${classes}".`;
+    // })
+    // document.getElementById("UandR_" + id).toggle("", undefined);
+    if (this.getAttribute("is_show") === "false") {
+        console.log("is show is false");
+        this.setAttribute("is_show", "true");
+        this.insertAdjacentHTML("afterend", str);
+    } else {
+        this.setAttribute("is_show", "false");
+        let element = document.getElementById("UandR_" + id);
+        element.parentNode.removeChild(element);
     }
 }
