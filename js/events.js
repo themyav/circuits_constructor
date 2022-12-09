@@ -84,6 +84,15 @@ function clean(cell){
 
 }
 
+function clean_all(){
+    if(!confirm("Вы действительно хотите все удалить?")) return;
+    for(let i = 0; i < N * M; i++){
+        let cell = document.getElementById('img_' + i.toString());
+        clean(cell);
+    }
+
+}
+
 function chooseInstrument(cell){
     //бороться со столом
     let fn = window[current];
