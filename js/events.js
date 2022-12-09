@@ -77,6 +77,7 @@ function reset(cell){
 }
 
 function clean(cell){
+    let picture = $(cell)
     reset(cell);
     picture.attr('src', 'resource/element/desk.png');
     picture.attr('free', 'true');
