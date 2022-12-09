@@ -1,7 +1,6 @@
 let runnable = false;
 const KEY = "resource/element/key/key.png";
 
-
 const APPLIANCES = new Map([
         ["Амперметр", "resource/element/ammeter/ammeter.png"],
         ["Батарея элементов", "resource/element/battery_of_elements/battery_of_elements.png"],
@@ -34,26 +33,42 @@ function searchKey() {
 }
 
 
-function addRAndU() {
+function addElementButton() {
+    //TODO: добавляется слишком много или одна
     let cell;
     let element;
+    let str = "";
     let table = document.getElementById("value");
     for (let i = 0; i < N * M; i++) {
         cell = document.getElementById("img_" + i);
-        if (cell.getAttribute("free").toString()==="false") {
+        if (cell.getAttribute("free").toString() === "false") {
             for (let pair of APPLIANCES.entries()) {
-                if(cell.getAttribute("src")===pair[1]) element = pair[0];
+                if (cell.getAttribute("src") === pair[1]) element = pair[0];
             }
-            console.log("element is "+ element.toString());
-
-            table.innerHTML += "<tr><td><button class =\"valuesOfUR\">" + element.toString() + "</button></td></tr>";
-            //table.innerHTML = "<tr><td>hello</td></tr>";
+            console.log("element is " + element);
+            str += "<tr><td><button id='button_'" + i + " onclick='addUAndR.apply(this)()'>" + element + "</button></td></tr>";
         }
     }
-    let elements = document.getElementsByClassName("valuesOfUR");
-    for(element in elements){
-        element.onclick = function() {
-            element.innerHTML = "<tr><td><input type=\"number\">" + "Напряжение" + "</td></tr><tr><td><input type=\"number\">" + "Сопротивление" + "</td></tr>";
+    table.innerHTML = str;
+}
+
+
+function addUAndR() {
+    let element = this;
+    let id = this.getAttribute("id");
+    let str = "<div id=\"UandR_" + id + "\" class=\"UandR_dropdown\"><input type=\"input\">" + "Напряжение" + "</td></tr><tr><div><input type=\"input\">" + "Сопротивление" + "</div>";
+    element.insertAdjacentHTML("afterend", str);
+
+    //TODO: супер уродски смотрится
+
+    document.getElementById("UandR_" + id).classList.toggle("show_UandR");
+    window.onclick = function () {
+        let dropdowns = document.getElementsByClassName("UandR_dropdown");
+        for (let i = 0; i < dropdowns.length; i++) {
+            let openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show_UandR')) {
+                openDropdown.classList.remove('show_UandR');
+            }
         }
     }
 }
