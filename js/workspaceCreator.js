@@ -1,5 +1,5 @@
-let M = 10
-let N = 7
+let M = 50 //you should put this value to repeat function in css
+let N = 50
 const WORK = 'workingMode'
 const BUILD = 'buildingMode'
 let MODE = BUILD
