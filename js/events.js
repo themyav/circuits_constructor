@@ -1,3 +1,5 @@
+const DELTA = 5 //кол-во пикселей на которое уменьшим при масштабировании
+
 function rotate_left(cell){
     let rotation = Number($(cell).attr('rotation'));
     let angle = rotation - 90;
@@ -90,6 +92,20 @@ function clean_all(){
         let cell = document.getElementById('img_' + i.toString());
         clean(cell);
     }
+
+}
+
+function scale(plus){
+    let images = $('.gallery__img');
+    let size = images.css('width');
+    size = parseInt(size.substring(0, size.length - 2));
+    if((plus && size >= 100) || (!plus && size <= 30)) return; //не даем слишком сильно увеличить/уменьшить
+
+    let delta = (plus ? DELTA : -DELTA);
+    let new_size = (size + delta).toString() + 'px';
+    console.log(new_size);
+    images.css('width', new_size);
+    images.css('height', new_size);
 
 }
 
