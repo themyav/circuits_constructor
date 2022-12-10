@@ -130,7 +130,7 @@ function circuits_four() {
     let oldAction = action;
 
     console.log("did fourth");
-    let start = M + Math.round(M/2)
+    let start = 5; //M + Math.round(M/2)
     let next = M
     let sheme = [
         [start, 'corner_wire_4'],
