@@ -127,7 +127,7 @@ function chooseElement(cell){
 function switchMode(shown, hidden) {
     if(shown === 'buildingMode') {
         MODE = WORK
-        addElementButton();
+        startWorkingMode();
     }
     else MODE = BUILD
     setCookie()

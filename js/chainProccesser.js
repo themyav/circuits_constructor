@@ -1,4 +1,5 @@
 let runnable = false;
+let current_key = null;
 const KEY = "resource/element/key/key.png";
 
 const APPLIANCES = new Map([
@@ -24,11 +25,17 @@ function searchKey() {
     let cell;
     for (let i = 0; i < N * M; i++) {
         cell = document.getElementById("img_" + i);
-        if (cell.getAttribute("src") === KEY) {
-            runnable = false;
+        if(cell.getAttribute("src") === APPLIANCES.get(KEY)){
+            if(current_key === null){
+                current_key = cell;
+                runnable = true;
+            }
+            else{
+                runnable = false;
+                console.log("two keys in forbidden");
+            }
         }
     }
-    runnable = true;
 }
 
 // window.onclick = function (e) {
@@ -76,4 +83,29 @@ function light_picture(e, where) {
     let id = e.getAttribute("id").toString().split("_");
     if (where === "on") document.getElementById("img_" + id[1]).setAttribute("style", "filter: brightness(50%);")
     if (where === "out") document.getElementById("img_" + id[1]).setAttribute("style", "filter: brightness(100%);")
+}
+
+/*
+Точка входа, из которой запускается вся предобработка.
+Нужна для того, чтобы инкапсулировать режим работы
+ */
+
+function runChain(){
+    //if(!runnable) return; remove for debug
+    let used = [false] * 3
+    console.log(used);
+    let start = current_key;
+
+}
+
+function startWorkingMode(){
+    //обновим значения, если цепь до этого запускалась
+    runnable = false;
+    current_key = null;
+
+    searchKey();
+    if(!runnable){
+        console.log("unable to run");
+    }
+    addElementButton();
 }
