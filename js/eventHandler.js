@@ -89,41 +89,29 @@ $(document).ready(function (){
 function default_circuits() {
     document.getElementById("myСircuits").classList.toggle("show_circuits");
 }
-
-
-//TODO: Закрыть раскрывающийся список, если пользователь щелкнет за его пределами.
-window.onclick = function(event) {
-    if (!event.target.matches('.drop_circuits')) {
-        let dropdowns = document.getElementsByClassName("circuits_dropdown");
-        for (let i = 0; i < dropdowns.length; i++) {
-            let openDropdown = dropdowns[i];
-            if (openDropdown.classList.contains('show_circuits')) {
-                openDropdown.classList.remove('show_circuits');
-            }
-        }
-    }
-}
-
-
 function wires() {
     document.getElementById("myWires").classList.toggle("show_wires");
 }
-//TODO: Закрыть раскрывающийся список, если пользователь щелкнет за его пределами.
-window.onclick = function(event) {
-    if (!event.target.matches('.drop_wires')) {
-        let dropdowns = document.getElementsByClassName("wires_dropdown");
-        for (let i = 0; i < dropdowns.length; i++) {
-            let openDropdown = dropdowns[i];
-            if (openDropdown.classList.contains('show_wires')) {
-                openDropdown.classList.remove('show_wires');
-            }
-        }
-        document.getElementById('drop_wires').style.filter = '';
-    }
+function add_U_and_R(e) {
+    let id = e.getAttribute("id").toString().split("_");
+    document.getElementById("UandR_" + id[1]).classList.toggle("show_circuits");
 }
 
-
-
+window.onclick = function(event) {
+    if (!event.target.matches('.drop_wires')) {
+        document.getElementById("myWires").classList.remove("show_wires");
+    }
+    if (!event.target.matches('.drop_circuits')) {
+        document.getElementById("myСircuits").classList.remove("show_circuits");
+    }
+    for (let i = 0; i < N * M; i++) {
+        if(document.getElementById("button_"+i) !== null){
+            if(!event.target.matches('#button_'+i)){
+                document.getElementById("UandR_"+i).classList.remove("show_circuits");
+            }
+        }
+    }
+}
 
 function circuits_one() {
     console.log("did first");

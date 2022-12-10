@@ -72,11 +72,6 @@ function addElementButton() {
 }
 
 
-function add_U_and_R(e) {
-    let id = e.getAttribute("id").toString().split("_");
-    document.getElementById("UandR_" + id[1]).classList.toggle("show_circuits");
-}
-
 function light_picture(e, where) {
     let id = e.getAttribute("id").toString().split("_");
     if (where === "on") document.getElementById("img_" + id[1]).setAttribute("style", "filter: brightness(50%);")
