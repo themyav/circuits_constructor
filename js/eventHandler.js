@@ -77,6 +77,8 @@ $(document).ready(function (){
     // Отлавливаем нажатие на кнопку и выбираем, с каким элементом меню заботаем
     $('button').on('click', function (){
         let cell = this;
+        let id = cell.id;
+        if(id === 'scale_plus' || id === 'scale_minus') return;
         if(MODE === BUILD) handleBuildModeButton(cell);
         else handleWorkModeButton(cell);
 

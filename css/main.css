@@ -154,6 +154,10 @@ button[id*="scale"]{
     width: 50px;
 }
 
+button[id*="scale"]:hover{
+    background-color: darkgreen;
+}
+
 
 /* Для выпадающего меню с проводами */
   
