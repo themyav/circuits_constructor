@@ -66,7 +66,7 @@ function addElementButton() {
             }
             if (element !== undefined) {
                 str += "<tr><td><button id='button_" + i + "' is_show='false'" + i +
-                    " onclick='add_U_and_R(this)' onmouseover='light_picture(this, \"on\")' onmouseout='light_picture(this, \"out\")'>" + element + "</button></td></tr>" +
+                    " onclick='toggle_U_and_R(this)' onmouseover='light_picture(this, \"on\")' onmouseout='light_picture(this, \"out\")'>" + element + "</button></td></tr>" +
                     "<tr><td><div id=\"UandR_" + i + "\" class=\"UandR_dropdown\">" +
                     "<table><tr><td><input type=\"input\" class='show_U_and_R'>" + "Напряжение" +
                     "</td></tr><tr><td><input type=\"input\" class='show_U_and_R'>" + "Сопротивление" +

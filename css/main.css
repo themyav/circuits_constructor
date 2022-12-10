@@ -144,8 +144,6 @@ button:hover{
 
 .dropdown button:hover {background-color: #ddd;}
 
-.show_circuits {display: block;}
-
 /*
 Кнопки масштабирование
  */
@@ -197,6 +195,6 @@ button[id*="scale"]:hover{
   .wires_dropdown button :hover{
     background-color: #ddd;
   }
-  
-  
-  .show_wires {display: block;}
+
+
+.show_list {display: block;}

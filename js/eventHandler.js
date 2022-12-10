@@ -45,7 +45,7 @@ function handleBuildModeButton(cell){
         case 'elements': //выбираем элемент
             if(menue === "drop_wires") {
                 current = "wire";
-                wires();
+                toggle_wires();
             }
             action = chooseElement;
             break;
@@ -86,28 +86,28 @@ $(document).ready(function (){
 
 
 
-function default_circuits() {
-    document.getElementById("myСircuits").classList.toggle("show_circuits");
+function toggle_circuits() {
+    document.getElementById("myСircuits").classList.toggle("show_list");
 }
-function wires() {
-    document.getElementById("myWires").classList.toggle("show_wires");
+function toggle_wires() {
+    document.getElementById("myWires").classList.toggle("show_list");
 }
-function add_U_and_R(e) {
+function toggle_U_and_R(e) {
     let id = e.getAttribute("id").toString().split("_");
-    document.getElementById("UandR_" + id[1]).classList.toggle("show_circuits");
+    document.getElementById("UandR_" + id[1]).classList.toggle("show_list");
 }
 
 window.onclick = function(event) {
     if (!event.target.matches('.drop_wires')) {
-        document.getElementById("myWires").classList.remove("show_wires");
+        document.getElementById("myWires").classList.remove("show_list");
     }
     if (!event.target.matches('.drop_circuits')) {
-        document.getElementById("myСircuits").classList.remove("show_circuits");
+        document.getElementById("myСircuits").classList.remove("show_list");
     }
     for (let i = 0; i < N * M; i++) {
         if(document.getElementById("button_"+i) !== null){
             if(!event.target.matches('#button_'+i)){
-                document.getElementById("UandR_"+i).classList.remove("show_circuits");
+                document.getElementById("UandR_"+i).classList.remove("show_list");
             }
         }
     }
