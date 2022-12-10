@@ -24,14 +24,27 @@ function searchKey() {
     let cell;
     for (let i = 0; i < N * M; i++) {
         cell = document.getElementById("img_" + i);
-        if (cell.getAttribute("src") === ELEMENTS.get(KEY)) {
+        if (cell.getAttribute("src") === KEY) {
             runnable = false;
-        } else {
-            runnable = true;
         }
     }
+    runnable = true;
 }
 
+// window.onclick = function (e) {
+//     let cell;
+//     searchKey();
+//     //TODO: вытащить из е элемент
+//     for (let i = 0; i < N * M; i++) {
+//         cell = document.getElementById("img_" + i);
+//         //console.log(e);
+//         if (e === cell && MODE === WORK) {
+//             console.log("is function");
+//             if (runnable) e.setAttribute("src", "resource/element/key/closed_key.png");
+//             else e.setAttribute("src", KEY);
+//         }
+//     }
+// }
 
 function addElementButton() {
     let cell;
@@ -61,11 +74,11 @@ function addElementButton() {
 
 function add_U_and_R(e) {
     let id = e.getAttribute("id").toString().split("_");
-    document.getElementById("UandR_"+id[1]).classList.toggle("show_circuits");
+    document.getElementById("UandR_" + id[1]).classList.toggle("show_circuits");
 }
 
-function light_picture(e, where){
+function light_picture(e, where) {
     let id = e.getAttribute("id").toString().split("_");
-    if(where === "on") document.getElementById("img_"+id[1]).setAttribute("style", "filter: brightness(50%);")
-    if(where === "out") document.getElementById("img_"+id[1]).setAttribute("style", "filter: brightness(100%);")
+    if (where === "on") document.getElementById("img_" + id[1]).setAttribute("style", "filter: brightness(50%);")
+    if (where === "out") document.getElementById("img_" + id[1]).setAttribute("style", "filter: brightness(100%);")
 }
