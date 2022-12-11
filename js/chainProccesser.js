@@ -1,6 +1,10 @@
 let runnable = false;
 let current_key = null;
 const KEY = "resource/element/key/key.png";
+const BATTERY = "resource/element/battery_of_elements/battery_of_elements.png";
+const ENGINE = "resource/element/battery_of_elements/battery_of_elements.png";
+const GENERATOR = "resource/element/generator/generator.png";
+
 
 const APPLIANCES = new Map([
         ["Амперметр", "resource/element/ammeter/ammeter.png"],
@@ -36,8 +40,9 @@ function searchKey() {
                 runnable = false;
                 console.log("two keys in forbidden");
             }
-        }
-        //else console.log(cell.getAttribute("src"), KEY);
+        }else if(cell.getAttribute("src") === BATTERY){}
+        else if(cell.getAttribute("src") === ENGINE){}
+        else if(cell.getAttribute("src") === GENERATOR){}
     }
     console.log(current_key)
     runnable = true;
@@ -181,7 +186,7 @@ function runChain(){
     let used = []
     for(let i = 0; i <= N*M; i++) used.push(false);
     let q = new Queue();
-    //от ключа начнет растекаться ток //TODO откуда на самом деле?
+    //от ключа начнет растекаться ток //TODO откуда на самом деле? - источник питания
     console.log(current_key.id, id_num(current_key.id));
     let start = id_num(current_key.id);
     q.enqueue(start);
@@ -215,7 +220,6 @@ function runChain(){
 
     }
     //кладем эл-т в очередь, запускаемся и идем по соседям...
-
 
 }
 
