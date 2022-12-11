@@ -83,8 +83,10 @@ function addElementButton() {
 
 function light_picture(e, where) {
     let id = e.getAttribute("id").toString().split("_");
-    if (where === "on") document.getElementById("img_" + id[1]).setAttribute("style", "filter: brightness(50%);")
-    if (where === "out") document.getElementById("img_" + id[1]).setAttribute("style", "filter: brightness(100%);")
+    if (where === "on") document.getElementById("img_" + id[1]).style.filter = "brightness(50%)";
+    if (where === "out") document.getElementById("img_" + id[1]).style.filter = "brightness(100%)";
+    //if (where === "on") document.getElementById("img_" + id[1]).setAttribute("style", "filter: brightness(50%);")
+    //if (where === "out") document.getElementById("img_" + id[1]).setAttribute("style", "filter: brightness(100%);")
 }
 
 /*
@@ -123,10 +125,6 @@ class Queue {
     }
 }
 
-/*
-Точка входа, из которой запускается вся предобработка.
-Нужна для того, чтобы инкапсулировать режим работы
- */
 
 function id_num(id){
     return parseInt(id.substring(current_key.id.length - 3));
@@ -190,7 +188,7 @@ function runChain(){
         let cell = id_cell(c);
         //тут будет вызываться функция прибора
         //этот фильтр будет заменен на что-нибудь красивее..
-        cell.style = 'filter: drop-shadow(16px 16px 20px yellow);';
+        cell.style.filter = 'drop-shadow(5px 5px 10px yellow)';
 
         if(has_up(cell) && !used[id_up(c)] && has_down(id_cell(id_up(c)))){
             q.enqueue(id_up(c));
@@ -214,6 +212,12 @@ function runChain(){
 
 
 }
+
+/*
+Точка входа, из которой запускается вся предобработка.
+Нужна для того, чтобы инкапсулировать режим работы
+ */
+
 
 function startWorkingMode(){
     //обновим значения, если цепь до этого запускалась
