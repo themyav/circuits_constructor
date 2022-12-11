@@ -132,25 +132,44 @@ function id_num(id){
     return parseInt(id.substring(current_key.id.length - 3));
 }
 
-
 function id_str(id){
     return 'img_' + id.toString();
 }
 
-function up(x){
+function id_cell(id){
+    return document.getElementById(id_str(id));
+}
+
+function id_up(x){
     return x - M;
 }
 
-function down(x){
+function id_down(x){
     return x + M;
 }
 
-function right(x){
+function id_right(x){
     return x + 1;
 }
 
-function left(x){
+function id_left(x){
     return x - 1;
+}
+
+function has_up(cell){
+    return cell.getAttribute('up') === 'true';
+}
+
+function has_down(cell){
+    return cell.getAttribute('down') === 'true';
+}
+
+function has_left(cell){
+    return cell.getAttribute('left') === 'true';
+}
+
+function has_right(cell){
+    return cell.getAttribute('right') === 'true';
 }
 
 function runChain(){
@@ -164,13 +183,32 @@ function runChain(){
     q.enqueue(start);
     used[start] = true;
     while (!q.isEmpty){
-        let top = q.peek();
+        let c = q.peek();
         q.dequeue();
-        //сами ячейки, а не их id, нужны только для атрибутов
-        //добавляет
-        let cell = document.getElementById(id_str(top));
-        if(cell.getAttribute(let))
-        console.log(id_str(top));
+        console.log('go to ' + c);
+
+        let cell = id_cell(c);
+        //тут будет вызываться функция прибора
+        //этот фильтр будет заменен на что-нибудь красивее..
+        cell.style = 'filter: drop-shadow(16px 16px 20px yellow);';
+
+        if(has_up(cell) && !used[id_up(c)] && has_down(id_cell(id_up(c)))){
+            q.enqueue(id_up(c));
+            used[id_up(c)] = true;
+        }
+        if(has_down(cell) && !used[id_down(c)] && has_up(id_cell(id_down(c)))){
+            q.enqueue(id_down(c));
+            used[id_down(c)] = true;
+        }
+        if(has_left(cell) && !used[id_left(c)] && has_right(id_cell(id_left(c)))){
+            q.enqueue(id_left(c));
+            used[id_left(c)] = true;
+        }
+        if(has_right(cell) && !used[id_right(c)] && has_left(id_cell(id_right(c)))){
+            q.enqueue(id_right(c));
+            used[id_right(c)] = true;
+        }
+
     }
     //кладем эл-т в очередь, запускаемся и идем по соседям...
 
