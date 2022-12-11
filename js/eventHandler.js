@@ -92,9 +92,19 @@ function toggle_circuits() {
 function toggle_wires() {
     document.getElementById("myWires").classList.toggle("show_list");
 }
+//TODO: делаю валидацию и записиь в атрибут кнопки
 function toggle_U_and_R(e) {
     let id = e.getAttribute("id").toString().split("_");
     document.getElementById("UandR_" + id[1]).classList.toggle("show_list");
+
+    let elements = document.getElementsByClassName("show_U_and_R");
+    console.log(elements);
+    // for(let element in elements){
+    //     if(element.tagName === "INPUT") console.log("it is input");
+    // }
+    for(let i = 0; i<elements.length; i++){
+        console.log(elements[i].getAttribute("unit"));
+    }
 }
 
 window.onclick = function(event) {
@@ -106,7 +116,9 @@ window.onclick = function(event) {
     }
     for (let i = 0; i < N * M; i++) {
         if(document.getElementById("button_"+i) !== null){
-            if(!event.target.matches('#button_'+i)){
+            //event.target.matches('#button_'+i)
+            if(!(event.target.matches('.show_U_and_R') || event.target.matches('#button_'+i))){
+                console.log(!event.target.matches('#UandR_'+i));
                 document.getElementById("UandR_"+i).classList.remove("show_list");
             }
         }
