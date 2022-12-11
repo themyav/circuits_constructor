@@ -26,9 +26,11 @@ function searchKey() {
     for (let i = 0; i < N * M; i++) {
         cell = document.getElementById("img_" + i);
         if(cell.getAttribute("src") === KEY){
+            console.log("found key///" + cell + " " + i)
             if(current_key === null){
                 current_key = cell;
                 runnable = true;
+                console.log(current_key);
             }
             else{
                 runnable = false;
@@ -37,6 +39,7 @@ function searchKey() {
         }
         //else console.log(cell.getAttribute("src"), KEY);
     }
+    console.log(current_key)
     runnable = true;
 }
 
@@ -127,7 +130,7 @@ class Queue {
 
 
 function id_num(id){
-    return parseInt(id.substring(current_key.id.length - 3));
+    return parseInt(id.substring(4));
 }
 
 function id_str(id){
@@ -171,13 +174,16 @@ function has_right(cell){
 }
 
 function runChain(){
-    //if(!runnable) return; remove for debug
+    if(!runnable || current_key == null){
+        console.log("no key");
+        return;
+    }
     let used = []
     for(let i = 0; i <= N*M; i++) used.push(false);
     let q = new Queue();
     //от ключа начнет растекаться ток //TODO откуда на самом деле?
+    console.log(current_key.id, id_num(current_key.id));
     let start = id_num(current_key.id);
-    console.log(start);
     q.enqueue(start);
     used[start] = true;
     while (!q.isEmpty){
