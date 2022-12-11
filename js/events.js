@@ -32,6 +32,7 @@ function rotate_right(cell){
 
 }
 
+//TODO тройные провода несемметричны и для них нужно будет прописать переход отражения
 function flip_horizontally(cell){
     reflectionX = Number($(cell).attr('reflectionX'));
     reflectionY = Number($(cell).attr('reflectionY'));
@@ -89,8 +90,8 @@ function flip_vertically(cell){
 function set_connections(picture, left, right, down, up){
     picture.attr('left', left.toString());
     picture.attr('right', right.toString());
-    picture.attr('up', down.toString());
-    picture.attr('down', up.toString());
+    picture.attr('up', up.toString());
+    picture.attr('down', down.toString());
 }
 
 
@@ -139,6 +140,43 @@ function chooseInstrument(cell){
     fn(cell);
 }
 
+function treat_wires(picture){
+    switch (current){
+        case 'wire':
+            set_connections(picture, true, true, false, false);
+            return;
+        case 'wire_2':
+            set_connections(picture, false, false, true, true);
+            return;
+        case 'corner_wire':
+            set_connections(picture, true, false, true, false);
+            return;
+        case 'corner_wire_2':
+            set_connections(picture, true, false, false, true);
+            return;
+        case 'corner_wire_3':
+            set_connections(picture, false, true, false, true);
+            return;
+        case 'corner_wire_4':
+            set_connections(picture, false, true, true, false);
+            return;
+        case 'triple_wire':
+            set_connections(picture, true, true, true, false);
+            return;
+        case 'triple_wire_2':
+            set_connections(picture, true, false, true, true);
+            return;
+        case 'triple_wire_3':
+            set_connections(picture, true, true, false, true);
+            return;
+        case 'triple_wire_4':
+            set_connections(picture, false, true, true, true);
+            return;
+        default:
+            console.log("THIS IS NOT WIRE!");
+    }
+}
+
 function chooseElement(cell){
     let picture = $(cell);
     if(picture.attr('id')) reset(cell);
@@ -146,6 +184,8 @@ function chooseElement(cell){
     let isFree = 'false';
     picture.attr('free', isFree);
     set_connections(picture, true, true, false, false);
+    //если это провод, то соединения поменяются, иначе останутся дефолтными
+    treat_wires(picture);
 }
 
 
