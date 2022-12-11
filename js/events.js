@@ -194,7 +194,10 @@ function switchMode(shown, hidden) {
         MODE = WORK
         startWorkingMode();
     }
-    else MODE = BUILD
+    else {
+        MODE = BUILD
+        for(let i = 0; i < M * N; i++) document.getElementById('img_' + i.toString()).style.filter = '';
+    }
     setCookie()
     document.getElementById(hidden).style.display='block';
     document.getElementById(shown).style.display='none';
