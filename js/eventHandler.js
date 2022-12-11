@@ -139,7 +139,7 @@ function circuits_four() {
         [start + M, 'current_source', rotate_left],
         [start + M + 2, 'wire_2'],
         [start + 2*M, 'corner_wire_3'],
-        [start + 2*M + 1, 'wire'],
+        [start + 2*M + 1, 'key'],
         [start + 2*M + 2, 'corner_wire_2'],
     ]
     for(let i = 0; i < sheme.length; i++){

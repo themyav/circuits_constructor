@@ -25,7 +25,7 @@ function searchKey() {
     let cell;
     for (let i = 0; i < N * M; i++) {
         cell = document.getElementById("img_" + i);
-        if(cell.getAttribute("src") === APPLIANCES.get(KEY)){
+        if(cell.getAttribute("src") === KEY){
             if(current_key === null){
                 current_key = cell;
                 runnable = true;
@@ -35,7 +35,9 @@ function searchKey() {
                 console.log("two keys in forbidden");
             }
         }
+        //else console.log(cell.getAttribute("src"), KEY);
     }
+    runnable = true;
 }
 
 // window.onclick = function (e) {
@@ -86,15 +88,92 @@ function light_picture(e, where) {
 }
 
 /*
+Реализация очереди из интернета
+ */
+
+class Queue {
+    constructor() {
+        this.elements = {};
+        this.head = 0;
+        this.tail = 0;
+    }
+
+    enqueue(element) {
+        this.elements[this.tail] = element;
+        this.tail++;
+    }
+
+    dequeue() {
+        const item = this.elements[this.head];
+        delete this.elements[this.head];
+        this.head++;
+        return item;
+    }
+
+    peek() {
+        return this.elements[this.head];
+    }
+
+    get length() {
+        return this.tail - this.head;
+    }
+
+    get isEmpty() {
+        return this.length === 0;
+    }
+}
+
+/*
 Точка входа, из которой запускается вся предобработка.
 Нужна для того, чтобы инкапсулировать режим работы
  */
 
+function id_num(id){
+    return parseInt(id.substring(current_key.id.length - 3));
+}
+
+
+function id_str(id){
+    return 'img_' + id.toString();
+}
+
+function up(x){
+    return x - M;
+}
+
+function down(x){
+    return x + M;
+}
+
+function right(x){
+    return x + 1;
+}
+
+function left(x){
+    return x - 1;
+}
+
 function runChain(){
     //if(!runnable) return; remove for debug
-    let used = [false] * 3
-    console.log(used);
-    let start = current_key;
+    let used = []
+    for(let i = 0; i <= N*M; i++) used.push(false);
+    let q = new Queue();
+    //от ключа начнет растекаться ток //TODO откуда на самом деле?
+    let start = id_num(current_key.id);
+    console.log(start);
+    q.enqueue(start);
+    used[start] = true;
+    while (!q.isEmpty){
+        let top = q.peek();
+        q.dequeue();
+        //сами ячейки, а не их id, нужны только для атрибутов
+        //добавляет
+        let cell = document.getElementById(id_str(top));
+        if(cell.getAttribute(let))
+        console.log(id_str(top));
+    }
+    //кладем эл-т в очередь, запускаемся и идем по соседям...
+
 
 }
 

@@ -1,11 +1,24 @@
 const DELTA = 5 //кол-во пикселей на которое уменьшим при масштабировании
 
+function change_rotation_connections(cell, rotate_left){
+    let picture = $(cell);
+    let l = (picture.attr('left') === 'true');
+    let r = (picture.attr('right') === 'true');
+    let d = (picture.attr('down') === 'true');
+    let u = (picture.attr('up') === 'true');
+
+    if(rotate_left) set_connections(picture, u, d, l, r);
+    else set_connections(picture, d, u, r, l);
+}
+
 function rotate_left(cell){
     let rotation = Number($(cell).attr('rotation'));
     let angle = rotation - 90;
     if(angle === -360) angle = 0;
     document.getElementById(cell.id).style.transform = 'rotate(' + angle + 'deg)';
     $(cell).attr('rotation', angle.toString());
+    change_rotation_connections(cell, true);
+
 }
 
 function rotate_right(cell){
@@ -14,6 +27,7 @@ function rotate_right(cell){
     if(angle === 360) angle = 0;
     document.getElementById(cell.id).style.transform = 'rotate(' + angle + 'deg)';
     $(cell).attr('rotation', angle.toString());
+    change_rotation_connections(cell, false);
     
 
 }
@@ -72,10 +86,19 @@ function flip_vertically(cell){
     $(cell).attr('reflectionY', resultY.toString());
 }
 
+function set_connections(picture, left, right, down, up){
+    picture.attr('left', left.toString());
+    picture.attr('right', right.toString());
+    picture.attr('up', down.toString());
+    picture.attr('down', up.toString());
+}
+
 
 function reset(cell){
     document.getElementById(cell.id).style.transform = 'rotate(0deg)';
     $(cell).attr('rotation', "0");
+    //дефолтное состояние поворота
+    set_connections($(cell), true, true, false, false);
 }
 
 function clean(cell){
@@ -83,7 +106,8 @@ function clean(cell){
     reset(cell);
     picture.attr('src', 'resource/element/desk.png');
     picture.attr('free', 'true');
-
+    //очистка всего: у стола 0 соединений
+    set_connections(picture, false, false, false, false)
 }
 
 function clean_all(){
@@ -116,11 +140,12 @@ function chooseInstrument(cell){
 }
 
 function chooseElement(cell){
-    picture = $(cell);
+    let picture = $(cell);
     if(picture.attr('id')) reset(cell);
     picture.attr('src', 'resource/element/' + current.toString() + '/' + current.toString() + '.png');
     let isFree = 'false';
     picture.attr('free', isFree);
+    set_connections(picture, true, true, false, false);
 }
 
 
