@@ -122,17 +122,35 @@ function circuits_two() {
 }
 function circuits_three() {
     console.log("did third");
+    let start = 2;
+    let scheme = [
+        [start, 'corner_wire_4'],
+        [start + 1, 'wire'],
+        [start + 2, 'current_source'],
+        [start + 3, 'key'],
+        [start + 4, 'corner_wire'],
+        [start + M, 'wire_2'],
+        [start + M + 4, 'wire_2'],
+        [start + 2 * M, 'triple_wire_4'],
+        [start + 2 * M + 1, 'resistor'],
+        [start + 2 * M + 2, 'wire'],
+        [start + 2 * M + 3, 'lamp'],
+        [start + 2 * M + 4, 'triple_wire_2'],
+        [start + 3 * M, 'corner_wire_3'],
+        [start + 3 * M + 1, 'wire'],
+        [start + 3 * M + 2, 'voltmeter'],
+        [start + 3 * M + 3, 'wire'],
+        [start + 3 * M + 4, 'corner_wire_2']
+
+    ]
+    draw_circuit(start, scheme);
 }
 
 //постоянный ток, последовательное соединение
 function circuits_four() {
-    let oldCurrent = current;
-    let oldAction = action;
-
     console.log("did fourth");
     let start = 5; //M + Math.round(M/2)
-    let next = M
-    let sheme = [
+    let scheme = [
         [start, 'corner_wire_4'],
         [start + 1, 'lamp'],
         [start + 2, 'corner_wire'],
@@ -142,14 +160,20 @@ function circuits_four() {
         [start + 2*M + 1, 'key'],
         [start + 2*M + 2, 'corner_wire_2'],
     ]
-    for(let i = 0; i < sheme.length; i++){
-        current = sheme[i][1]
-        console.log(sheme[i][0])
-        let cell = document.getElementById("img_" + sheme[i][0])
+    draw_circuit(start, scheme);
+}
+
+function draw_circuit(start, scheme){
+    let oldCurrent = current;
+    let oldAction = action;
+
+    for(let i = 0; i < scheme.length; i++){
+        current = scheme[i][1]
+        console.log(scheme[i][0])
+        let cell = document.getElementById("img_" + scheme[i][0])
         chooseElement(cell)
-        if(sheme[i].length > 2) sheme[i][2](cell)
+        if(scheme[i].length > 2) scheme[i][2](cell)
     }
     current = oldCurrent;
     action = oldAction;
-
 }
