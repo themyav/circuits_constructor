@@ -88,6 +88,13 @@ button:hover{
     opacity: 0.5;
 }
 
+aside{
+    min-height: 700px;
+}
+
+#graphic{
+}
+
 
 
 
