@@ -62,26 +62,26 @@ function handleBuildModeButton(cell){
 
 }
 
-//
-// $(document).ready(function (){
-//
-//     //Отлавливаем клик по картинке и всегда ее заменяем на что-то указанной функцией
-//     $('body').on('click', 'img', function (event){
-//         let e = event;
-//         let cell = this;
-//         if(MODE === BUILD) handleBuildModeImage(e, cell);
-//         else handleWorkModeImage(e, cell);
-//
-//     });
-//
-//     // Отлавливаем нажатие на кнопку и выбираем, с каким элементом меню заботаем
-//     $('button').on('click', function (){
-//         let cell = this;
-//         if(MODE === BUILD) handleBuildModeButton(cell);
-//         else handleWorkModeButton(cell);
-//
-//     });
-// });
+
+$(document).ready(function (){
+
+    //Отлавливаем клик по картинке и всегда ее заменяем на что-то указанной функцией
+    $('body').on('click', 'img', function (event){
+        let e = event;
+        let cell = this;
+        if(MODE === BUILD) handleBuildModeImage(e, cell);
+        else handleWorkModeImage(e, cell);
+
+    });
+
+    // Отлавливаем нажатие на кнопку и выбираем, с каким элементом меню заботаем
+    $('button').on('click', function (){
+        let cell = this;
+        if(MODE === BUILD) handleBuildModeButton(cell);
+        else handleWorkModeButton(cell);
+
+    });
+});
 
 
 
