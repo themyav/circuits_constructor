@@ -90,7 +90,7 @@ function addElementButton() {
                 if (cell.getAttribute("src") === pair[1]) element = pair[0];
             }
             if (element !== undefined) {
-                let button = "<tr><td><button id='button_" + i + "' is_show='false'" + i + " onclick='toggle_U_and_R(this)' onmouseover='light_picture(this, \"on\")' onmouseout='light_picture(this, \"out\")'>" + element + "</button></td></tr>";
+                let button = "<tr><td><button id='button_" + i + "' class='button_" + i + "' is_show='false'  onclick='toggle_U_and_R(this)' onmouseover='light_picture(this, \"on\")' onmouseout='light_picture(this, \"out\")'>" + element + "</button></td></tr>";
                 let input = "<tr><td><div id=\"UandR_" + i + "\" class=\"UandR_dropdown\">" + "<table>";
                 str += button + input;
 
@@ -140,15 +140,32 @@ function light_picture(e, where) {
 }
 
 /*
-Реализация очереди из интернета
- */
+Получаем данные из инпутов и кладём в атрибут кнопки
+*/
 
-class Queue {
-    constructor() {
-        this.elements = {};
-        this.head = 0;
-        this.tail = 0;
+function validate_values(e) {
+    e.getAttribute("unit");
+    let value = e.value;
+    if (!/^-?\d+([.,])?\d*$/i.test(value)) {
+        alert("Некорректные данные.");
+        value = "";
     }
+    let id = e.parentElement.parentElement.parentElement.parentElement.parentElement.getAttribute("id").split("_")[1];
+    let button = e.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.getElementsByClassName("button_"+id)[0];
+    button.setAttribute(e.getAttribute("unit"), value);
+}
+
+
+    /*
+    Реализация очереди из интернета
+     */
+
+    class Queue {
+        constructor() {
+            this.elements = {};
+            this.head = 0;
+            this.tail = 0;
+        }
 
     get length() {
         return this.tail - this.head;
@@ -163,12 +180,12 @@ class Queue {
         this.tail++;
     }
 
-    dequeue() {
-        const item = this.elements[this.head];
-        delete this.elements[this.head];
-        this.head++;
-        return item;
-    }
+        dequeue() {
+            const item = this.elements[this.head];
+            delete this.elements[this.head];
+            this.head++;
+            return item;
+        }
 
     peek() {
         return this.elements[this.head];
@@ -176,33 +193,33 @@ class Queue {
 }
 
 
-function id_num(id) {
-    return parseInt(id.substring(4));
-}
+    function id_num(id) {
+        return parseInt(id.substring(4));
+    }
 
-function id_str(id) {
-    return 'img_' + id.toString();
-}
+    function id_str(id) {
+        return 'img_' + id.toString();
+    }
 
-function id_cell(id) {
-    return document.getElementById(id_str(id));
-}
+    function id_cell(id) {
+        return document.getElementById(id_str(id));
+    }
 
-function id_up(x) {
-    return x - M;
-}
+    function id_up(x) {
+        return x - M;
+    }
 
-function id_down(x) {
-    return x + M;
-}
+    function id_down(x) {
+        return x + M;
+    }
 
-function id_right(x) {
-    return x + 1;
-}
+    function id_right(x) {
+        return x + 1;
+    }
 
-function id_left(x) {
-    return x - 1;
-}
+    function id_left(x) {
+        return x - 1;
+    }
 
 function has_up(cell) {
     if (cell == null) return false;
