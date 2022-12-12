@@ -16,6 +16,7 @@
 <script src="js/events.js"></script>
 <script src="js/eventHandler.js"></script>
 <script src="js/chainProccesser.js"></script>
+<script src="js/directory.js"></script>
 
 <body onload="createWorkspace()">
 <div class="container">
@@ -25,11 +26,18 @@
     <nav class="menu">
         <table class="mode">
             <tr>
-                <td><button onclick="switchMode('workingMode', 'buildingMode')">Режим строительства</button></td>
-                <td><button onclick="switchMode('buildingMode', 'workingMode')">Режим запуска</button></td>
-                <td><button id="scale_plus" onclick="scale(true)">+</button></td>
-                <td><button id="scale_minus" onclick="scale(false)">-</button></td>
-                <td><p id="message">Вы в режиме строительства!</p></td>
+                <td>
+                    <button onclick="switchMode('workingMode', 'buildingMode')">Режим строительства</button>
+                </td>
+                <td>
+                    <button onclick="switchMode('buildingMode', 'workingMode')">Режим запуска</button>
+                </td>
+                <td>
+                    <button id="scale_plus" onclick="scale(true)">+</button>
+                </td>
+                <td>
+                    <button id="scale_minus" onclick="scale(false)">-</button>
+                </td>
             </tr>
         </table>
 
@@ -69,24 +77,60 @@
                     <div id="myWires" class="wires_dropdown" style="background-color: #f1f1f1;">
                         <table>
                             <tr>
-                                <td><button id="wire"><img src="resource/element/wire/wire.png" alt="Кнопка «button»" width=50px height=50px></button></td>
-                                <td><button id="wire_2"><img src="resource/element/wire_2/wire_2.png" alt="Кнопка «button»" width=50px height=50px></button></td>
+                                <td>
+                                    <button id="wire"><img src="resource/element/wire/wire.png" alt="Кнопка «button»"
+                                                           width=50px height=50px></button>
+                                </td>
+                                <td>
+                                    <button id="wire_2"><img src="resource/element/wire_2/wire_2.png"
+                                                             alt="Кнопка «button»" width=50px height=50px></button>
+                                </td>
                             </tr>
                             <tr>
-                                <td><button id="corner_wire" ><img src="resource/element/corner_wire/corner_wire.png" alt="Кнопка «button»" width=50px height=50px></button></td>
-                                <td><button id="corner_wire_2"><img src="resource/element/corner_wire_2/corner_wire_2.png" alt="Кнопка «button»" width=50px height=50px></button></td>
+                                <td>
+                                    <button id="corner_wire"><img src="resource/element/corner_wire/corner_wire.png"
+                                                                  alt="Кнопка «button»" width=50px height=50px></button>
+                                </td>
+                                <td>
+                                    <button id="corner_wire_2"><img
+                                            src="resource/element/corner_wire_2/corner_wire_2.png" alt="Кнопка «button»"
+                                            width=50px height=50px></button>
+                                </td>
                             </tr>
                             <tr>
-                                <td><button id="corner_wire_3"><img src="resource/element/corner_wire_3/corner_wire_3.png" alt="Кнопка «button»" width=50px height=50px></button></td>
-                                <td><button id="corner_wire_4"><img src="resource/element/corner_wire_4/corner_wire_4.png" alt="Кнопка «button»" width=50px height=50px></button></td>
+                                <td>
+                                    <button id="corner_wire_3"><img
+                                            src="resource/element/corner_wire_3/corner_wire_3.png" alt="Кнопка «button»"
+                                            width=50px height=50px></button>
+                                </td>
+                                <td>
+                                    <button id="corner_wire_4"><img
+                                            src="resource/element/corner_wire_4/corner_wire_4.png" alt="Кнопка «button»"
+                                            width=50px height=50px></button>
+                                </td>
                             </tr>
                             <tr>
-                                <td><button id="triple_wire"><img src="resource/element/triple_wire/triple_wire.png" alt="Кнопка «button»" width=50px height=50px></button></td>
-                                <td><button id="triple_wire_2"><img src="resource/element/triple_wire_2/triple_wire_2.png" alt="Кнопка «button»" width=50px height=50px></button></td>
+                                <td>
+                                    <button id="triple_wire"><img src="resource/element/triple_wire/triple_wire.png"
+                                                                  alt="Кнопка «button»" width=50px height=50px></button>
+                                </td>
+                                <td>
+                                    <button id="triple_wire_2"><img
+                                            src="resource/element/triple_wire_2/triple_wire_2.png" alt="Кнопка «button»"
+                                            width=50px height=50px></button>
+                                </td>
                             </tr>
                             <tr>
-                                <td><button id="triple_wire_3"><img src="resource/element/triple_wire_3/triple_wire_3.png" alt="Кнопка «button»" width=50px height=50px></button></td>
-                                <td><button id="triple_wire_4"><img src="resource/element/triple_wire_4/triple_wire_4.png" alt="Кнопка «button»" width=50px height=50px></button></td>
+                                <td>
+                                    <button id="triple_wire_3"><img
+                                            src="resource/element/triple_wire_3/triple_wire_3.png" alt="Кнопка «button»"
+                                            width=50px height=50px></button>
+                                </td>
+                                <td>
+                                    <button id="triple_wire_4"><img
+                                            src="resource/element/triple_wire_4/triple_wire_4.png" alt="Кнопка «button»"
+                                            width=50px height=50px></button>
+                                </td>
                             </tr>
                         </table>
                     </div>
@@ -178,13 +222,41 @@
             </div>
         </table>
     </aside>
-    <div>
-        <div class="gallery" id="gallery"></div>
-        <div class="graphic">
-            <canvas id="graphic"></canvas>
-            <script src="js/graphDrawer.js"></script>
+    <div class="gallery" id="gallery">
+    </div>
+
+    <!-- Элементы для вызова модальных окон, могут быть любые -->
+
+    <a href="#" id="js-open-modal" data-modal="1">Справочник</a>
+
+
+    <!-- Несколько модальных окон -->
+
+    <div class="modal" data-modal="1">
+        <!--   Svg иконка для закрытия окна  -->
+        <svg class="modal__cross js-modal-close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z"/>
+        </svg>
+
+        <div class="modal__title">
+
+            <button id="project_description" class="directory" onclick="add_to_directory(this)">Описание проекта</button>
+
+            <button id="elements_description" class="directory" onclick="add_to_directory(this)">Описание элементов</button>
+
+            <button id="instruction" class="directory" onclick="add_to_directory(this)">Инструкция</button>
+
+        </div>
+
+
+        <div id="for_description">
+
         </div>
     </div>
+
+
+    <!-- Подложка под модальным окном -->
+    <div class="overlay js-overlay-modal"></div>
 
     <footer>
         <p>Бернятцкая Кристина, Батомункуева Виктория</p>
