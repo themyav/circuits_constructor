@@ -190,13 +190,19 @@ function chooseElement(cell){
 
 
 function switchMode(shown, hidden) {
+    let message = document.getElementById('message');
     if(shown === 'buildingMode') {
         MODE = WORK
+        message.innerText = 'Вы в режиме запуска';
         startWorkingMode();
+
     }
     else {
         MODE = BUILD
         for(let i = 0; i < M * N; i++) document.getElementById('img_' + i.toString()).style.filter = '';
+        message.innerText = 'Вы в режиме строительства';
+        message.style.color = 'black';
+
     }
     setCookie()
     document.getElementById(hidden).style.display='block';

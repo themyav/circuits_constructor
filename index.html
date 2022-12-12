@@ -29,6 +29,7 @@
                 <td><button onclick="switchMode('buildingMode', 'workingMode')">Режим запуска</button></td>
                 <td><button id="scale_plus" onclick="scale(true)">+</button></td>
                 <td><button id="scale_minus" onclick="scale(false)">-</button></td>
+                <td><p id="message">Вы в режиме строительства!</p></td>
             </tr>
         </table>
 
@@ -177,7 +178,14 @@
             </div>
         </table>
     </aside>
-    <div class="gallery" id="gallery"></div>
+    <div>
+        <div class="gallery" id="gallery"></div>
+        <div class="graphic">
+            <canvas id="graphic"></canvas>
+            <script src="js/graphDrawer.js"></script>
+        </div>
+    </div>
+
     <footer>
         <p>Бернятцкая Кристина, Батомункуева Виктория</p>
         <p>Университет ИТМО, 2022</p>
