@@ -38,6 +38,7 @@
                 <td>
                     <button id="scale_minus" onclick="scale(false)">-</button>
                 </td>
+                <td><p id="message">Вы в режиме строительства!</p></td>
             </tr>
         </table>
 
@@ -222,7 +223,12 @@
             </div>
         </table>
     </aside>
-    <div class="gallery" id="gallery">
+    <div>
+        <div class="gallery" id="gallery"></div>
+        <div class="graphic">
+            <canvas id="graphic"></canvas>
+            <script src="js/graphDrawer.js"></script>
+        </div>
     </div>
 
     <!-- Элементы для вызова модальных окон, могут быть любые -->
