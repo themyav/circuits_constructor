@@ -23,11 +23,13 @@ aside {
     float: left;
 }
 
-#right_aside{
+#right_aside {
     float: right;
 }
 
-.mode button{
+.mode button {
+    font-family: "Nunito", sans-serif;
+    font-weight: 600;
     background-color: indianred;
     width: 100px;
     height: 50px;
@@ -35,34 +37,51 @@ aside {
 }
 
 
-.instruments button{
+.instruments button {
+    font-family: "Nunito", sans-serif;
+    font-weight: 600;
     background-color: indianred;
     width: 100px;
     height: 50px;
     border: 0;
 }
-.elements button{
+
+.elements button {
     background-color: aliceblue;
     width: 75px;
     height: 75px;
     border: 0;
 }
-button:hover{
+
+button:hover {
     background-color: lightpink;
 }
 
-#clean{
+button:hover::before {
+    font-family: "Nunito", sans-serif;
+    font-weight: 600;
+    font-size: 10px;
+    content: attr(text);
+}
+
+button:hover img {
+    display: none;
+}
+
+#clean {
     width: 100%;
 }
 
 #value button {
+    font-family: "Nunito", sans-serif;
+    font-weight: 600;
     background-color: aliceblue;
     width: 100px;
     height: 50px;
     border: 0;
 }
 
-#value button:hover{
+#value button:hover {
     background-color: lightpink;
 }
 
@@ -88,91 +107,99 @@ button:hover{
     border-radius: 8px;
 }
 
-.gallery__img:hover{
+.gallery__img:hover {
     filter: brightness(50%);
     opacity: 0.5;
 }
 
-aside{
+aside {
     min-height: 700px;
 }
 
-#graphic{
+#graphic {
 }
-
-
-
-
 
 
 /* Для выпадающего меню с готовыим цепями */
 .drop_circuits {
-  background-color: #76b2da;
-  color: black;
-  width: 100%;
-  height: 50px;
-  border: 0;
-  cursor: pointer;
+    font-family: "Nunito", sans-serif;
+    font-weight: 600;
+    background-color: #76b2da;
+    color: black;
+    width: 100%;
+    height: 50px;
+    border: 0;
+    cursor: pointer;
 }
 
 .drop_circuits:hover, .dropbtn:focus {
-  background-color: #427aa0;
+    background-color: #427aa0;
 }
 
 .dropdown {
-  position: relative;
-  display: inline-block;
+    position: relative;
+    display: inline-block;
 }
 
 .circuits_dropdown {
-  display: none;
-  position: absolute;
-  background-color: #f1f1f1;
-  min-width: 160px;
-  overflow: auto;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-}
-
-/* Для выпадающего меню с U, R*/
-.UandR_dropdown {
+    font-family: "Nunito", sans-serif;
+    font-weight: 600;
     display: none;
     position: absolute;
     background-color: #f1f1f1;
     min-width: 160px;
     overflow: auto;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+/* Для выпадающего меню с U, R*/
+.UandR_dropdown {
+    font-family: "Nunito", sans-serif;
+    font-weight: 600;
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
 }
 
 
 .circuits_dropdown button {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-  width: 300px;
-  border: 0;
+    font-family: "Nunito", sans-serif;
+    font-weight: 600;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    width: 300px;
+    border: 0;
 }
 
-.dropdown button:hover {background-color: #ddd;}
+.dropdown button:hover {
+    background-color: #ddd;
+}
 
 /*
 Кнопки масштабирование
  */
-button[id*="scale"]{
+button[id*="scale"] {
     background-color: darkseagreen;
     width: 50px;
 }
 
-button[id*="scale"]:hover{
+button[id*="scale"]:hover {
     background-color: darkgreen;
 }
 
 
 /* Для выпадающего меню с проводами */
-  
-#myWires button{
+
+#myWires button {
+    font-family: "Nunito", sans-serif;
+    font-weight: 600;
     color: black;
     background-color: #f1f1f1;
     padding: 12px 16px;
@@ -182,35 +209,37 @@ button[id*="scale"]:hover{
     border: 0;
 }
 
-#myWires button:hover{
+#myWires button:hover {
     background-color: lightpink;
 }
 
- .wires_dropdown {
+.wires_dropdown {
     display: none;
     position: absolute;
     background-color: #f1f1f1;
     min-width: 200px;
     overflow: auto;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
-  }
-  
-  .wires_dropdown button {
+}
+
+.wires_dropdown button {
     color: black;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
     width: 100px;
     border: 0;
-  }
+}
 
-  .wires_dropdown button :hover{
+.wires_dropdown button :hover {
     background-color: #ddd;
-  }
+}
 
 
-.show_list {display: block;}
+.show_list {
+    display: block;
+}
 
 
 /*всплывающее окно "справочник"*/
@@ -238,7 +267,8 @@ button[id*="scale"]:hover{
 /* Стили для модальных окон */
 
 .modal {
-
+    font-family: "Nunito", sans-serif;
+    font-weight: 600;
     /* Скрываем окна  */
     opacity: 0;
     visibility: hidden;
@@ -253,6 +283,8 @@ button[id*="scale"]:hover{
     height: 100%;
     max-height: 700px;
 
+    overflow-y: scroll;
+    overflow-x: scroll;
     /*  Центрируем и задаем z-index */
     position: fixed;
     top: 50%;
@@ -273,7 +305,7 @@ button[id*="scale"]:hover{
 /* Стили для активных классов подложки и окна */
 
 .modal.active,
-.overlay.active{
+.overlay.active {
     opacity: 1;
     visibility: visible;
 }
@@ -304,28 +336,33 @@ a {
 }
 
 /* Кнопки внутри модального окна */
-.directory{
+.directory {
+    font-family: "Nunito", sans-serif;
+    font-weight: 600;
     background-color: indianred;
     width: 100px;
     height: 50px;
     border: 0;
 }
 
-.directory button:hover{
+.directory button:hover {
     background-color: lightpink;
 }
 
 
-.elements_description{
+.elements_description {
+    font-family: "Nunito", sans-serif;
+    font-weight: 600;
     background-color: aliceblue;
     width: 100px;
     height: 50px;
     border: 0;
 }
-.elements_description button:hover{
+
+.elements_description button:hover {
     background-color: lightpink;
 }
 
-button{
+button {
     border-radius: 8px;
 }
