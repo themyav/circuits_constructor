@@ -189,9 +189,3 @@ function draw_circuit(start, scheme){
     current = oldCurrent;
     action = oldAction;
 }
-
-
-
-function switch_pic_on_text(e){
-    e;
-}

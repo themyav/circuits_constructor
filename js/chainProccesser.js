@@ -96,47 +96,49 @@ function addElementButton() {
 
                 switch (element) {
                     case "Источник переменного тока":
-                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='E'>" + "ЭДС" + "</td></tr>"
-                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='r'>" + "Внутреннее сопротивление" + "</td></tr>"
-                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='A'>" + "Амплитуда" + "</td></tr>"
-                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='nu'>" + "Частота" + "</td></tr>"
-                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='fi'>" + "Фаза" + "</td></tr>"
+                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='E' onchange='validate_values(this)'>" + "ЭДС" + "</td></tr>"
+                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "Внутреннее сопротивление" + "</td></tr>"
+                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='A' onchange='validate_values(this)'>" + "Амплитуда" + "</td></tr>"
+                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='nu' onchange='validate_values(this)'>" + "Частота" + "</td></tr>"
+                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='fi' onchange='validate_values(this)'>" + "Фаза" + "</td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Источник постоянного тока":
-                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='E'>" + "ЭДС" + "</td></tr>"
-                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='r'>" + "Внутреннее сопротивление" + "</td></tr>";                        break;
+                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='E' onchange='validate_values(this)'>" + "ЭДС" + "</td></tr>"
+                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "Внутреннее сопротивление" + "</td></tr>"
+                            + "</table>" + "</div></td></tr>";
+                        break;
                     case "Двигатель постоянного тока":
-                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='E'>" + "ЭДС" + "</td></tr>"
-                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='r'>" + "Внутреннее сопротивление" + "</td></tr>"
-                            + "<tr><td><input type=\"input\" class='show_U_and_R' uint='V'>" + "Скорость холостого тока"
-                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='E'>" + "ЭДС" + "</td></tr>"
-                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='r'>" + "Внутреннее сопротивление" + "</td></tr>"
-                            + "</td></tr>" + "</table>" + "</div></td></tr>";
+                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='E' onchange='validate_values(this)'>" + "ЭДС" + "</td></tr>"
+                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "Внутреннее сопротивление" + "</td></tr>"
+                            + "<tr><td><input type=\"input\" class='show_U_and_R' uint='V' onchange='validate_values(this)'>" + "Скорость холостого тока"
+                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='E' onchange='validate_values(this)'>" + "ЭДС" + "</td></tr>"
+                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "Внутреннее сопротивление" + "</td></tr>"
+                            + "</table>" + "</div></td></tr>";
                         break;
                     case "Источник напряжения":
-                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='U'>" + "Напряжение" + "</td></tr>"
-                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='r'>" + "Внутреннее сопротивление" + "</td></tr>"
+                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='U' onchange='validate_values(this)'>" + "Напряжение" + "</td></tr>"
+                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "Внутреннее сопротивление" + "</td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Конденсатор":
-                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='C'>" + "Ёмкость" + "</td></tr>"
-                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='r'>" + "Сопротивление" + "</td></tr>"
+                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='C' onchange='validate_values(this)'>" + "Ёмкость" + "</td></tr>"
+                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "Сопротивление" + "</td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Катушка индуктивности":
-                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='L'>" + "Индуктивность" + "</td></tr>"
-                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='r'>" + "Сопротивление" + "</td></tr>"
+                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='L' onchange='validate_values(this)'>" + "Индуктивность" + "</td></tr>"
+                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "Сопротивление" + "</td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Лампа":
-                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='U'>" + "Напряжение" + "</td></tr>"
-                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='r'>" + "Сопротивление" + "</td></tr>"
-                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='P'>" + "Мощность" + "</td></tr>"
+                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='U' onchange='validate_values(this)'>" + "Напряжение" + "</td></tr>"
+                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "Сопротивление" + "</td></tr>"
+                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='P' onchange='validate_values(this)'>" + "Мощность" + "</td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Резистор":
-                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='R'>" + "Сопротивление" + "</td></tr>"
+                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='R' onchange='validate_values(this)'>" + "Сопротивление" + "</td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                 }
@@ -171,21 +173,21 @@ function validate_values(e) {
         value = "";
     }
     let id = e.parentElement.parentElement.parentElement.parentElement.parentElement.getAttribute("id").split("_")[1];
-    let button = e.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.getElementsByClassName("button_"+id)[0];
+    let button = e.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.getElementsByClassName("button_" + id)[0];
     button.setAttribute(e.getAttribute("unit"), value);
 }
 
 
-    /*
-    Реализация очереди из интернета
-     */
+/*
+Реализация очереди из интернета
+ */
 
-    class Queue {
-        constructor() {
-            this.elements = {};
-            this.head = 0;
-            this.tail = 0;
-        }
+class Queue {
+    constructor() {
+        this.elements = {};
+        this.head = 0;
+        this.tail = 0;
+    }
 
     get length() {
         return this.tail - this.head;
@@ -200,12 +202,12 @@ function validate_values(e) {
         this.tail++;
     }
 
-        dequeue() {
-            const item = this.elements[this.head];
-            delete this.elements[this.head];
-            this.head++;
-            return item;
-        }
+    dequeue() {
+        const item = this.elements[this.head];
+        delete this.elements[this.head];
+        this.head++;
+        return item;
+    }
 
     peek() {
         return this.elements[this.head];
@@ -213,33 +215,33 @@ function validate_values(e) {
 }
 
 
-    function id_num(id) {
-        return parseInt(id.substring(4));
-    }
+function id_num(id) {
+    return parseInt(id.substring(4));
+}
 
-    function id_str(id) {
-        return 'img_' + id.toString();
-    }
+function id_str(id) {
+    return 'img_' + id.toString();
+}
 
-    function id_cell(id) {
-        return document.getElementById(id_str(id));
-    }
+function id_cell(id) {
+    return document.getElementById(id_str(id));
+}
 
-    function id_up(x) {
-        return x - M;
-    }
+function id_up(x) {
+    return x - M;
+}
 
-    function id_down(x) {
-        return x + M;
-    }
+function id_down(x) {
+    return x + M;
+}
 
-    function id_right(x) {
-        return x + 1;
-    }
+function id_right(x) {
+    return x + 1;
+}
 
-    function id_left(x) {
-        return x - 1;
-    }
+function id_left(x) {
+    return x - 1;
+}
 
 function has_up(cell) {
     if (cell == null) return false;
