@@ -23,6 +23,10 @@ aside {
     float: left;
 }
 
+#right_aside{
+    float: right;
+}
+
 .mode button{
     background-color: indianred;
     width: 100px;
@@ -39,8 +43,8 @@ aside {
 }
 .elements button{
     background-color: aliceblue;
-    width: 100px;
-    height: 50px;
+    width: 75px;
+    height: 75px;
     border: 0;
 }
 button:hover{
