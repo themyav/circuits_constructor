@@ -77,8 +77,8 @@ function add_to_directory(e) {
     if (e.getAttribute("id") === "project_description") {
         where_to_add.innerHTML = "Здесь будет красивое опсание нашего проекта, возможности приложение и тд";
     } else if (e.getAttribute("id") === "elements_description") {
-        let start_table = "<table>";
-        let end_table = "</table>";
+        let start_table = "<table id='everything'><tr><td><table id='only_buttons'><tr>";
+        let end_table = "</tr></table></td><td><table  id='only_description' ></table></td></tr></table>";
         let button = "";
         for (let pair of APPLIANCES.entries()) {
             button += "<tr><td><button src='" + pair[1] + "' class='elements_description' onclick='add_description(this)'>" + pair[0] + "</button></td></tr>";
@@ -92,16 +92,29 @@ function add_to_directory(e) {
 
 function add_description(e) {
     let element = e.getAttribute("src").split("/")[2];
-    let description = "";
-    let file = new File(["resource/description/"+element],"resource/description/"+element+".txt");
-    const f = new FileReader();
-    f.addEventListener("load", ()=>{
-        description = f.result;
-    }, false);
-    f.readAsText(file);
+    //let description = "";
 
-    let picture = "<img style='width: 100px; height: 100px' src=\""+e.getAttribute("src")+"\" alt=\"альтернативный текст\">";
+//TODO: сделать
+    let picture = "<img style='width: 100px; height: 100px' src=\"" + e.getAttribute("src") + "\" alt=\"альтернативный текст\">";
 
-    console.log(description);
-    e.parentElement.innerHTML += picture+"<br><p>"+description+"</p>";
+    let inBody = function () {
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', "resource/description/"+ element + '.html');
+        xhr.onload = function () {
+            document.getElementById("only_description").innerHTML = "<tr><td>" + picture + "<br><p>" + xhr.response + "</p></td></tr>";
+        }
+        xhr.send();
+    }
+    inBody();
+
+    //console.log(description.type);
+
+
+    //document.getElementById("only_description").innerHTML += "<tr><td>" + picture + "<br><p>" + description + "</p></td></tr>";
+    //document.getElementById("only_description").innerHTML += "<tr><td>" + description + "</td></tr>";
 }
+
+
+
+
+

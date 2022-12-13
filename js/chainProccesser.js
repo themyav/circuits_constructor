@@ -96,28 +96,48 @@ function addElementButton() {
 
                 switch (element) {
                     case "Источник переменного тока":
-                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='U'>" + "Постоянное напряжение" + "</td></tr>" + "<tr><td><input type=\"input\" class='show_U_and_R' unit='A'>" + "Амплитуда" + "</td></tr>" + "<tr><td><input type=\"input\" class='show_U_and_R' unit='nu'>" + "Частота" + "</td></tr>" + "<tr><td><input type=\"input\" class='show_U_and_R' uint='fi'>" + "Фаза" + "</td></tr>" + "</table>" + "</div></td></tr>";
+                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='E'>" + "ЭДС" + "</td></tr>"
+                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='r'>" + "Внутреннее сопротивление" + "</td></tr>"
+                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='A'>" + "Амплитуда" + "</td></tr>"
+                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='nu'>" + "Частота" + "</td></tr>"
+                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='fi'>" + "Фаза" + "</td></tr>"
+                            + "</table>" + "</div></td></tr>";
                         break;
                     case "Источник постоянного тока":
-                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='I'>" + "Ток" + "</td></tr>" + "</table>" + "</div></td></tr>";
-                        break;
+                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='E'>" + "ЭДС" + "</td></tr>"
+                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='r'>" + "Внутреннее сопротивление" + "</td></tr>";                        break;
                     case "Двигатель постоянного тока":
-                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='U'>" + "Номинальное напряжение" + "</td></tr>" + "<tr><td><input type=\"input\" class='show_U_and_R' uint='V'>" + "Скорость холостого тока" + "</td></tr>" + "<tr><td><input type=\"input\" class='show_U_and_R' unit='I'>" + "Пусковой ток" + "</td></tr>" + "</table>" + "</div></td></tr>";
+                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='E'>" + "ЭДС" + "</td></tr>"
+                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='r'>" + "Внутреннее сопротивление" + "</td></tr>"
+                            + "<tr><td><input type=\"input\" class='show_U_and_R' uint='V'>" + "Скорость холостого тока"
+                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='E'>" + "ЭДС" + "</td></tr>"
+                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='r'>" + "Внутреннее сопротивление" + "</td></tr>"
+                            + "</td></tr>" + "</table>" + "</div></td></tr>";
                         break;
                     case "Источник напряжения":
-                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='U'>" + "Напряжение" + "</td></tr>" + "</table>" + "</div></td></tr>";
+                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='U'>" + "Напряжение" + "</td></tr>"
+                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='r'>" + "Внутреннее сопротивление" + "</td></tr>"
+                            + "</table>" + "</div></td></tr>";
                         break;
                     case "Конденсатор":
-                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='C'>" + "Ёмкость" + "</td></tr>" + "</table>" + "</div></td></tr>";
+                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='C'>" + "Ёмкость" + "</td></tr>"
+                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='r'>" + "Сопротивление" + "</td></tr>"
+                            + "</table>" + "</div></td></tr>";
                         break;
                     case "Катушка индуктивности":
-                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='L'>" + "Индуктивность" + "</td></tr>" + "</table>" + "</div></td></tr>";
+                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='L'>" + "Индуктивность" + "</td></tr>"
+                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='r'>" + "Сопротивление" + "</td></tr>"
+                            + "</table>" + "</div></td></tr>";
                         break;
                     case "Лампа":
-                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='U'>" + "Напряжение" + "</td></tr>" + "<tr><td><input type=\"input\" class='show_U_and_R' unit='P'>" + "Мощность" + "</td></tr>" + "</table>" + "</div></td></tr>";
+                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='U'>" + "Напряжение" + "</td></tr>"
+                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='r'>" + "Сопротивление" + "</td></tr>"
+                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='P'>" + "Мощность" + "</td></tr>"
+                            + "</table>" + "</div></td></tr>";
                         break;
                     case "Резистор":
-                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='R'>" + "Сопротивление" + "</td></tr>" + "</table>" + "</div></td></tr>";
+                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='R'>" + "Сопротивление" + "</td></tr>"
+                            + "</table>" + "</div></td></tr>";
                         break;
                 }
             }
