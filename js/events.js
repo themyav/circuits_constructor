@@ -1,4 +1,5 @@
 const DELTA = 5 //кол-во пикселей на которое уменьшим при масштабировании
+const start_size = 60;
 
 function change_rotation_connections(cell, rotate_left){
     let picture = $(cell);
@@ -125,10 +126,12 @@ function scale(plus){
     let size = images.css('width');
     size = parseInt(size.substring(0, size.length - 2));
     if((plus && size >= 100) || (!plus && size <= 30)) return; //не даем слишком сильно увеличить/уменьшить
-
     let delta = (plus ? DELTA : -DELTA);
+
+    let scale_message = document.getElementById('current_scale');
+    scale_message.innerText = 'Регулируйте масштаб.\nТекущий масштаб ' + Math.round((size + delta) / (start_size) * 100) + '%.';
     let new_size = (size + delta).toString() + 'px';
-    console.log(new_size);
+
     images.css('width', new_size);
     images.css('height', new_size);
 
