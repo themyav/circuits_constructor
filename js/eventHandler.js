@@ -33,9 +33,18 @@ function handleBuildModeImage(e, cell){
 function handleWorkModeButton(cell){
 
 }
+
+function removeButtonsLighting(){
+    let previous = document.getElementById(current);
+    const regex = /wire/;
+    if(previous.id.match(regex) !== null) document.getElementById('drop_wires').style.filter = '';
+    previous.style.filter = '';
+}
+
 //нажатие на кнопку в режиме строительства
 function handleBuildModeButton(cell){
-    document.getElementById(current).style.filter = '';
+
+    removeButtonsLighting();
     //отсекаем рабочие кнопки
     if(cell.id === '' || cell.id === 'scale_plus' || cell.id === 'scale_minus') return;
     current = cell.id;
