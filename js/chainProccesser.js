@@ -5,13 +5,32 @@ let current_source = []; //список источников тока
 
 const OPEN_KEY = "resource/element/key/key.png";
 const CLOSED_KEY = 'resource/element/key/closed_key.png';
+
 const SOURCE = 'resource/element/current_source/current_source.png';
 const BATTERY = "resource/element/battery_of_elements/battery_of_elements.png";
 const ENGINE = "resource/element/battery_of_elements/battery_of_elements.png";
 const GENERATOR = "resource/element/generator/generator.png";
+const DESK = "resource/element/desk.png";
 
-//TODO: навгревательный элемент, гальванометр
-const APPLIANCES = new Map([["Амперметр", "resource/element/ammeter/ammeter.png"], ["Батарея элементов", "resource/element/battery_of_elements/battery_of_elements.png"], ["Конденсатор", "resource/element/capacitor/capacitor.png"], ["Катушка", "resource/element/coil/coil.png"], ["Источник постоянного тока", "resource/element/current_source/current_source.png"], ["Двигатель", "resource/element/engine/engine.png"], ["Предохраниетель", "resource/element/fuse/fuse.png"], ["Гальванометр", "resource/element/galvanometer/galvanometer.png"], ["Генератор", "resource/element/generator/generator.png"], ["Обогревательный элемент", "resource/element/heating/heating.png"], ["Лампа", "resource/element/lamp/lamp.png"], ["Резистор", "resource/element/resistor/resistor.png"], ["Реостат", "resource/element/rheostat/rheostat.png"], ["Вольтметр", "resource/element/voltmeter/voltmeter.png"]])
+const APPLIANCES = new Map([["Амперметр", "resource/element/ammeter/ammeter.png"],
+    ["Батарея элементов", "resource/element/battery_of_elements/battery_of_elements.png"],
+    ["Конденсатор", "resource/element/capacitor/capacitor.png"],
+    ["Катушка", "resource/element/coil/coil.png"],
+    ["Источник постоянного тока", "resource/element/current_source/current_source.png"],
+    ["Двигатель", "resource/element/engine/engine.png"],
+    ["Предохраниетель", "resource/element/fuse/fuse.png"],
+    ["Гальвонометр", "resource/element/galvanometer/galvanometer.png"],
+    ["Генератор", "resource/element/generator/generator.png"],
+    ["Обогревательный элемент", "resource/element/heating/heating.png"],
+    ["Лампа", "resource/element/lamp/lamp.png"],
+    ["Резистор", "resource/element/resistor/resistor.png"],
+    ["Реостат", "resource/element/rheostat/rheostat.png"],
+    ["Вольтметр", "resource/element/voltmeter/voltmeter.png"]])
+
+//константы для вычисления силы тока в цепи:
+const S = 'S'
+const P = 'P'
+const R = 'R'
 
 /*
 Ищет все источники питания в цепи
@@ -78,7 +97,6 @@ function searchKeys() {
 //     }
 // }
 
-
 function addElementButton() {
     let cell;
     let str = "";
@@ -138,28 +156,10 @@ function addElementButton() {
                             + "<tr><td><input type=\"input\" class='show_U_and_R' unit='P' onchange='validate_values(this)'>" + "Мощность" + "</td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
-                    case "Вольтметр":
-                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='R' onchange='validate_values(this)'>" + "Сопротивление" + "</td></tr>"
-                            + "</table>" + "</div></td></tr>";
-                        break;
-                    case "Амперметр":
-                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='R' onchange='validate_values(this)'>" + "Сопротивление" + "</td></tr>"
-                            + "</table>" + "</div></td></tr>";
-                        break;
-                    case "Батарея элементов":
-                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='R' onchange='validate_values(this)'>" + "Сопротивление" + "</td></tr>"
-                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='E' onchange='validate_values(this)'>" + "ЭДС" + "</td></tr>"
-                            + "</table>" + "</div></td></tr>";
-                        break;
                     case "Резистор":
                         str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='R' onchange='validate_values(this)'>" + "Сопротивление" + "</td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
-                    case "Реостат":
-                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='R' onchange='validate_values(this)'>" + "Сопротивление" + "</td></tr>"
-                            + "</table>" + "</div></td></tr>";
-                        break;
-
                 }
             }
 
@@ -184,7 +184,6 @@ function light_picture(e, where) {
 Получаем данные из инпутов и кладём в атрибут кнопки
 */
 
-//TODO: отвалидировать значения в зависимости от метрики
 function validate_values(e) {
     e.getAttribute("unit");
     let value = e.value;
@@ -384,10 +383,60 @@ function process_right(cell, c, dir, q, used) {
     }
 }
 
+function toMatrix(){
+    //TODO запретить разомкнутый ключ
+    let matrix = []
+
+    // Заполнить нулями
+    for(let i = 0; i < N; i++){
+        matrix[i] = []
+        for(let j = 0; j < M; j++){
+            matrix[i][j] = 0
+        }
+    }
+
+    let index = 0;
+    for (let i = 0; i < matrix.length; i++) {
+        for (let j = 0; j < matrix.length; j++) {
+
+            let cell = document.getElementById('img_' + index.toString());
+            let src = cell.getAttribute('src');
+            const wire_reg = /wire/;
+            const triple_reg = /triple/;
+
+            if(src === DESK){
+                matrix[i][j] = 0;
+            }
+            else if(src.match(wire_reg) != null){
+                if(src.match(triple_reg) != null){
+                    matrix[i][j] = P; //узел
+                }
+                else matrix[i][j] = S; //просто провод
+            }
+            else if(src === SOURCE || src === BATTERY ||
+                src === GENERATOR || src === ENGINE ||
+                src === CLOSED_KEY || src === OPEN_KEY){
+                matrix[i][j] = S; //источник тока рассмотрим как просто провод
+            }
+            else{
+                let button = document.getElementById('button_' + id_num(cell.id));
+                let R = button.getAttribute('r');
+                if(R !== null) matrix[i][j] = R;
+                else matrix[i][j] = 'R';
+            }
+
+            index++;
+        }
+    }
+
+    console.log(matrix);
+}
+
 
 /*
 Вызывается при нажатии на кнопку "пуск". Имитирует течение тока в цепи.
  */
+
 function runChain(e) {
     let MESSAGE = document.getElementById('message');
 
@@ -403,6 +452,9 @@ function runChain(e) {
 
         MESSAGE.innerText = 'Начинаю эмуляцию';
         MESSAGE.style.color = 'black';
+
+        toMatrix();
+
         let used = []
         for (let i = 0; i <= N * M; i++) used.push(false);
         let q = new Queue();
@@ -421,11 +473,17 @@ function runChain(e) {
             let c = q.peek()[0];
             let dir = q.peek()[1];
             q.dequeue();
-            console.log('go to ' + c);
+            //console.log('go to ' + c);
 
             let cell = id_cell(c);
             //тут будет вызываться функция прибора
             //этот фильтр будет заменен на что-нибудь красивее..
+
+            const regex = /triple/;
+            //console.log(cell.getAttribute('src'));
+            if(cell.getAttribute('src').match(regex) != null){
+                console.log("I go to triple " + c);
+            }
             cell.style.filter = 'drop-shadow(5px 5px 10px yellow)';
             if (c === start) {
                 if (dir === 'up') process_up(cell, c, dir, q, used); else if (dir === 'down') process_down(cell, c, dir, q, used); else if (dir === 'left') process_left(cell, c, dir, q, used); else if (dir === 'right') process_right(cell, c, dir, q, used);
@@ -440,7 +498,6 @@ function runChain(e) {
         }
         resizeGallery(true);
         drawGraphic()
-        //кладем эл-т в очередь, запускаемся и идем по соседям...
     } else {
         is_running = false;
         e.setAttribute("is_running", "false");
