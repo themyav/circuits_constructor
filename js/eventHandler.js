@@ -36,7 +36,8 @@ function handleWorkModeButton(cell){
 //нажатие на кнопку в режиме строительства
 function handleBuildModeButton(cell){
     document.getElementById(current).style.filter = '';
-    if(cell.id === '') return;
+    //отсекаем рабочие кнопки
+    if(cell.id === '' || cell.id === 'scale_plus' || cell.id === 'scale_minus') return;
     current = cell.id;
     document.getElementById(current).style.filter = 'brightness(50%)';
     let category = document.getElementById(current).closest('table').classList[0];
