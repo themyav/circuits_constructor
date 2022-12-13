@@ -81,6 +81,7 @@ button:hover{
     height: 60px;
     object-fit: cover;
     display: block;
+    border-radius: 8px;
 }
 
 .gallery__img:hover{
@@ -319,4 +320,8 @@ a {
 }
 .elements_description button:hover{
     background-color: lightpink;
+}
+
+button{
+    border-radius: 8px;
 }
