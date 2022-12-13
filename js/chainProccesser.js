@@ -160,6 +160,22 @@ function addElementButton() {
                         str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='R' onchange='validate_values(this)'>" + "Сопротивление" + "</td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
+                    case "Вольтметр":
+                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='R' onchange='validate_values(this)'>" + "Сопротивление" + "</td></tr>"
+                            + "</table>" + "</div></td></tr>";
+                        break;
+                    case "Реостат":
+                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='R' onchange='validate_values(this)'>" + "Сопротивление" + "</td></tr>"
+                            + "</table>" + "</div></td></tr>";
+                        break;
+                    case "Амперметр":
+                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='R' onchange='validate_values(this)'>" + "Сопротивление" + "</td></tr>"
+                            + "</table>" + "</div></td></tr>";
+                        break;
+                    case "Гальванометр":
+                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='R' onchange='validate_values(this)'>" + "Сопротивление" + "</td></tr>"
+                            + "</table>" + "</div></td></tr>";
+                        break;
                 }
             }
 
