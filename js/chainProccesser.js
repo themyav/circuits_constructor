@@ -10,8 +10,8 @@ const BATTERY = "resource/element/battery_of_elements/battery_of_elements.png";
 const ENGINE = "resource/element/battery_of_elements/battery_of_elements.png";
 const GENERATOR = "resource/element/generator/generator.png";
 
-
-const APPLIANCES = new Map([["Амперметр", "resource/element/ammeter/ammeter.png"], ["Батарея элементов", "resource/element/battery_of_elements/battery_of_elements.png"], ["Конденсатор", "resource/element/capacitor/capacitor.png"], ["Катушка", "resource/element/coil/coil.png"], ["Источник постоянного тока", "resource/element/current_source/current_source.png"], ["Двигатель", "resource/element/engine/engine.png"], ["Предохраниетель", "resource/element/fuse/fuse.png"], ["Гальвонометр", "resource/element/galvanometer/galvanometer.png"], ["Генератор", "resource/element/generator/generator.png"], ["Обогревательный элемент", "resource/element/heating/heating.png"], ["Лампа", "resource/element/lamp/lamp.png"], ["Резистор", "resource/element/resistor/resistor.png"], ["Реостат", "resource/element/rheostat/rheostat.png"], ["Вольтметр", "resource/element/voltmeter/voltmeter.png"]])
+//TODO: навгревательный элемент, гальванометр
+const APPLIANCES = new Map([["Амперметр", "resource/element/ammeter/ammeter.png"], ["Батарея элементов", "resource/element/battery_of_elements/battery_of_elements.png"], ["Конденсатор", "resource/element/capacitor/capacitor.png"], ["Катушка", "resource/element/coil/coil.png"], ["Источник постоянного тока", "resource/element/current_source/current_source.png"], ["Двигатель", "resource/element/engine/engine.png"], ["Предохраниетель", "resource/element/fuse/fuse.png"], ["Гальванометр", "resource/element/galvanometer/galvanometer.png"], ["Генератор", "resource/element/generator/generator.png"], ["Обогревательный элемент", "resource/element/heating/heating.png"], ["Лампа", "resource/element/lamp/lamp.png"], ["Резистор", "resource/element/resistor/resistor.png"], ["Реостат", "resource/element/rheostat/rheostat.png"], ["Вольтметр", "resource/element/voltmeter/voltmeter.png"]])
 
 /*
 Ищет все источники питания в цепи
@@ -78,6 +78,7 @@ function searchKeys() {
 //     }
 // }
 
+
 function addElementButton() {
     let cell;
     let str = "";
@@ -137,10 +138,28 @@ function addElementButton() {
                             + "<tr><td><input type=\"input\" class='show_U_and_R' unit='P' onchange='validate_values(this)'>" + "Мощность" + "</td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
+                    case "Вольтметр":
+                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='R' onchange='validate_values(this)'>" + "Сопротивление" + "</td></tr>"
+                            + "</table>" + "</div></td></tr>";
+                        break;
+                    case "Амперметр":
+                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='R' onchange='validate_values(this)'>" + "Сопротивление" + "</td></tr>"
+                            + "</table>" + "</div></td></tr>";
+                        break;
+                    case "Батарея элементов":
+                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='R' onchange='validate_values(this)'>" + "Сопротивление" + "</td></tr>"
+                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='E' onchange='validate_values(this)'>" + "ЭДС" + "</td></tr>"
+                            + "</table>" + "</div></td></tr>";
+                        break;
                     case "Резистор":
                         str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='R' onchange='validate_values(this)'>" + "Сопротивление" + "</td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
+                    case "Реостат":
+                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='R' onchange='validate_values(this)'>" + "Сопротивление" + "</td></tr>"
+                            + "</table>" + "</div></td></tr>";
+                        break;
+
                 }
             }
 
@@ -165,6 +184,7 @@ function light_picture(e, where) {
 Получаем данные из инпутов и кладём в атрибут кнопки
 */
 
+//TODO: отвалидировать значения в зависимости от метрики
 function validate_values(e) {
     e.getAttribute("unit");
     let value = e.value;

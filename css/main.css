@@ -57,16 +57,23 @@ button:hover {
     background-color: lightpink;
 }
 
-button:hover::before {
+.elements button:hover::before {
     font-family: "Nunito", sans-serif;
     font-weight: 600;
     font-size: 10px;
     content: attr(text);
 }
 
-button:hover img {
+.elements button:hover img {
     display: none;
 }
+
+.wires_dropdown button:hover img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 
 #clean {
     width: 100%;
@@ -325,14 +332,16 @@ button[id*="scale"]:hover {
 
 /* Стили для кнопок. Мы ведь порядочные разработчики, негоже простые ссылки оставлять */
 
-a {
-    padding: 20px;
-    display: inline-block;
-    text-decoration: none;
-    background-color: #414b52;
-    margin: 10px;
-    color: #fff;
-    border-radius: 3px;
+#js-open-modal{
+    font-family: "Nunito", sans-serif;
+    font-weight: 600;
+    background-color: lightpink;
+    color: black;
+    width: 100%;
+    height: 50px;
+    border: 0;
+    cursor: pointer;
+
 }
 
 /* Кнопки внутри модального окна */
@@ -361,6 +370,10 @@ a {
 
 .elements_description button:hover {
     background-color: lightpink;
+}
+
+#js-open-modal:hover{
+    background-color: indianred;
 }
 
 button {

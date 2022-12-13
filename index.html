@@ -230,6 +230,34 @@
                 <button onclick="circuits_four()">Постоянный ток, последовательное соединение</button>
             </div>
         </table>
+        <!-- Элементы для вызова модальных окон, могут быть любые -->
+
+        <button id="js-open-modal" data-modal="1">Справочник</button>
+
+
+        <!-- Несколько модальных окон -->
+
+        <div class="modal" data-modal="1">
+            <!--   Svg иконка для закрытия окна  -->
+            <svg class="modal__cross js-modal-close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z"/>
+            </svg>
+
+            <div class="modal__title">
+
+                <button id="project_description" class="directory" onclick="add_to_directory(this)">Описание проекта</button>
+
+                <button id="elements_description" class="directory" onclick="add_to_directory(this)">Описание элементов</button>
+
+                <button id="instruction" class="directory" onclick="add_to_directory(this)">Инструкция</button>
+
+            </div>
+
+
+            <div id="for_description">
+
+            </div>
+        </div>
     </aside>
     <div>
         <div class="gallery" id="gallery"></div>
@@ -238,36 +266,6 @@
             <script src="js/graphDrawer.js"></script>
         </div>
     </div>
-
-    <!-- Элементы для вызова модальных окон, могут быть любые -->
-
-    <a href="#" id="js-open-modal" data-modal="1">Справочник</a>
-
-
-    <!-- Несколько модальных окон -->
-
-    <div class="modal" data-modal="1">
-        <!--   Svg иконка для закрытия окна  -->
-        <svg class="modal__cross js-modal-close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z"/>
-        </svg>
-
-        <div class="modal__title">
-
-            <button id="project_description" class="directory" onclick="add_to_directory(this)">Описание проекта</button>
-
-            <button id="elements_description" class="directory" onclick="add_to_directory(this)">Описание элементов</button>
-
-            <button id="instruction" class="directory" onclick="add_to_directory(this)">Инструкция</button>
-
-        </div>
-
-
-        <div id="for_description">
-
-        </div>
-    </div>
-
 
     <!-- Подложка под модальным окном -->
     <div class="overlay js-overlay-modal"></div>
