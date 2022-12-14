@@ -103,7 +103,6 @@ function toggle_circuits() {
 function toggle_wires() {
     document.getElementById("myWires").classList.toggle("show_list");
 }
-//TODO: делаю валидацию и записиь в атрибут кнопки
 function toggle_U_and_R(e) {
     let id = e.getAttribute("id").toString().split("_");
     document.getElementById("UandR_" + id[1]).classList.toggle("show_list");

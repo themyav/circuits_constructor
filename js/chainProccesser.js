@@ -12,6 +12,8 @@ const ENGINE = "resource/element/battery_of_elements/battery_of_elements.png";
 const GENERATOR = "resource/element/generator/generator.png";
 const DESK = "resource/element/desk.png";
 
+
+
 const APPLIANCES = new Map([["Амперметр", "resource/element/ammeter/ammeter.png"],
     ["Батарея элементов", "resource/element/battery_of_elements/battery_of_elements.png"],
     ["Конденсатор", "resource/element/capacitor/capacitor.png"],
@@ -19,9 +21,9 @@ const APPLIANCES = new Map([["Амперметр", "resource/element/ammeter/amm
     ["Источник постоянного тока", "resource/element/current_source/current_source.png"],
     ["Двигатель", "resource/element/engine/engine.png"],
     ["Предохраниетель", "resource/element/fuse/fuse.png"],
-    ["Гальвонометр", "resource/element/galvanometer/galvanometer.png"],
+    ["Омметр", "resource/element/ohmmeter/ohmmeter.png"],
     ["Генератор", "resource/element/generator/generator.png"],
-    ["Обогревательный элемент", "resource/element/heating/heating.png"],
+    ["Источник напряжения", "resource/element/voltage_source/voltage_source.png"],
     ["Лампа", "resource/element/lamp/lamp.png"],
     ["Резистор", "resource/element/resistor/resistor.png"],
     ["Реостат", "resource/element/rheostat/rheostat.png"],
@@ -97,6 +99,8 @@ function searchKeys() {
 //     }
 // }
 
+//TODO: заменить гальванометр на омметр, убрать ненужные приборы, а лучше заменить на полезные
+
 function addElementButton() {
     let cell;
     let str = "";
@@ -115,65 +119,87 @@ function addElementButton() {
 
                 switch (element) {
                     case "Источник переменного тока":
-                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='E' onchange='validate_values(this)'>" + "ЭДС" + "</td></tr>"
-                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "Внутреннее сопротивление" + "</td></tr>"
-                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='A' onchange='validate_values(this)'>" + "Амплитуда" + "</td></tr>"
-                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='nu' onchange='validate_values(this)'>" + "Частота" + "</td></tr>"
-                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='fi' onchange='validate_values(this)'>" + "Фаза" + "</td></tr>"
+                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='E' onchange='validate_values(this)'>" + "ЭДС" + "</td>" +
+                            "<td><select class='show_U_and_R' onchange='set_metering(this)'><option value='mili'>мВ</option><option selected=\"selected\" value='deca'>В</option><option value='kilo'>кВ</option><option value='mega'>МВ</option></select></td></tr>"
+                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "Внутреннее сопротивление" + "</td>" +
+                            "<td><select class='show_U_and_R' onchange='set_metering(this)'><option value='mili'>мОм</option><option selected=\"selected\" value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
+                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='A' onchange='validate_values(this)'>" + "Амплитуда" + "</td>" +
+                            "<td><select class='show_U_and_R' onchange='set_metering(this)'><option value='mili'>мА</option><option selected=\"selected\" value='deca'>А</option><option value='kilo'>кА</option><option value='mega'>МА</option></select></td></tr>"
+                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='nu' onchange='validate_values(this)'>" + "Частота" + "</td>" +
+                            "<td><select class='show_U_and_R' onchange='set_metering(this)'><option selected=\"selected\" value='deca'>Гц</option><option value='kilo'>кГц</option><option value='mega'>МГц</option></select></td></tr>"
+                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='fi' onchange='validate_values(this)'>" + "Фаза" + "</td>" +
+                            "<td><select class='show_U_and_R' onchange='set_metering(this)'><option selected=\"selected\" value='deg'>Градусы</option><option value='rad'>Радианы</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Источник постоянного тока":
-                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='E' onchange='validate_values(this)'>" + "ЭДС" + "</td></tr>"
-                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "Внутреннее сопротивление" + "</td></tr>"
+                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='E' onchange='validate_values(this)'>" + "ЭДС" + "</td>" +
+                            "<td><select class='show_U_and_R' onchange='set_metering(this)'><option value='mili'>мВ</option><option selected=\"selected\" value='deca'>В</option><option value='kilo'>кВ</option><option value='mega'>МВ</option></select></td></tr>"
+                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "Внутреннее сопротивление" + "</td>" +
+                            "<td><select class='show_U_and_R' onchange='set_metering(this)'><option value='mili'>мОм</option><option selected=\"selected\" value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Двигатель постоянного тока":
-                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='E' onchange='validate_values(this)'>" + "ЭДС" + "</td></tr>"
-                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "Внутреннее сопротивление" + "</td></tr>"
-                            + "<tr><td><input type=\"input\" class='show_U_and_R' uint='V' onchange='validate_values(this)'>" + "Скорость холостого тока"
-                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='E' onchange='validate_values(this)'>" + "ЭДС" + "</td></tr>"
-                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "Внутреннее сопротивление" + "</td></tr>"
+                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='E' onchange='validate_values(this)'>" + "ЭДС" + "</td>" +
+                            "<td><select class='show_U_and_R' onchange='set_metering(this)'><option value='mili'>мВ</option><option selected=\"selected\" value='deca'>В</option><option value='kilo'>кВ</option><option value='mega'>МВ</option></select></td></tr>"
+                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "Внутреннее сопротивление" + "</td>" +
+                            "<td><select class='show_U_and_R' onchange='set_metering(this)'><option value='mili'>мОм</option><option selected=\"selected\" value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
+                            + "<tr><td><input type=\"input\" class='show_U_and_R' uint='V' onchange='validate_values(this)'>" + "Скорость холостого тока" + "</td>" +
+                            +"<td><select class='show_U_and_R' onchange='set_metering(this)'><option value='m/s'>м/c</option><option value='km/h'>км/ч</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Источник напряжения":
-                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='U' onchange='validate_values(this)'>" + "Напряжение" + "</td></tr>"
-                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "Внутреннее сопротивление" + "</td></tr>"
+                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='U' onchange='validate_values(this)'>" + "Напряжение" + "</td>" +
+                            "<td><select class='show_U_and_R' onchange='set_metering(this)'><option value='mili'>мВ</option><option selected=\"selected\" value='deca'>В</option><option value='kilo'>кВ</option><option value='mega'>МВ</option></select></td></tr>"
+                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "Внутреннее сопротивление" + "</td>" +
+                            "<td><select class='show_U_and_R' onchange='set_metering(this)'><option value='mili'>мОм</option><option selected=\"selected\" value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Конденсатор":
-                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='C' onchange='validate_values(this)'>" + "Ёмкость" + "</td></tr>"
-                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "Сопротивление" + "</td></tr>"
+                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='C' onchange='validate_values(this)'>" + "Ёмкость" + "</td>" +
+                            "<td><select class='show_U_and_R' onchange='set_metering(this)'><option value='pica'>пФ</option><option value='nano'>нФ</option><option value='mikro'>мкФ</option><option selected=\"selected\" value='deca'>Ф</option></select></td></tr>"
+                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "Сопротивление" + "</td>" +
+                            "<td><select class='show_U_and_R' onchange='set_metering(this)'><option value='mili'>мОм</option><option selected=\"selected\" value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Катушка индуктивности":
-                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='L' onchange='validate_values(this)'>" + "Индуктивность" + "</td></tr>"
-                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "Сопротивление" + "</td></tr>"
+                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='L' onchange='validate_values(this)'>" + "Индуктивность" + "</td>" +
+                            "<td><select class='show_U_and_R' onchange='set_metering(this)'><option value='nano'>нГн</option><option value='mikro'>мкГн</option><option value='mili'>мГн</option><option selected=\"selected\" value='deca'>Гн</option></select></td></tr>"
+                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "Сопротивление" + "</td>" +
+                            "<td><select class='show_U_and_R' onchange='set_metering(this)'><option value='mili'>мОм</option><option selected=\"selected\" value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Лампа":
-                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='U' onchange='validate_values(this)'>" + "Напряжение" + "</td></tr>"
-                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "Сопротивление" + "</td></tr>"
-                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='P' onchange='validate_values(this)'>" + "Мощность" + "</td></tr>"
+                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='U' onchange='validate_values(this)'>" + "Напряжение" + "</td>" +
+                            "<td><select class='show_U_and_R' onchange='set_metering(this)'><option value='mili'>мВ</option><option selected=\"selected\" value='deca'>В</option><option value='kilo'>кВ</option><option value='mega'>МВ</option></select></td></tr>"
+                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "Сопротивление" + "</td>" +
+                            "<td><select class='show_U_and_R' onchange='set_metering(this)'><option value='mili'>мОм</option><option selected=\"selected\" value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
+                            + "<tr><td><input type=\"input\" class='show_U_and_R' unit='P' onchange='validate_values(this)'>" + "Мощность" + "</td>" +
+                            "<td><select class='show_U_and_R' onchange='set_metering(this)'><option value='mili'>мВт</option><option selected=\"selected\" value='deca'>Вт</option><option value='kilo'>кВТ</option><option value='mega'>МВТ</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Резистор":
-                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='R' onchange='validate_values(this)'>" + "Сопротивление" + "</td></tr>"
+                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='R' onchange='validate_values(this)'>" + "Сопротивление" + "</td>" +
+                            "<td><select class='show_U_and_R' onchange='set_metering(this)'><option value='mili'>мОм</option><option selected=\"selected\" value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Вольтметр":
-                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='R' onchange='validate_values(this)'>" + "Сопротивление" + "</td></tr>"
+                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='R' onchange='validate_values(this)'>" + "Сопротивление" + "</td>" +
+                            "<td><select class='show_U_and_R' onchange='set_metering(this)'><option value='mili'>мОм</option><option selected=\"selected\" value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Реостат":
-                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='R' onchange='validate_values(this)'>" + "Сопротивление" + "</td></tr>"
+                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='R' onchange='validate_values(this)'>" + "Сопротивление" + "</td>" +
+                            "<td><select class='show_U_and_R' onchange='set_metering(this)'><option value='mili'>мОм</option><option selected=\"selected\" value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Амперметр":
-                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='R' onchange='validate_values(this)'>" + "Сопротивление" + "</td></tr>"
+                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='R' onchange='validate_values(this)'>" + "Сопротивление" + "</td>" +
+                            "<td><select class='show_U_and_R' onchange='set_metering(this)'><option value='mili'>мОм</option><option selected=\"selected\" value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
-                    case "Гальванометр":
-                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='R' onchange='validate_values(this)'>" + "Сопротивление" + "</td></tr>"
+                    case "Омметр":
+                        str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='R' onchange='validate_values(this)'>" + "Сопротивление" + "</td>" +
+                            "<td><select class='show_U_and_R' onchange='set_metering(this)'><option value='mili'>мОм</option><option selected=\"selected\" value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                 }
@@ -200,6 +226,7 @@ function light_picture(e, where) {
 Получаем данные из инпутов и кладём в атрибут кнопки
 */
 
+//TODO: сделать валидацию по выбранной метрике
 function validate_values(e) {
     e.getAttribute("unit");
     let value = e.value;
@@ -207,11 +234,54 @@ function validate_values(e) {
         alert("Некорректные данные.");
         value = "";
     }
-    let id = e.parentElement.parentElement.parentElement.parentElement.parentElement.getAttribute("id").split("_")[1];
+    let div = e.parentElement.parentElement.parentElement.parentElement.parentElement;
+    let id =div.getAttribute("id").split("_")[1];
     let button = e.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.getElementsByClassName("button_" + id)[0];
+    let select = e.parentElement.parentElement.children[1].getElementsByClassName("show_U_and_R")[0];
+    console.log(select);
+
+    switch (select.value){
+        case "deca":
+            value*=1;
+            break;
+        case "mili":
+            value*=0.001;
+            break;
+        case "kilo":
+            value*=1000;
+            break;
+        case "mega":
+            value*=1000000;
+            break;
+        case "mikro":
+            value*=0.000001;
+            break;
+        case "nano":
+            value*=0.000000001;
+            break;
+        case "pica":
+            value*=0.000000000001;
+            break;
+        case "m/s":
+            value*=1;
+            break;
+        case "km/h":
+            value= value/1000*60*60;
+            break;
+        case "deg":
+            value=value*180*Math.PI;
+            break;
+        case "rad":
+            value*=1;
+            break;
+
+    }
     button.setAttribute(e.getAttribute("unit"), value);
 }
 
+function set_metering(e) {
+
+}
 
 /*
 Реализация очереди из интернета
@@ -298,6 +368,8 @@ function has_right(cell) {
     return cell.getAttribute('right') === 'true';
 }
 
+//TODO: заменить гальванометр на омметр, убрать ненужные приборы, а лучше заменить на полезные
+
 //Функция меняющие поля ввода на просто текст в момент запуска
 function fieldChange() {
     for (let i = 0; i < N * M; i++) {
@@ -312,28 +384,76 @@ function fieldChange() {
             //Скорее всего надо будтет просто из кнопки вытаскивать значения и писать их в div либо просто сделать input disabled
             switch (element) {
                 case "Источник переменного тока":
-                    div.innerHTML = "<table>" + "<tr><td><div class='show_U_and_R'>" + "Постоянное напряжение" + "</td></tr>" + "<tr><td><div class='show_U_and_R'>" + "Амплитуда" + "</td></tr>" + "<tr><td><div class='show_U_and_R'>" + "Частота" + "</td></tr>" + "<tr><td><div class='show_U_and_R'>" + "Фаза" + "</td></tr>" + "</table>";
+                    div.innerHTML = "<table>"
+                        + "<tr><td><div class='show_U_and_R'>" + "ЭДС - " + button.getAttribute("e").toString() + "</td></tr>"
+                        + "<tr><td><div class='show_U_and_R'>" + "Внутреннее сопротивление - " + button.getAttribute("r").toString() + "</td></tr>"
+                        + "<tr><td><div class='show_U_and_R'>" + "Амплитуда - " + button.getAttribute("a").toString() + "</td></tr>"
+                        + "<tr><td><div class='show_U_and_R'>" + "Частота - " + button.getAttribute("nu").toString() + "</td></tr>"
+                        + "<tr><td><div class='show_U_and_R'>" + "Фаза - " + button.getAttribute("fi").toString() + "</td></tr>"
+                        + "</table>";
                     break;
                 case "Источник постоянного тока":
-                    div.innerHTML = "<table>" + "<tr><td><div class='show_U_and_R'>" + "Ток" + "</td></tr>" + "</table>";
+                    div.innerHTML = "<table>"
+                        + "<tr><td><div class='show_U_and_R'>" + "ЭДС - " + button.getAttribute("e").toString() + "</td></tr>"
+                        + "<tr><td><div class='show_U_and_R'>" + "Внутреннее сопротивление - " + button.getAttribute("r").toString() + "</td></tr>"
+                        + "</table>";
                     break;
                 case "Двигатель постоянного тока":
-                    div.innerHTML = "<table>" + "<tr><td><div class='show_U_and_R'>" + "Номинальное напряжение" + "</td></tr>" + "<tr><td><div class='show_U_and_R'>" + "Скорость холостого тока" + "</td></tr>" + "<tr><td><div class='show_U_and_R'>" + "Пусковой ток" + "</td></tr>" + "</table>";
+                    div.innerHTML = "<table>"
+                        + "<tr><td><div class='show_U_and_R'>" + "ЭДС - " + button.getAttribute("e").toString() + "</td></tr>"
+                        + "<tr><td><div class='show_U_and_R'>" + "Внутреннее сопротивление - " + button.getAttribute("r").toString() + "</td></tr>"
+                        + "<tr><td><div class='show_U_and_R'>" + "Скорость холостого тока - " + button.getAttribute("v").toString() + "</td></tr>"
+                        + "</table>";
                     break;
                 case "Источник напряжения":
-                    div.innerHTML = "<table>" + "<tr><td><div class='show_U_and_R'>" + "Напряжение" + "</td></tr>" + "</table>";
+                    div.innerHTML = "<table>"
+                        + "<tr><td><div class='show_U_and_R'>" + "Напряжение - " + button.getAttribute("u").toString() + "</td></tr>"
+                        + "<tr><td><div class='show_U_and_R'>" + "Внутреннее сопротивление - " + button.getAttribute("r").toString() + "</td></tr>"
+                        + "</table>";
                     break;
                 case "Конденсатор":
-                    div.innerHTML = "<table>" + "<tr><td><div class='show_U_and_R'>" + "Ёмкость" + "</td></tr>" + "</table>";
+                    div.innerHTML = "<table>"
+                        + "<tr><td><div class='show_U_and_R'>" + "Ёмкость - " + button.getAttribute("c").toString() + "</td></tr>"
+                        + "<tr><td><div class='show_U_and_R'>" + "Внутреннее сопротивление - " + button.getAttribute("r").toString() + "</td></tr>"
+                        + "</table>";
                     break;
                 case "Катушка индуктивности":
-                    div.innerHTML = "<table>" + "<tr><td><div class='show_U_and_R'>" + "Индуктивность" + "</td></tr>" + "</table>";
+                    div.innerHTML = "<table>"
+                        + "<tr><td><div class='show_U_and_R'>" + "Индуктивнсоть - " + button.getAttribute("l").toString() + "</td></tr>"
+                        + "<tr><td><div class='show_U_and_R'>" + "Внутреннее сопротивление - " + button.getAttribute("r").toString() + "</td></tr>"
+                        + "</table>";
                     break;
                 case "Лампа":
-                    div.innerHTML = "<table>" + "<tr><td><div class='show_U_and_R'>" + "Напряжение" + "</td></tr>" + "<tr><td><div class='show_U_and_R'>" + "Мощность" + "</td></tr>" + "<tr><td><div class='show_U_and_R'>" + "Уровень нагрузки" + "</td></tr>" + "</table>";
+                    div.innerHTML = "<table>"
+                        + "<tr><td><div class='show_U_and_R'>" + "Напряжение - " + button.getAttribute("u").toString() + "</td></tr>"
+                        + "<tr><td><div class='show_U_and_R'>" + "Сопротивление - " + button.getAttribute("r").toString() + "</td></tr>"
+                        + "<tr><td><div class='show_U_and_R'>" + "Мощность - " + button.getAttribute("p").toString() + "</td></tr>"
+                        + "</table>";
                     break;
                 case "Резистор":
-                    div.innerHTML = "<table>" + "<tr><td><div class='show_U_and_R'>" + "Сопротивление" + "</td></tr>" + "</table>";
+                    div.innerHTML = "<table>"
+                        + "<tr><td><div class='show_U_and_R'>" + "Сопротивление - " + button.getAttribute("r").toString() + "</td></tr>"
+                        + "</table>";
+                    break;
+                case "Вольтметр":
+                    div.innerHTML = "<table>"
+                        + "<tr><td><div class='show_U_and_R'>" + "Сопротивление - " + button.getAttribute("r").toString() + "</td></tr>"
+                        + "</table>";
+                    break;
+                case "Реостат":
+                    div.innerHTML = "<table>"
+                        + "<tr><td><div class='show_U_and_R'>" + "Сопротивление - " + button.getAttribute("r").toString() + "</td></tr>"
+                        + "</table>";
+                    break;
+                case "Амперметр":
+                    div.innerHTML = "<table>"
+                        + "<tr><td><div class='show_U_and_R'>" + "Сопротивление - " + button.getAttribute("r").toString() + "</td></tr>"
+                        + "</table>";
+                    break;
+                case "Омметр":
+                    div.innerHTML = "<table>"
+                        + "<tr><td><div class='show_U_and_R'>" + "Сопротивление - " + button.getAttribute("r").toString() + "</td></tr>"
+                        + "</table>";
                     break;
             }
         }
@@ -399,14 +519,14 @@ function process_right(cell, c, dir, q, used) {
     }
 }
 
-function toMatrix(){
+function toMatrix() {
     //TODO запретить разомкнутый ключ
     let matrix = []
 
     // Заполнить нулями
-    for(let i = 0; i < N; i++){
+    for (let i = 0; i < N; i++) {
         matrix[i] = []
-        for(let j = 0; j < M; j++){
+        for (let j = 0; j < M; j++) {
             matrix[i][j] = 0
         }
     }
@@ -420,24 +540,20 @@ function toMatrix(){
             const wire_reg = /wire/;
             const triple_reg = /triple/;
 
-            if(src === DESK){
+            if (src === DESK) {
                 matrix[i][j] = 0;
-            }
-            else if(src.match(wire_reg) != null){
-                if(src.match(triple_reg) != null){
+            } else if (src.match(wire_reg) != null) {
+                if (src.match(triple_reg) != null) {
                     matrix[i][j] = P; //узел
-                }
-                else matrix[i][j] = S; //просто провод
-            }
-            else if(src === SOURCE || src === BATTERY ||
+                } else matrix[i][j] = S; //просто провод
+            } else if (src === SOURCE || src === BATTERY ||
                 src === GENERATOR || src === ENGINE ||
-                src === CLOSED_KEY || src === OPEN_KEY){
+                src === CLOSED_KEY || src === OPEN_KEY) {
                 matrix[i][j] = S; //источник тока рассмотрим как просто провод
-            }
-            else{
+            } else {
                 let button = document.getElementById('button_' + id_num(cell.id));
                 let R = button.getAttribute('r');
-                if(R !== null) matrix[i][j] = R;
+                if (R !== null) matrix[i][j] = R;
                 else matrix[i][j] = 'R';
             }
 
@@ -497,7 +613,7 @@ function runChain(e) {
 
             const regex = /triple/;
             //console.log(cell.getAttribute('src'));
-            if(cell.getAttribute('src').match(regex) != null){
+            if (cell.getAttribute('src').match(regex) != null) {
                 console.log("I go to triple " + c);
             }
             cell.style.filter = 'drop-shadow(5px 5px 10px yellow)';

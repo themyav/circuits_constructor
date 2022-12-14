@@ -53,7 +53,7 @@
     <aside id="workingMode" style="display:none">
         <table id="value">
         </table>
-        <button onclick="runChain(this)" is_running="false">ЗАПУСК</button>
+        <button onclick="runChain(this)" is_running="false" id="start_button">ЗАПУСК</button>
     </aside>
 
     <aside id="buildingMode">
@@ -66,7 +66,7 @@
                     <button id="lamp" title="Лампа" text="Лампа"><img src="resource/element/lamp/lamp.png" alt="Кнопка «button»" width="60px" height="60px"></button>
                 </td>
                 <td>
-                    <button id="heating" text="Нагревательный элемент"><img src="resource/element/heating/heating.png" alt="Кнопка «button»" width="60px" height="60px"></button>
+                    <button id="voltage_source" text="Источник напряжения"><img src="resource/element/voltage_source/voltage_source.png" alt="Кнопка «button»" width="60px" height="60px"></button>
                 </td>
             </tr>
             <tr>
@@ -176,7 +176,7 @@
                     <button id="engine" text="Двигатель"><img src="resource/element/engine/engine.png" alt="Кнопка «button»" width="60px" height="60px"></button>
                 </td>
                 <td>
-                    <button id="galvanometer" text="Гальванометр"><img src="resource/element/galvanometer/galvanometer.png" alt="Кнопка «button»" width="60px" height="60px"></button>
+                    <button id="ohmmeter" text="Омметр"><img src="resource/element/ohmmeter/ohmmeter.png" alt="Кнопка «button»" width="60px" height="60px"></button>
                 </td>
             </tr>
             <tr>
@@ -258,13 +258,15 @@
 
             </div>
         </div>
-    </aside>
-    <div>
-        <div class="gallery" id="gallery"></div>
+
         <div class="graphic">
             <canvas id="graphic"></canvas>
             <script src="js/graphDrawer.js"></script>
         </div>
+    </aside>
+    <div>
+        <div class="gallery" id="gallery"></div>
+
     </div>
 
     <!-- Подложка под модальным окном -->

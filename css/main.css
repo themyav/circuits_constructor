@@ -37,6 +37,20 @@ aside {
 }
 
 
+#start_button{
+    font-family: "Nunito", sans-serif;
+    font-weight: 600;
+    background-color: darkseagreen;
+    width: 100px;
+    height: 50px;
+    border: 0;
+}
+
+#start_button:hover{
+    background-color: darkgreen;
+
+}
+
 .instruments button {
     font-family: "Nunito", sans-serif;
     font-weight: 600;
@@ -378,4 +392,10 @@ button[id*="scale"]:hover {
 
 button {
     border-radius: 8px;
+}
+
+.text_elements_description{
+    font-size: large;
+    font-family: "Nunito", sans-serif;
+    font-weight: 600;
 }

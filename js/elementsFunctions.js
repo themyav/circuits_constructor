@@ -11,7 +11,7 @@ function handle_ammeter(cell){
 
 }
 
-function handle_galvanometer(cell){
+function handle_ohmmeter(cell){
 
 }
 

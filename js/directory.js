@@ -94,24 +94,19 @@ function add_description(e) {
     let element = e.getAttribute("src").split("/")[2];
     //let description = "";
 
-//TODO: сделать
-    let picture = "<img style='width: 100px; height: 100px' src=\"" + e.getAttribute("src") + "\" alt=\"альтернативный текст\">";
+
+    let picture = "<img style='width: 200px; height: 200px;' src=\"" + e.getAttribute("src") + "\" alt=\"альтернативный текст\">";
 
     let inBody = function () {
         let xhr = new XMLHttpRequest();
         xhr.open('GET', "resource/description/"+ element + '.html');
         xhr.onload = function () {
-            document.getElementById("only_description").innerHTML = "<tr><td>" + picture + "<br><p>" + xhr.response + "</p></td></tr>";
+            document.getElementById("only_description").innerHTML = "<tr><td>" + picture + "<br><p class='text_elements_description'>" + xhr.response + "</p></td></tr>";
         }
         xhr.send();
     }
     inBody();
 
-    //console.log(description.type);
-
-
-    //document.getElementById("only_description").innerHTML += "<tr><td>" + picture + "<br><p>" + description + "</p></td></tr>";
-    //document.getElementById("only_description").innerHTML += "<tr><td>" + description + "</td></tr>";
 }
 
 
