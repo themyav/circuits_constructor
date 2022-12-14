@@ -157,6 +157,7 @@ function addElementButton() {
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Конденсатор":
+                        ELEMENTS.add(cell.id);
                         str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='C' onchange='validate_values(this)'>" + "Ёмкость" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='set_metering(this)'><option value='pica'>пФ</option><option value='nano'>нФ</option><option value='mikro'>мкФ</option><option selected=\"selected\" value='deca'>Ф</option></select></td></tr>"
                             + "<tr><td><input type=\"input\" class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "Сопротивление" + "</td>" +
@@ -164,6 +165,7 @@ function addElementButton() {
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Катушка индуктивности":
+                        ELEMENTS.add(cell.id);
                         str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='L' onchange='validate_values(this)'>" + "Индуктивность" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='set_metering(this)'><option value='nano'>нГн</option><option value='mikro'>мкГн</option><option value='mili'>мГн</option><option selected=\"selected\" value='deca'>Гн</option></select></td></tr>"
                             + "<tr><td><input type=\"input\" class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "Сопротивление" + "</td>" +
@@ -171,6 +173,7 @@ function addElementButton() {
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Лампа":
+                        ELEMENTS.add(cell.id);
                         str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='U' onchange='validate_values(this)'>" + "Напряжение" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='set_metering(this)'><option value='mili'>мВ</option><option selected=\"selected\" value='deca'>В</option><option value='kilo'>кВ</option><option value='mega'>МВ</option></select></td></tr>"
                             + "<tr><td><input type=\"input\" class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "Сопротивление" + "</td>" +
@@ -180,27 +183,36 @@ function addElementButton() {
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Резистор":
+                        ELEMENTS.add(cell.id);
                         str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='R' onchange='validate_values(this)'>" + "Сопротивление" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='set_metering(this)'><option value='mili'>мОм</option><option selected=\"selected\" value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Вольтметр":
+                        ELEMENTS.add(cell.id);
+
                         str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='R' onchange='validate_values(this)'>" + "Сопротивление" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='set_metering(this)'><option value='mili'>мОм</option><option selected=\"selected\" value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Реостат":
+                        ELEMENTS.add(cell.id);
+
                         str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='R' onchange='validate_values(this)'>" + "Сопротивление" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='set_metering(this)'><option value='mili'>мОм</option><option selected=\"selected\" value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Амперметр":
+                        ELEMENTS.add(cell.id);
+
                         str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='R' onchange='validate_values(this)'>" + "Сопротивление" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='set_metering(this)'><option value='mili'>мОм</option><option selected=\"selected\" value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                         //TODO: Гальванометр
                     case "Гальванометр":
+                        ELEMENTS.add(cell.id);
+
                         str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='R' onchange='validate_values(this)'>" + "Сопротивление" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='set_metering(this)'><option value='mili'>мОм</option><option selected=\"selected\" value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
@@ -595,7 +607,7 @@ function searchClothestP(start){
 } //примерно O(cnt(N) * 10) <= 100 операций
 
 function findPPairs(){
-    //console.log(ELEMENTS);
+    console.log('this is elements ' + ELEMENTS);
     let elementTriples = new Map();
     let triplePairs = new Set();
     ELEMENTS.forEach((value) => {
@@ -642,6 +654,18 @@ function compareGroupPriority(a, b){
     return -1;
 }
 
+function countGroupR(group){
+    let left = group[0];
+    let right = group[1];
+    let leftR = 0;
+    let rightR = 0;
+    for(let i = 0; i < left.length; i++){
+        let r = document.getElementById('button_' + left[i]).getAttribute('r');
+        if(r !== null) leftR += parseInt(r);
+    }
+    console.log(leftR);
+}
+
 /*
 Формирует для каждой пары узлов списки элементов по обе стороны от них и определяет приоритетность расчета всех углов.
  */
@@ -658,6 +682,10 @@ function handlePairGroups(){
     const sortedArrayPairs = arrayPairs.sort((a, b) => compareGroupPriority(a, b));
     doublePairs = new Map(sortedArrayPairs);
     console.log(doublePairs);
+    for (let [key, value] of doublePairs){
+        countGroupR(value);
+        break;
+    }
 }
 /*
 Расчет цепи.
