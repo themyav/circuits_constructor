@@ -488,7 +488,7 @@ function toMatrix(){
 Поиск двух ближайших узлов к элементу
  */
 function searchClothestP(start){
-    console.log("let's search triples for " + start);
+    //console.log("let's search triples for " + start);
     let used = [];
     let triples = [];
     let sources = [];
@@ -507,7 +507,7 @@ function searchClothestP(start){
         let src = cell.getAttribute('src');
         //нашли узел
         if(src.match(regex) != null){
-            console.log("I found triple " + c);
+            //console.log("I found triple " + c);
             triples.push(c);
             continue;
         }
@@ -530,32 +530,60 @@ function searchClothestP(start){
             triples[0] = triples[1];
             triples[1] = t;
         }
-        return triples;
+        return [triples, used]; //чтобы функция была мультифункциональна, вернем массив использованных эл-тов.
     }
     else return null;
 
-}
+} //примерно O(cnt(N) * 10) <= 100 операций
 
-/*
-Расчет цепи.
- */
-function countChain(){
-    console.log(ELEMENTS);
+function findPPairs(){
+    //console.log(ELEMENTS);
     let elementTriples = new Map();
     let triplePairs = new Set();
     ELEMENTS.forEach((value) => {
         let c = id_num(value);
-        console.log(c);
+        //console.log(c);
         let pairs = searchClothestP(c);
         if(pairs !== null){
-            let p = (pairs[0].toString() + '_' + pairs[1].toString());
+            let p = (pairs[0][0].toString() + '_' + pairs[0][1].toString());
             if(elementTriples.get(p) === undefined) elementTriples.set(p, []);
             elementTriples.get(p).push(c);
-            triplePairs.add(p); //строка, так как в js
+            triplePairs.add(p);
         }
     });
-    console.log(elementTriples);
-    console.log(triplePairs);
+    return elementTriples;
+}
+
+/*
+Для элементов, привязанных к одним узлам, проверим, соединены они последовательно или нет.
+Правильная реализация --- СНМ, но сейчас будет опираться на то, что групп не больше двух.
+ */
+function formPairGroups(pairElements){
+    let usedResult = searchClothestP(pairElements[0])[1];
+    let firstGroup = [pairElements[0]]; //есть путь до 1 элемента
+    let secondGroup = []; //нет пути до 1 элемента
+    for(let i = 1; i < pairElements.length; i++){
+        let currentElement = pairElements[i];
+        if(usedResult[currentElement]) {
+            firstGroup.push(currentElement);
+        }
+        else secondGroup.push(currentElement);
+    }
+    return [firstGroup, secondGroup];
+}
+/*
+Расчет цепи.
+ */
+function countChain(){
+    let elementPairs = findPPairs();
+    console.log(elementPairs);
+    for (let [key, value] of elementPairs) {
+        let groups = formPairGroups(value);
+        console.log(groups);
+        //console.log(key + " = " + value);
+    }
+    //console.log(findPPairs());
+    //console.log(triplePairs);
 }
 
 /*
