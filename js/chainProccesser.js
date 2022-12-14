@@ -629,17 +629,41 @@ function formPairGroups(pairElements){
     }
     return [firstGroup, secondGroup];
 }
+
+function compareGroupPriority(a, b){
+    let aCount = 0;
+    let bCount = 0;
+    if(a[1][0].length === 0) aCount++;
+    if(a[1][1].length === 0) aCount++;
+    if(b[1][0].length === 0) bCount++;
+    if(b[1][1].length === 0) bCount++;
+    if(aCount > bCount) return 1;
+    if(aCount === bCount) return 0;
+    return -1;
+}
+
+/*
+Формирует для каждой пары узлов списки элементов по обе стороны от них и определяет приоритетность расчета всех углов.
+ */
+function handlePairGroups(){
+    let elementPairs = findPPairs();
+    let doublePairs = new Map();
+    console.log(elementPairs);
+    for (let [key, value] of elementPairs) {
+        let groups = formPairGroups(value);
+        //console.log(groups);
+        doublePairs.set(key, groups);
+    }
+    const arrayPairs = [... doublePairs];
+    const sortedArrayPairs = arrayPairs.sort((a, b) => compareGroupPriority(a, b));
+    doublePairs = new Map(sortedArrayPairs);
+    console.log(doublePairs);
+}
 /*
 Расчет цепи.
  */
 function countChain(){
-    let elementPairs = findPPairs();
-    console.log(elementPairs);
-    for (let [key, value] of elementPairs) {
-        let groups = formPairGroups(value);
-        console.log(groups);
-        //console.log(key + " = " + value);
-    }
+    handlePairGroups();
     //console.log(findPPairs());
     //console.log(triplePairs);
 }
