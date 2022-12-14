@@ -77,24 +77,13 @@ function add_to_directory(e) {
     if (e.getAttribute("id") === "project_description") {
         where_to_add.innerHTML = "Здесь будет красивое опсание нашего проекта, возможности приложение и тд";
     } else if (e.getAttribute("id") === "elements_description") {
-
-        //Версия с навами
-        let start_table = "<div class='wrapper'><nav id='only_buttons'><ul>";
-        let end_table = "</ul></nav></div><table  id='only_description' ></table></td></tr></table>";
+        let start_table = "<div id='only_buttons' style='z-index: 2; position: absolute;'><table><tr><td>";
+        let end_table = "</td></tr></table></div><div id='only_description' style='width: 700px; z-index: 1; position: absolute; left: 225px; top: 90px;'></div></td></tr></table>";
         let button = "";
         for (let pair of APPLIANCES.entries()) {
-            button += "<li><button src='" + pair[1] + "' class='elements_description' onclick='add_description(this)'>" + pair[0] + "</button></li>";
+            button += "<div style='display: flex'><button src='" + pair[1] + "' class='elements_description' onclick='add_description(this)'>" + pair[0] + "</button></div><br>";
         }
         where_to_add.innerHTML = start_table + button + end_table;
-
-        //Версия с таблицей
-        // let start_table = "<table id='everything'><tr><td><table id='only_buttons'><tr>";
-        // let end_table = "</tr></table></td><td><table  id='only_description' ></table></td></tr></table>";
-        // let button = "";
-        // for (let pair of APPLIANCES.entries()) {
-        //     button += "<tr><td><button src='" + pair[1] + "' class='elements_description' onclick='add_description(this)'>" + pair[0] + "</button></td></tr>";
-        // }
-        // where_to_add.innerHTML = start_table + button + end_table;
     } else if (e.getAttribute("id") === "instruction") {
         where_to_add.innerHTML = "Здесь будут простые инстуркуции по пострению";
     }
@@ -110,7 +99,7 @@ function add_description(e) {
         let xhr = new XMLHttpRequest();
         xhr.open('GET', "resource/description/" + element + '.html');
         xhr.onload = function () {
-            document.getElementById("only_description").innerHTML = "<tr><td>" + picture + "<br><div class='text_elements_description'>" + xhr.response + "</div</td></tr>";
+            document.getElementById("only_description").innerHTML = "<div>" + picture + "</div><br><div class='text_elements_description'>" + xhr.response + "</div>";
         }
         xhr.send();
     }

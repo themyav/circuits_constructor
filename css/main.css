@@ -297,7 +297,7 @@ button[id*="scale"]:hover {
 
     /*  Установаем ширину окна  */
     width: 100%;
-    max-width: 700px;
+    max-width: 1000px;
 
 
     /*  Установаем длину окна  */
@@ -377,7 +377,7 @@ button[id*="scale"]:hover {
     font-family: "Nunito", sans-serif;
     font-weight: 600;
     background-color: aliceblue;
-    width: 100px;
+    width: 125px;
     height: 50px;
     border: 0;
 }
@@ -395,15 +395,9 @@ button {
 }
 
 .text_elements_description{
-    font-size: large;
+    font-size: medium;
     font-family: "Nunito", sans-serif;
     font-weight: 600;
 }
 
 /*Для бокового меню с элементами*/
-
-.wrapper {
-    display: flex;
-    width: 100%;
-    align-items: stretch;
-}
