@@ -654,16 +654,50 @@ function compareGroupPriority(a, b){
     return -1;
 }
 
-function countGroupR(group){
-    let left = group[0];
-    let right = group[1];
-    let leftR = 0;
-    let rightR = 0;
-    for(let i = 0; i < left.length; i++){
-        let r = document.getElementById('button_' + left[i]).getAttribute('r');
-        if(r !== null) leftR += parseInt(r);
+/*
+Принимает массив ЯЧЕЕК и заменяет его на массив каких-то данных о ячейке.
+Например, сопротивление.
+ */
+function cellArrayToNumber(array, atr){
+    let numberArray = [];
+    for(let i = 0; i < array.length; i++){
+        let val = document.getElementById('button_' + array[i]).getAttribute(atr);
+        if(val !== null) numberArray.push(parseFloat(val)); //вообще если атрибута нет, то это ошибка
     }
-    console.log(leftR);
+    return numberArray;
+}
+
+/*
+Считает последовательное соединение относительно массива ЧИСЕЛ
+ */
+function countSerial(array){
+    let R = 0;
+    for(let i = 0; i < array.length; i++){
+        R += array[i];
+    }
+    return R;
+}
+
+/*
+Считает параллельное соединение относительно массива ЧИСЕЛ
+ */
+function countParallel(array){
+    let R = 0;
+    for(let i = 0; i < array.length; i++){
+        R += 1/array[i];
+    }
+    return 1/R;
+}
+
+/*
+Считает сопротивление для параллельного блока
+ */
+function countGroupR(group){
+    let left = cellArrayToNumber(group[0], 'r');
+    let right = cellArrayToNumber(group[1], 'r');
+    let leftR = countSerial(left);
+    let rightR = countSerial(right);
+    return countParallel([leftR, rightR]);
 }
 
 /*
@@ -683,7 +717,8 @@ function handlePairGroups(){
     doublePairs = new Map(sortedArrayPairs);
     console.log(doublePairs);
     for (let [key, value] of doublePairs){
-        countGroupR(value);
+        let R = countGroupR(value);
+        console.log(R);
         break;
     }
 }
