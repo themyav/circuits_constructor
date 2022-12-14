@@ -77,13 +77,24 @@ function add_to_directory(e) {
     if (e.getAttribute("id") === "project_description") {
         where_to_add.innerHTML = "Здесь будет красивое опсание нашего проекта, возможности приложение и тд";
     } else if (e.getAttribute("id") === "elements_description") {
-        let start_table = "<table id='everything'><tr><td><table id='only_buttons'><tr>";
-        let end_table = "</tr></table></td><td><table  id='only_description' ></table></td></tr></table>";
+
+        //Версия с навами
+        let start_table = "<nav id='only_buttons'>";
+        let end_table = "</nav><table  id='only_description' ></table></td></tr></table>";
         let button = "";
         for (let pair of APPLIANCES.entries()) {
-            button += "<tr><td><button src='" + pair[1] + "' class='elements_description' onclick='add_description(this)'>" + pair[0] + "</button></td></tr>";
+            button += "<div><button src='" + pair[1] + "' class='elements_description' onclick='add_description(this)'>" + pair[0] + "</button></div>";
         }
         where_to_add.innerHTML = start_table + button + end_table;
+
+        //Версия с таблицей
+        // let start_table = "<table id='everything'><tr><td><table id='only_buttons'><tr>";
+        // let end_table = "</tr></table></td><td><table  id='only_description' ></table></td></tr></table>";
+        // let button = "";
+        // for (let pair of APPLIANCES.entries()) {
+        //     button += "<tr><td><button src='" + pair[1] + "' class='elements_description' onclick='add_description(this)'>" + pair[0] + "</button></td></tr>";
+        // }
+        // where_to_add.innerHTML = start_table + button + end_table;
     } else if (e.getAttribute("id") === "instruction") {
         where_to_add.innerHTML = "Здесь будут простые инстуркуции по пострению";
     }
@@ -92,8 +103,6 @@ function add_to_directory(e) {
 
 function add_description(e) {
     let element = e.getAttribute("src").split("/")[2];
-    //let description = "";
-
 
     let picture = "<img style='width: 200px; height: 200px;' src=\"" + e.getAttribute("src") + "\" alt=\"альтернативный текст\">";
 

@@ -157,6 +157,7 @@ function addElementButton() {
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Конденсатор":
+                        ELEMENTS.add(cell);
                         str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='C' onchange='validate_values(this)'>" + "Ёмкость" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='set_metering(this)'><option value='pica'>пФ</option><option value='nano'>нФ</option><option value='mikro'>мкФ</option><option selected=\"selected\" value='deca'>Ф</option></select></td></tr>"
                             + "<tr><td><input type=\"input\" class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "Сопротивление" + "</td>" +
@@ -384,28 +385,76 @@ function fieldChange() {
             //Скорее всего надо будтет просто из кнопки вытаскивать значения и писать их в div либо просто сделать input disabled
             switch (element) {
                 case "Источник переменного тока":
-                    div.innerHTML = "<table>" + "<tr><td><div class='show_U_and_R'>" + "Постоянное напряжение" + "</td></tr>" + "<tr><td><div class='show_U_and_R'>" + "Амплитуда" + "</td></tr>" + "<tr><td><div class='show_U_and_R'>" + "Частота" + "</td></tr>" + "<tr><td><div class='show_U_and_R'>" + "Фаза" + "</td></tr>" + "</table>";
+                    div.innerHTML = "<table>"
+                        + "<tr><td><div class='show_U_and_R'>" + "ЭДС - " + button.getAttribute("e").toString() + "</td></tr>"
+                        + "<tr><td><div class='show_U_and_R'>" + "Внутреннее сопротивление - " + button.getAttribute("r").toString() + "</td></tr>"
+                        + "<tr><td><div class='show_U_and_R'>" + "Амплитуда - " + button.getAttribute("a").toString() + "</td></tr>"
+                        + "<tr><td><div class='show_U_and_R'>" + "Частота - " + button.getAttribute("nu").toString() + "</td></tr>"
+                        + "<tr><td><div class='show_U_and_R'>" + "Фаза - " + button.getAttribute("fi").toString() + "</td></tr>"
+                        + "</table>";
                     break;
                 case "Источник постоянного тока":
-                    div.innerHTML = "<table>" + "<tr><td><div class='show_U_and_R'>" + "Ток" + "</td></tr>" + "</table>";
+                    div.innerHTML = "<table>"
+                        + "<tr><td><div class='show_U_and_R'>" + "ЭДС - " + button.getAttribute("e").toString() + "</td></tr>"
+                        + "<tr><td><div class='show_U_and_R'>" + "Внутреннее сопротивление - " + button.getAttribute("r").toString() + "</td></tr>"
+                        + "</table>";
                     break;
                 case "Двигатель постоянного тока":
-                    div.innerHTML = "<table>" + "<tr><td><div class='show_U_and_R'>" + "Номинальное напряжение" + "</td></tr>" + "<tr><td><div class='show_U_and_R'>" + "Скорость холостого тока" + "</td></tr>" + "<tr><td><div class='show_U_and_R'>" + "Пусковой ток" + "</td></tr>" + "</table>";
+                    div.innerHTML = "<table>"
+                        + "<tr><td><div class='show_U_and_R'>" + "ЭДС - " + button.getAttribute("e").toString() + "</td></tr>"
+                        + "<tr><td><div class='show_U_and_R'>" + "Внутреннее сопротивление - " + button.getAttribute("r").toString() + "</td></tr>"
+                        + "<tr><td><div class='show_U_and_R'>" + "Скорость холостого тока - " + button.getAttribute("v").toString() + "</td></tr>"
+                        + "</table>";
                     break;
                 case "Источник напряжения":
-                    div.innerHTML = "<table>" + "<tr><td><div class='show_U_and_R'>" + "Напряжение" + "</td></tr>" + "</table>";
+                    div.innerHTML = "<table>"
+                        + "<tr><td><div class='show_U_and_R'>" + "Напряжение - " + button.getAttribute("u").toString() + "</td></tr>"
+                        + "<tr><td><div class='show_U_and_R'>" + "Внутреннее сопротивление - " + button.getAttribute("r").toString() + "</td></tr>"
+                        + "</table>";
                     break;
                 case "Конденсатор":
-                    div.innerHTML = "<table>" + "<tr><td><div class='show_U_and_R'>" + "Ёмкость" + "</td></tr>" + "</table>";
+                    div.innerHTML = "<table>"
+                        + "<tr><td><div class='show_U_and_R'>" + "Ёмкость - " + button.getAttribute("c").toString() + "</td></tr>"
+                        + "<tr><td><div class='show_U_and_R'>" + "Внутреннее сопротивление - " + button.getAttribute("r").toString() + "</td></tr>"
+                        + "</table>";
                     break;
                 case "Катушка индуктивности":
-                    div.innerHTML = "<table>" + "<tr><td><div class='show_U_and_R'>" + "Индуктивность" + "</td></tr>" + "</table>";
+                    div.innerHTML = "<table>"
+                        + "<tr><td><div class='show_U_and_R'>" + "Индуктивнсоть - " + button.getAttribute("l").toString() + "</td></tr>"
+                        + "<tr><td><div class='show_U_and_R'>" + "Внутреннее сопротивление - " + button.getAttribute("r").toString() + "</td></tr>"
+                        + "</table>";
                     break;
                 case "Лампа":
-                    div.innerHTML = "<table>" + "<tr><td><div class='show_U_and_R'>" + "Напряжение" + "</td></tr>" + "<tr><td><div class='show_U_and_R'>" + "Мощность" + "</td></tr>" + "<tr><td><div class='show_U_and_R'>" + "Уровень нагрузки" + "</td></tr>" + "</table>";
+                    div.innerHTML = "<table>"
+                        + "<tr><td><div class='show_U_and_R'>" + "Напряжение - " + button.getAttribute("u").toString() + "</td></tr>"
+                        + "<tr><td><div class='show_U_and_R'>" + "Сопротивление - " + button.getAttribute("r").toString() + "</td></tr>"
+                        + "<tr><td><div class='show_U_and_R'>" + "Мощность - " + button.getAttribute("p").toString() + "</td></tr>"
+                        + "</table>";
                     break;
                 case "Резистор":
-                    div.innerHTML = "<table>" + "<tr><td><div class='show_U_and_R'>" + "Сопротивление" + "</td></tr>" + "</table>";
+                    div.innerHTML = "<table>"
+                        + "<tr><td><div class='show_U_and_R'>" + "Сопротивление - " + button.getAttribute("r").toString() + "</td></tr>"
+                        + "</table>";
+                    break;
+                case "Вольтметр":
+                    div.innerHTML = "<table>"
+                        + "<tr><td><div class='show_U_and_R'>" + "Сопротивление - " + button.getAttribute("r").toString() + "</td></tr>"
+                        + "</table>";
+                    break;
+                case "Реостат":
+                    div.innerHTML = "<table>"
+                        + "<tr><td><div class='show_U_and_R'>" + "Сопротивление - " + button.getAttribute("r").toString() + "</td></tr>"
+                        + "</table>";
+                    break;
+                case "Амперметр":
+                    div.innerHTML = "<table>"
+                        + "<tr><td><div class='show_U_and_R'>" + "Сопротивление - " + button.getAttribute("r").toString() + "</td></tr>"
+                        + "</table>";
+                    break;
+                case "Омметр":
+                    div.innerHTML = "<table>"
+                        + "<tr><td><div class='show_U_and_R'>" + "Сопротивление - " + button.getAttribute("r").toString() + "</td></tr>"
+                        + "</table>";
                     break;
             }
         }
