@@ -12,8 +12,6 @@ const ENGINE = "resource/element/battery_of_elements/battery_of_elements.png";
 const GENERATOR = "resource/element/generator/generator.png";
 const DESK = "resource/element/desk.png";
 
-
-
 const APPLIANCES = new Map([["Амперметр", "resource/element/ammeter/ammeter.png"],
     ["Батарея элементов", "resource/element/battery_of_elements/battery_of_elements.png"],
     ["Конденсатор", "resource/element/capacitor/capacitor.png"],
@@ -33,6 +31,12 @@ const APPLIANCES = new Map([["Амперметр", "resource/element/ammeter/amm
 const S = 'S'
 const P = 'P'
 const R = 'R'
+
+// TODO добавить в addElement все необходимое, например конденсатор
+// Массив ячеек, из которых мы намерены обходить цепь
+let ELEMENTS = new Set();
+//Массив ячеек, которые будут посчитаны последовательным соединением
+let SERIAL = [];
 
 /*
 Ищет все источники питания в цепи
@@ -143,38 +147,46 @@ function addElementButton() {
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Конденсатор":
+                        ELEMENTS.add(cell.id);
                         str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='C' onchange='validate_values(this)'>" + "Ёмкость" + "</td></tr>"
                             + "<tr><td><input type=\"input\" class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "Сопротивление" + "</td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Катушка индуктивности":
+                        ELEMENTS.add(cell.id);
                         str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='L' onchange='validate_values(this)'>" + "Индуктивность" + "</td></tr>"
                             + "<tr><td><input type=\"input\" class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "Сопротивление" + "</td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Лампа":
+                        ELEMENTS.add(cell.id);
                         str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='U' onchange='validate_values(this)'>" + "Напряжение" + "</td></tr>"
                             + "<tr><td><input type=\"input\" class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "Сопротивление" + "</td></tr>"
                             + "<tr><td><input type=\"input\" class='show_U_and_R' unit='P' onchange='validate_values(this)'>" + "Мощность" + "</td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Резистор":
+                        ELEMENTS.add(cell.id);
                         str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='R' onchange='validate_values(this)'>" + "Сопротивление" + "</td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Вольтметр":
+                        ELEMENTS.add(cell.id);
                         str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='R' onchange='validate_values(this)'>" + "Сопротивление" + "</td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Реостат":
+                        ELEMENTS.add(cell.id);
                         str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='R' onchange='validate_values(this)'>" + "Сопротивление" + "</td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Амперметр":
+                        ELEMENTS.add(cell.id);
                         str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='R' onchange='validate_values(this)'>" + "Сопротивление" + "</td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Гальванометр":
+                        ELEMENTS.add(cell.id);
                         str += "<tr><td><input type=\"input\" class='show_U_and_R' unit='R' onchange='validate_values(this)'>" + "Сопротивление" + "</td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
@@ -364,38 +376,42 @@ function current_direction(cell) {
 }
 
 
-function process_up(cell, c, dir, q, used) {
+function process_up(cell, c, q, used, dir=null) {
     if (has_up(cell) && !used[id_up(c)] && has_down(id_cell(id_up(c)))) {
         if (id_cell(id_up(c)).getAttribute('src') !== OPEN_KEY) {
-            q.enqueue([id_up(c), dir]);
+            if(dir !== null) q.enqueue([id_up(c), dir]);
+            else q.enqueue(id_up(c));
             used[id_up(c)] = true;
         }
     }
 }
 
-function process_down(cell, c, dir, q, used) {
+function process_down(cell, c, q, used, dir=null) {
     if (has_down(cell) && !used[id_down(c)] && has_up(id_cell(id_down(c)))) {
         if (id_cell(id_down(c)).getAttribute('src') !== OPEN_KEY) {
-            q.enqueue([id_down(c), dir]);
+            if(dir !== null) q.enqueue([id_down(c), dir]);
+            else q.enqueue(id_down(c));
             used[id_down(c)] = true;
         }
     }
 }
 
 
-function process_left(cell, c, dir, q, used) {
+function process_left(cell, c, q, used, dir=null) {
     if (has_left(cell) && !used[id_left(c)] && has_right(id_cell(id_left(c)))) {
         if (id_cell(id_left(c)).getAttribute('src') !== OPEN_KEY) {
-            q.enqueue([id_left(c), dir]);
+            if(dir !== null) q.enqueue([id_left(c), dir]);
+            else q.enqueue(id_left(c));
             used[id_left(c)] = true;
         }
     }
 }
 
-function process_right(cell, c, dir, q, used) {
+function process_right(cell, c, q, used, dir=null) {
     if (has_right(cell) && !used[id_right(c)] && has_left(id_cell(id_right(c)))) {
         if (id_cell(id_right(c)).getAttribute('src') !== OPEN_KEY) {
-            q.enqueue([id_right(c), dir]);
+            if(dir !== null) q.enqueue([id_right(c), dir]);
+            else q.enqueue(id_right(c));
             used[id_right(c)] = true;
         }
     }
@@ -414,6 +430,10 @@ function toMatrix(){
     }
 
     let index = 0;
+    let x_min = N, y_min = M;
+    let x_max = 0, y_max = 0;
+
+
     for (let i = 0; i < matrix.length; i++) {
         for (let j = 0; j < matrix.length; j++) {
 
@@ -443,19 +463,136 @@ function toMatrix(){
                 else matrix[i][j] = 'R';
             }
 
+            //пересчитаем размеры рабочего пространства, чтобы эффективней с ним работать
+            if(src !== DESK){
+                x_max = Math.max(x_max, i);
+                y_max = Math.max(y_max, j);
+                x_min = Math.min(x_min, i);
+                y_min = Math.min(y_min, j);
+            }
+
             index++;
         }
     }
+    let small_matrix = []
+    for(let i = x_min; i < x_max; i++){
+        for(let j = y_min; j < M; j++){
 
-    console.log(matrix);
+        }
+    }
+    console.log(x_min, y_min, x_max, y_max);
 }
 
+
+/*
+Поиск двух ближайших узлов к элементу
+ */
+function searchClothestP(start){
+    //console.log("let's search triples for " + start);
+    let used = [];
+    let triples = [];
+    let sources = [];
+
+    const regex = /triple/;
+    for (let i = 0; i <= N * M; i++) used.push(false);
+    let q = new Queue();
+
+    q.enqueue(start);
+    used[start] = true;
+
+    while (!q.isEmpty) {
+        let c = q.peek();
+        q.dequeue();
+        let cell = id_cell(c);
+        let src = cell.getAttribute('src');
+        //нашли узел
+        if(src.match(regex) != null){
+            //console.log("I found triple " + c);
+            triples.push(c);
+            continue;
+        }
+        if(src === SOURCE || src === BATTERY){ //TODO добавить сюда проверку на другие источники тока.
+            sources.push(c);
+        }
+        process_up(cell, c, q, used);
+        process_down(cell, c, q, used);
+        process_left(cell, c, q, used);
+        process_right(cell, c, q, used);
+    }
+    if(sources.length !== 0){
+        SERIAL.push(start); //есть эдс -> считаем последовательным
+        return null;
+    }
+
+    if(triples.length === 2){
+        if(triples[0] > triples[1]){ //меняем местами, чтобы пара была отсортирована
+            let t = triples[0];
+            triples[0] = triples[1];
+            triples[1] = t;
+        }
+        return [triples, used]; //чтобы функция была мультифункциональна, вернем массив использованных эл-тов.
+    }
+    else return null;
+
+} //примерно O(cnt(N) * 10) <= 100 операций
+
+function findPPairs(){
+    //console.log(ELEMENTS);
+    let elementTriples = new Map();
+    let triplePairs = new Set();
+    ELEMENTS.forEach((value) => {
+        let c = id_num(value);
+        //console.log(c);
+        let pairs = searchClothestP(c);
+        if(pairs !== null){
+            let p = (pairs[0][0].toString() + '_' + pairs[0][1].toString());
+            if(elementTriples.get(p) === undefined) elementTriples.set(p, []);
+            elementTriples.get(p).push(c);
+            triplePairs.add(p);
+        }
+    });
+    return elementTriples;
+}
+
+/*
+Для элементов, привязанных к одним узлам, проверим, соединены они последовательно или нет.
+Правильная реализация --- СНМ, но сейчас будет опираться на то, что групп не больше двух.
+ */
+function formPairGroups(pairElements){
+    let usedResult = searchClothestP(pairElements[0])[1];
+    let firstGroup = [pairElements[0]]; //есть путь до 1 элемента
+    let secondGroup = []; //нет пути до 1 элемента
+    for(let i = 1; i < pairElements.length; i++){
+        let currentElement = pairElements[i];
+        if(usedResult[currentElement]) {
+            firstGroup.push(currentElement);
+        }
+        else secondGroup.push(currentElement);
+    }
+    return [firstGroup, secondGroup];
+}
+/*
+Расчет цепи.
+ */
+function countChain(){
+    let elementPairs = findPPairs();
+    console.log(elementPairs);
+    for (let [key, value] of elementPairs) {
+        let groups = formPairGroups(value);
+        console.log(groups);
+        //console.log(key + " = " + value);
+    }
+    //console.log(findPPairs());
+    //console.log(triplePairs);
+}
 
 /*
 Вызывается при нажатии на кнопку "пуск". Имитирует течение тока в цепи.
  */
 
 function runChain(e) {
+    countChain();
+    return;
     let MESSAGE = document.getElementById('message');
 
     if (!is_running) {
@@ -471,7 +608,7 @@ function runChain(e) {
         MESSAGE.innerText = 'Начинаю эмуляцию';
         MESSAGE.style.color = 'black';
 
-        toMatrix();
+        //toMatrix();
 
         let used = []
         for (let i = 0; i <= N * M; i++) used.push(false);
