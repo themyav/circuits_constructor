@@ -79,11 +79,11 @@ function add_to_directory(e) {
     } else if (e.getAttribute("id") === "elements_description") {
 
         //Версия с навами
-        let start_table = "<nav id='only_buttons'>";
-        let end_table = "</nav><table  id='only_description' ></table></td></tr></table>";
+        let start_table = "<div class='wrapper'><nav id='only_buttons'><ul>";
+        let end_table = "</ul></nav></div><table  id='only_description' ></table></td></tr></table>";
         let button = "";
         for (let pair of APPLIANCES.entries()) {
-            button += "<div><button src='" + pair[1] + "' class='elements_description' onclick='add_description(this)'>" + pair[0] + "</button></div>";
+            button += "<li><button src='" + pair[1] + "' class='elements_description' onclick='add_description(this)'>" + pair[0] + "</button></li>";
         }
         where_to_add.innerHTML = start_table + button + end_table;
 

@@ -399,3 +399,11 @@ button {
     font-family: "Nunito", sans-serif;
     font-weight: 600;
 }
+
+/*Для бокового меню с элементами*/
+
+.wrapper {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+}
