@@ -99,9 +99,9 @@ function add_description(e) {
 
     let inBody = function () {
         let xhr = new XMLHttpRequest();
-        xhr.open('GET', "resource/description/"+ element + '.html');
+        xhr.open('GET', "resource/description/" + element + '.html');
         xhr.onload = function () {
-            document.getElementById("only_description").innerHTML = "<tr><td>" + picture + "<br><p class='text_elements_description'>" + xhr.response + "</p></td></tr>";
+            document.getElementById("only_description").innerHTML = "<tr><td>" + picture + "<br><div class='text_elements_description'>" + xhr.response + "</div</td></tr>";
         }
         xhr.send();
     }
