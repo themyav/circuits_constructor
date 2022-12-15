@@ -197,42 +197,43 @@ function chooseElement(cell) {
 function switchMode(shown, hidden) {
     let message = document.getElementById('message');
     if (shown === 'buildingMode') {
-        console.log(document.cookie);
+        //console.log(document.cookie);
         MODE = WORK;
         message.innerText = 'Вы в режиме запуска';
         startWorkingMode();
+        set_old_values();
 
     } else {
         MODE = BUILD;
         for (let i = 0; i < M * N; i++) document.getElementById('img_' + i.toString()).style.filter = '';
         message.innerText = 'Вы в режиме строительства';
         message.style.color = 'black';
-
     }
-    setCookie()
+    //setCookie()
     document.getElementById(hidden).style.display = 'block';
     document.getElementById(shown).style.display = 'none';
     return false;
 }
 
-// let class_cell = document.getElementsByClassName("gallery__img")
-// for (let i = 0; i < N * M; i++) {
-//     console.log(class_cell[i]);
-//     class_cell[i].onmouseover = function (e) {
-//         console.log("gallery is touched");
-//         let id = e.id.split("_")[1]
-//         let button = document.getElementById("button_" + id);
-//         if (button !== null && button !== undefined) {
-//             button.style.backgroundColor = "black";
-//         }
-//     }
-// }
-//
-// $(".cell").onmouseenter(function (e){
-//     console.log("gallery is touched");
-//     let id = e.id.split("_")[1]
-//     let button = document.getElementById("button_" + id);
-//     if (button !== null && button !== undefined) {
-//         button.style.backgroundColor = "lightpink";
-//     }
-// });
+
+function set_old_values() {
+    console.log(document.cookie);
+    let arr_of_inputs = document.cookie.split("/")
+    for (let i = 0; i < arr_of_inputs.length; i++) {
+        let attr = arr_of_inputs[i].split(',');
+        let div = document.getElementById(attr[0]);
+        if (div !== null) {
+            let tr_arr = div.children[0].children[0].children
+            for (let j = 0; j < tr_arr.length; j++) {
+                let input = tr_arr[j].children[0].children[0];
+                let select = tr_arr[j].children[1].children[0];
+                if (input.getAttribute('unit').toString().trim() === attr[1].toString().trim()) {
+                    console.log(attr[3]);
+                    input.value = attr[2];
+                    select.value = attr[3].toString().trim();
+                }
+            }
+        }
+    }
+    document.cookie = "";
+}
