@@ -760,7 +760,7 @@ function countParallelR(array){
 Считает силу тока по закону Ома для полной цепи
  */
 function countFullCircuitI(R, r, e){
-    return e/(R + r).toFixed(5);
+    return (e/(R + r)).toFixed(5);
 }
 
 /*
@@ -836,8 +836,8 @@ function handlePairGroups(){
 
     //считаем полную силу тока в цепи
     let source = document.getElementById('button_' + id_num(current_source[0].id));
-    let r = source.getAttribute('r');
-    let e = source.getAttribute('e')
+    let r = parseFloat(source.getAttribute('r'));
+    let e = parseFloat(source.getAttribute('e'));
     if(r !== null && e !== null){
         let finalI = countFullCircuitI(finalR, r, e);
         resultMap.set('Сила тока в цепи', [finalI, 'A']);
