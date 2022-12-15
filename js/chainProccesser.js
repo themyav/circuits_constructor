@@ -37,6 +37,7 @@ const R = 'R'
 let ELEMENTS = new Set();
 //Массив ячеек, которые будут посчитаны последовательным соединением
 let SERIAL = [];
+let USED_TR = [];
 
 /*
 Ищет все источники питания в цепи
@@ -622,7 +623,7 @@ function searchClothestP(start){
         let cell = id_cell(c);
         let src = cell.getAttribute('src');
         //нашли узел
-        if(src.match(regex) != null){
+        if(src.match(regex) != null && !USED_TR[c]){
             //console.log("I found triple " + c);
             triples.push(c);
             continue;
@@ -636,7 +637,10 @@ function searchClothestP(start){
         process_right(cell, c, q, used);
     }
     if(sources.length !== 0){
+        //TODO is it okay to delete through iteration?
+        console.log('found source, delete ' + id_str(start));
         SERIAL.push(start); //есть эдс -> считаем последовательным
+        ELEMENTS.delete(id_str(start));
         return null;
     }
 
@@ -653,10 +657,11 @@ function searchClothestP(start){
 } //примерно O(cnt(N) * 10) <= 100 операций
 
 function findPPairs(){
-    console.log('this is elements ' + ELEMENTS);
+    console.log(ELEMENTS);
     let elementTriples = new Map();
     let triplePairs = new Set();
     ELEMENTS.forEach((value) => {
+        console.log(value);
         let c = id_num(value);
         //console.log(c);
         let pairs = searchClothestP(c);
@@ -688,6 +693,14 @@ function formPairGroups(pairElements){
     return [firstGroup, secondGroup];
 }
 
+function getGroupNumber(a){
+    console.log(a);
+    let aCount = 0;
+    if(a[0].length === 0) aCount++;
+    if(a[1].length === 0) aCount++;
+    return aCount;
+}
+
 function compareGroupPriority(a, b){
     let aCount = 0;
     let bCount = 0;
@@ -707,8 +720,13 @@ function compareGroupPriority(a, b){
 function cellArrayToNumber(array, atr){
     let numberArray = [];
     for(let i = 0; i < array.length; i++){
-        let val = document.getElementById('button_' + array[i]).getAttribute(atr);
+        let atrContainer = document.getElementById('button_' + array[i]);
+        if(atrContainer === null) atrContainer = id_cell(array[i]); //если нет кнопки, то мы в узле --- достанем значение из него
+        let val = atrContainer.getAttribute(atr);
         if(val !== null) numberArray.push(parseFloat(val)); //вообще если атрибута нет, то это ошибка
+        else{
+            console.log(atrContainer);
+        }
     }
     return numberArray;
 }
@@ -743,35 +761,85 @@ function countGroupR(group){
     let right = cellArrayToNumber(group[1], 'r');
     let leftR = countSerial(left);
     let rightR = countSerial(right);
+    console.log(leftR + ' + ' +  rightR);
     return countParallel([leftR, rightR]);
+}
+
+/*
+Удаляет из списка элементов те, которые уже рассчитаны.
+ */
+function removeGroup(group){
+    for(let i = 0; i < group[0].length; i++){
+        ELEMENTS.delete(id_str(group[0][i]));
+        //console.log(group[0][i]);
+    }
+    for(let i = 0; i < group[1].length; i++){
+        ELEMENTS.delete(id_str(group[1][i]));
+        //console.log(group[1][i]);
+    }
+    //console.log(ELEMENTS);
 }
 
 /*
 Формирует для каждой пары узлов списки элементов по обе стороны от них и определяет приоритетность расчета всех углов.
  */
 function handlePairGroups(){
-    let elementPairs = findPPairs();
-    let doublePairs = new Map();
-    console.log(elementPairs);
-    for (let [key, value] of elementPairs) {
-        let groups = formPairGroups(value);
-        //console.log(groups);
-        doublePairs.set(key, groups);
+    let triplePairs = new Map();
+    let cnt = 0;
+    while (ELEMENTS.size !== 0){
+        let elementPairs = findPPairs();
+        //let doublePairs = new Map();
+        //console.log(elementPairs);
+
+        let groupQueue = new Queue();
+        for (let [key, value] of elementPairs) {
+            let groups = formPairGroups(value);
+            if(getGroupNumber(groups) === 0){
+                groupQueue.enqueue([key, groups]);
+            }
+        }
+        while (!groupQueue.isEmpty){
+            let key = groupQueue.peek()[0];
+            let splitted = key.split('_');
+            //console.log(splitted);
+            let P1 = parseInt(splitted[0]);
+            let P2 = parseInt(splitted[1]);
+            let value = groupQueue.peek()[1]; //тут два массива: левый и правый.
+            groupQueue.dequeue();
+            let R = countGroupR(value).toFixed(5);
+            console.log('my R is ' + R + ' on ' + P1 + ' ' + P2);
+            removeGroup(value);
+            USED_TR[P1] = true;
+            USED_TR[P2] = true;
+            triplePairs.set(P1, P2);
+            id_cell(P1).setAttribute('r', R.toString());
+            ELEMENTS.add(id_str(P1)); //map с ассоциированными значениями?
+        }
+        cnt++;
+        if(cnt === 5) break;
     }
-    const arrayPairs = [... doublePairs];
+
+    let finalR = countSerial(cellArrayToNumber(SERIAL, 'r'));
+    console.log(finalR);
+
+    /*const arrayPairs = [... doublePairs];
     const sortedArrayPairs = arrayPairs.sort((a, b) => compareGroupPriority(a, b));
     doublePairs = new Map(sortedArrayPairs);
     console.log(doublePairs);
+
+    let groupQueue = new Queue();
+
     for (let [key, value] of doublePairs){
         let R = countGroupR(value);
-        console.log(R);
+        console.log('my R is ' + R);
         break;
-    }
+    }*/
 }
 /*
 Расчет цепи.
  */
 function countChain(){
+    for(let i = 0; i < N * M; i++) USED_TR.push(false);
     handlePairGroups();
     //console.log(findPPairs());
     //console.log(triplePairs);
@@ -782,6 +850,8 @@ function countChain(){
  */
 
 function runChain(e) {
+
+
     countChain();
     return;
     let MESSAGE = document.getElementById('message');
@@ -864,12 +934,18 @@ function startWorkingMode() {
     current_key = [];
     current_source = [];
 
+    ELEMENTS = new Set();
+    SERIAL = [];
+    USED_TR = [];
+
     searchKeys();
     searchSource();
-    console.log(current_source);
 
     if (!runnable) {
         console.log("unable to run");
     }
     addElementButton();
+
+
+
 }
