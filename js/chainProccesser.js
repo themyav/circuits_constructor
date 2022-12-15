@@ -125,15 +125,15 @@ function addElementButton() {
 
                 switch (element) {
                     case "Источник переменного тока":
-                        str += "<tr>ЭДС<td><input class_name='ac_source' type=\"text\" class='show_U_and_R' unit='e' onchange='validate_values(this)'/></td>" +
+                        str += "<tr>ЭДС<td><input class_name='ac_source' type=\"text\" class='show_U_and_R' unit='e' onchange='validate_values(this)'value='1600'/></td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мВ</option><option value='deca'>В</option><option value='kilo'>кВ</option><option value='mega'>МВ</option></select></td></tr>"
-                            + "<tr>Внутреннее сопротивление<td><input class_name='ac_source' type=\"text\" class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "</td>" +
+                            + "<tr>Внутреннее сопротивление<td><input class_name='ac_source' type=\"text\" class='show_U_and_R' unit='r' onchange='validate_values(this)'value='800'>" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мОм</option><option value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
-                            + "<tr>Амплитуда<td><input class_name='ac_source' type=\"text\" class='show_U_and_R' unit='a' onchange='validate_values(this)'>" + "</td>" +
+                            + "<tr>Амплитуда<td><input class_name='ac_source' type=\"text\" class='show_U_and_R' unit='a' onchange='validate_values(this)' value='1000'>" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мА</option><option value='deca'>А</option><option value='kilo'>кА</option><option value='mega'>МА</option></select></td></tr>"
-                            + "<tr>Частота<td><input class_name='ac_source' type=\"text\" class='show_U_and_R' unit='nu' onchange='validate_values(this)'>" + "</td>" +
+                            + "<tr>Частота<td><input class_name='ac_source' type=\"text\" class='show_U_and_R' unit='nu' onchange='validate_values(this)'> value='2000'" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='deca'>Гц</option><option value='kilo'>кГц</option><option value='mega'>МГц</option></select></td></tr>"
-                            + "<tr>Фаза<td><input class_name='ac_source' type=\"text\" class='show_U_and_R' unit='fi' onchange='validate_values(this)'>" + "</td>" +
+                            + "<tr>Фаза<td><input class_name='ac_source' type=\"text\" class='show_U_and_R' unit='fi' onchange='validate_values(this)' value='32'>" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='deg'>Градусы</option><option value='rad'>Радианы</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
@@ -159,56 +159,56 @@ function addElementButton() {
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Двигатель":
-                        str += "<tr>ЭДС<td><input type=\"text\" class_name='generator' class='show_U_and_R' unit='e' onchange='validate_values(this)'/></td>" +
+                        str += "<tr>ЭДС<td><input type=\"text\" class_name='generator' class='show_U_and_R' unit='e' onchange='validate_values(this)' value='1600'/></td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мВ</option><option value='deca'>В</option><option value='kilo'>кВ</option><option value='mega'>МВ</option></select></td></tr>"
-                            + "<tr>Внутреннее сопротивление<td><input type=\"text\" class_name='generator' class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "</td>" +
+                            + "<tr>Внутреннее сопротивление<td><input type=\"text\" class_name='generator' class='show_U_and_R' unit='r' onchange='validate_values(this)' value='300'>" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мОм</option><option value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
-                            + "<tr>Скорость холостого тока<td><input type=\"text\" class_name='generator' class='show_U_and_R' uint='v' onchange='validate_values(this)'>" + "</td>" +
+                            + "<tr>Скорость холостого тока<td><input type=\"text\" class_name='generator' class='show_U_and_R' uint='v' onchange='validate_values(this)' value='10'>" + "</td>" +
                             +"<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='m/s'>м/c</option><option value='km/h'>км/ч</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Источник напряжения":
-                        str += "<tr>Напряжение<td><input type=\"text\" class_name='voltage_source' class='show_U_and_R' unit='u' onchange='validate_values(this)'>" + "</td>" +
+                        str += "<tr>Напряжение<td><input type=\"text\" class_name='voltage_source' class='show_U_and_R' unit='u' onchange='validate_values(this)' value='550'>" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мВ</option><option value='deca'>В</option><option value='kilo'>кВ</option><option value='mega'>МВ</option></select></td></tr>"
-                            + "<tr>Внутреннее сопротивление<td><input type=\"text\" class_name='voltage_source' class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "</td>" +
+                            + "<tr>Внутреннее сопротивление<td><input type=\"text\" class_name='voltage_source' class='show_U_and_R' unit='r' onchange='validate_values(this)' value='240'>" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мОм</option><option value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Конденсатор":
                         ELEMENTS.add(cell.id);
-                        str += "<tr>Ёмкость<td><input type=\"text\" class_name='capacitor' class='show_U_and_R' unit='c' onchange='validate_values(this)'>" + "</td>" +
+                        str += "<tr>Ёмкость<td><input type=\"text\" class_name='capacitor' class='show_U_and_R' unit='c' onchange='validate_values(this)' value='130'>" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='pica'>пФ</option><option value='nano'>нФ</option><option value='mikro'>мкФ</option><option value='deca'>Ф</option></select></td></tr>"
-                            + "<tr>Сопротивление<td><input type=\"text\" class_name='capacitor' class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "</td>" +
+                            + "<tr>Сопротивление<td><input type=\"text\" class_name='capacitor' class='show_U_and_R' unit='r' onchange='validate_values(this)' value='250'>" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мОм</option><option value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Катушка индуктивности":
                         ELEMENTS.add(cell.id);
-                        str += "<tr>Индуктивность<td><input type=\"text\" class_name='coil' class='show_U_and_R' unit='l' onchange='validate_values(this)'>" + "</td>" +
+                        str += "<tr>Индуктивность<td><input type=\"text\" class_name='coil' class='show_U_and_R' unit='l' onchange='validate_values(this)' value='80'>" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='nano'>нГн</option><option value='mikro'>мкГн</option><option value='mili'>мГн</option><option value='deca'>Гн</option></select></td></tr>"
-                            + "<tr>Сопротивление<td><input type=\"text\" class_name='coil' class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "</td>" +
+                            + "<tr>Сопротивление<td><input type=\"text\" class_name='coil' class='show_U_and_R' unit='r' onchange='validate_values(this)' value='400'>" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мОм</option><option value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Лампа":
                         ELEMENTS.add(cell.id);
-                        str += "<tr>Напряжение<td><input type=\"text\" class_name='lamp'  class='show_U_and_R' unit='u' onchange='validate_values(this)'>" + "</td>" +
+                        str += "<tr>Напряжение<td><input type=\"text\" class_name='lamp'  class='show_U_and_R' unit='u' onchange='validate_values(this)' value='160'>" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мВ</option><option value='deca'>В</option><option value='kilo'>кВ</option><option value='mega'>МВ</option></select></td></tr>"
                             + "<tr>Сопротивление<td><input type=\"text\" class_name='lamp'  class='show_U_and_R' unit='r' onchange='validate_values(this)' value='500000'>" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мОм</option><option value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
-                            + "<tr>Мощность<td><input type=\"text\" class_name='lamp' class='show_U_and_R' unit='p' onchange='validate_values(this)'>" + "</td>" +
+                            + "<tr>Мощность<td><input type=\"text\" class_name='lamp' class='show_U_and_R' unit='p' onchange='validate_values(this)' value='500'>" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мВт</option><option value='deca'>Вт</option><option value='kilo'>кВТ</option><option value='mega'>МВТ</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Резистор":
                         ELEMENTS.add(cell.id);
-                        str += "<tr>Сопротивление<td><input type=\"text\" class_name='resistor' class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "</td>" +
+                        str += "<tr>Сопротивление<td><input type=\"text\" class_name='resistor' class='show_U_and_R' unit='r' onchange='validate_values(this)' value='120'>" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мОм</option><option value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Предохраниетель":
                         ELEMENTS.add(cell.id);
-                        str += "<tr>Сопротивление<td><input type=\"text\" class_name='fuse' class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "</td>" +
+                        str += "<tr>Сопротивление<td><input type=\"text\" class_name='fuse' class='show_U_and_R' unit='r' onchange='validate_values(this)'value='430'>" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мОм</option><option value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
@@ -220,20 +220,20 @@ function addElementButton() {
                         break;
                     case "Реостат":
                         ELEMENTS.add(cell.id);
-                        str += "<tr>Сопротивление<td><input type=\"text\" class_name='rheostat' class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "</td>" +
+                        str += "<tr>Сопротивление<td><input type=\"text\" class_name='rheostat' class='show_U_and_R' unit='r' onchange='validate_values(this)' value='150'>" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мОм</option><option value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Амперметр":
                         ELEMENTS.add(cell.id);
 
-                        str += "<tr>Сопротивление<td><input type=\"text\" class_name='ammeter' class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "</td>" +
+                        str += "<tr>Сопротивление<td><input type=\"text\" class_name='ammeter' class='show_U_and_R' unit='r' onchange='validate_values(this)' value='150'>" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мОм</option><option value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Омметр":
                         ELEMENTS.add(cell.id);
-                        str += "<tr>Сопротивление<td><input type=\"text\" class_name='ohmmeter' class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "</td>" +
+                        str += "<tr>Сопротивление<td><input type=\"text\" class_name='ohmmeter' class='show_U_and_R' unit='r' onchange='validate_values(this)' value='150'>" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мОм</option><option value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
@@ -330,7 +330,7 @@ function validate_values(e) {
         let button = input.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.getElementsByClassName("button_" + id)[0];
         let select = input.parentElement.parentElement.children[1].getElementsByClassName("show_U_and_R")[0];
 
-        document.cookie += "button:"+button.id+", input:"+input.getAttribute("unit")+", value:"+value+", metering:"+select.value;
+        document.cookie += div.id+", "+input.getAttribute("unit")+", "+value+", "+select.value+"/";
         switch (select.value) {
             case "deca":
                 value *= 1;
