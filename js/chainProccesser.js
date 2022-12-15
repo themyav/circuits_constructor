@@ -112,116 +112,171 @@ function addElementButton() {
         cell = document.getElementById("img_" + i);
         if (cell.getAttribute("free").toString() === "false") {
             let element;
+            let name;
             for (let pair of APPLIANCES.entries()) {
                 if (cell.getAttribute("src") === pair[1]) element = pair[0];
             }
+
             if (element !== undefined) {
-                let button = "<tr><td><button id='button_" + i + "' class='button_" + i + "' is_show='false'  onclick='toggle_U_and_R(this)' onmouseover='light_picture(this, \"on\")' onmouseout='light_picture(this, \"out\")'>" + element + "</button></td></tr>";
+                for (let pair of APPLIANCES.entries()) {
+                    if (element === pair[0]) name = pair[1].split('/')[2];
+                }
+                //console.log(name);
+                let button = "<tr><td><button id='button_" + i + "' class='button_" + i + "' is_show='false' name='" + name + "' onclick='toggle_U_and_R(this)' onmouseover='light_picture(this, \"on\")' onmouseout='light_picture(this, \"out\")'>" + element + "</button></td></tr>";
                 let input = "<tr><td><div id=\"UandR_" + i + "\" class=\"UandR_dropdown\">" + "<table>";
                 str += button + input;
 
                 switch (element) {
                     case "Источник переменного тока":
-                        str += "<tr>ЭДС<td><input type=\"text\" class='show_U_and_R' unit='e' onchange='validate_values(this)'/></td>" +
+                        str += "<tr>ЭДС<td><input class_name='ac_source' type=\"text\" class='show_U_and_R' unit='e' onchange='validate_values(this)'/></td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мВ</option><option value='deca'>В</option><option value='kilo'>кВ</option><option value='mega'>МВ</option></select></td></tr>"
-                            + "<tr>Внутреннее сопротивление<td><input type=\"text\" class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "</td>" +
+                            + "<tr>Внутреннее сопротивление<td><input class_name='ac_source' type=\"text\" class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мОм</option><option value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
-                            + "<tr>Амплитуда<td><input type=\"text\" class='show_U_and_R' unit='a' onchange='validate_values(this)'>" + "</td>" +
+                            + "<tr>Амплитуда<td><input class_name='ac_source' type=\"text\" class='show_U_and_R' unit='a' onchange='validate_values(this)'>" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мА</option><option value='deca'>А</option><option value='kilo'>кА</option><option value='mega'>МА</option></select></td></tr>"
-                            + "<tr>Частота<td><input type=\"text\" class='show_U_and_R' unit='nu' onchange='validate_values(this)'>" + "</td>" +
+                            + "<tr>Частота<td><input class_name='ac_source' type=\"text\" class='show_U_and_R' unit='nu' onchange='validate_values(this)'>" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='deca'>Гц</option><option value='kilo'>кГц</option><option value='mega'>МГц</option></select></td></tr>"
-                            + "<tr>Фаза<td><input type=\"text\" class='show_U_and_R' unit='fi' onchange='validate_values(this)'>" + "</td>" +
+                            + "<tr>Фаза<td><input class_name='ac_source' type=\"text\" class='show_U_and_R' unit='fi' onchange='validate_values(this)'>" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='deg'>Градусы</option><option value='rad'>Радианы</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Источник постоянного тока":
-                        str += "<tr>ЭДС<td><input type=\"text\" class='show_U_and_R' unit='e' onchange='validate_values(this)' value='1600'/></td>" +
+                        str += "<tr>ЭДС<td><input type=\"text\" class_name='current_source' class='show_U_and_R' unit='e' onchange='validate_values(this)' value='1600'/></td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мВ</option><option value='deca'>В</option><option value='kilo'>кВ</option><option value='mega'>МВ</option></select></td></tr>"
-                            + "<tr>Внутреннее сопротивление<td><input type=\"text\" class='show_U_and_R' unit='r' onchange='validate_values(this)' value='500'>" + "</td>" +
+                            + "<tr>Внутреннее сопротивление<td><input type=\"text\" class_name='current_source' class='show_U_and_R' unit='r' onchange='validate_values(this)' value='500'>" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мОм</option><option value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Двигатель постоянного тока":
-                        str += "<tr>ЭДС<td><input type=\"text\" class='show_U_and_R' unit='e' onchange='validate_values(this)'/></td>" +
+                        str += "<tr>ЭДС<td><input type=\"text\" class_name='generator' class='show_U_and_R' unit='e' onchange='validate_values(this)'/></td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мВ</option><option value='deca'>В</option><option value='kilo'>кВ</option><option value='mega'>МВ</option></select></td></tr>"
-                            + "<tr>Внутреннее сопротивление<td><input type=\"text\" class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "</td>" +
+                            + "<tr>Внутреннее сопротивление<td><input type=\"text\" class_name='generator' class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мОм</option><option value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
-                            + "<tr>Скорость холостого тока<td><input type=\"text\" class='show_U_and_R' uint='v' onchange='validate_values(this)'>" + "</td>" +
+                            + "<tr>Скорость холостого тока<td><input type=\"text\" class_name='generator' class='show_U_and_R' uint='v' onchange='validate_values(this)'>" + "</td>" +
                             +"<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='m/s'>м/c</option><option value='km/h'>км/ч</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Источник напряжения":
-                        str += "<tr>Напряжение<td><input type=\"text\" class='show_U_and_R' unit='u' onchange='validate_values(this)'>" + "</td>" +
+                        str += "<tr>Напряжение<td><input type=\"text\" class_name='voltage_source' class='show_U_and_R' unit='u' onchange='validate_values(this)'>" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мВ</option><option value='deca'>В</option><option value='kilo'>кВ</option><option value='mega'>МВ</option></select></td></tr>"
-                            + "<tr>Внутреннее сопротивление<td><input type=\"text\" class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "</td>" +
+                            + "<tr>Внутреннее сопротивление<td><input type=\"text\" class_name='voltage_source' class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мОм</option><option value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Конденсатор":
                         ELEMENTS.add(cell.id);
-                        str += "<tr>Ёмкость<td><input type=\"text\" class='show_U_and_R' unit='c' onchange='validate_values(this)'>" + "</td>" +
+                        str += "<tr>Ёмкость<td><input type=\"text\" class_name='capacitor' class='show_U_and_R' unit='c' onchange='validate_values(this)'>" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='pica'>пФ</option><option value='nano'>нФ</option><option value='mikro'>мкФ</option><option value='deca'>Ф</option></select></td></tr>"
-                            + "<tr>Сопротивление<td><input type=\"text\" class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "</td>" +
+                            + "<tr>Сопротивление<td><input type=\"text\" class_name='capacitor' class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мОм</option><option value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Катушка индуктивности":
                         ELEMENTS.add(cell.id);
-                        str += "<tr>Индуктивность<td><input type=\"text\" class='show_U_and_R' unit='l' onchange='validate_values(this)'>" + "</td>" +
+                        str += "<tr>Индуктивность<td><input type=\"text\" class_name='coil' class='show_U_and_R' unit='l' onchange='validate_values(this)'>" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='nano'>нГн</option><option value='mikro'>мкГн</option><option value='mili'>мГн</option><option value='deca'>Гн</option></select></td></tr>"
-                            + "<tr>Сопротивление<td><input type=\"text\" class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "</td>" +
+                            + "<tr>Сопротивление<td><input type=\"text\" class_name='coil' class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мОм</option><option value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Лампа":
                         ELEMENTS.add(cell.id);
-                        str += "<tr>Напряжение<td><input type=\"text\" class='show_U_and_R' unit='u' onchange='validate_values(this)'>" + "</td>" +
+                        str += "<tr>Напряжение<td><input type=\"text\" class_name='lamp'  class='show_U_and_R' unit='u' onchange='validate_values(this)'>" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мВ</option><option value='deca'>В</option><option value='kilo'>кВ</option><option value='mega'>МВ</option></select></td></tr>"
-                            + "<tr>Сопротивление<td><input type=\"text\" class='show_U_and_R' unit='r' onchange='validate_values(this)' value='500000'>" + "</td>" +
+                            + "<tr>Сопротивление<td><input type=\"text\" class_name='lamp'  class='show_U_and_R' unit='r' onchange='validate_values(this)' value='500000'>" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мОм</option><option value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
-                            + "<tr>Мощность<td><input type=\"text\" class='show_U_and_R' unit='p' onchange='validate_values(this)'>" + "</td>" +
+                            + "<tr>Мощность<td><input type=\"text\" class_name='lamp' class='show_U_and_R' unit='p' onchange='validate_values(this)'>" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мВт</option><option value='deca'>Вт</option><option value='kilo'>кВТ</option><option value='mega'>МВТ</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Резистор":
                         ELEMENTS.add(cell.id);
-                        str += "<tr>Сопротивление<td><input type=\"text\" class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "</td>" +
+                        str += "<tr>Сопротивление<td><input type=\"text\" class_name='resistor' class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мОм</option><option value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Вольтметр":
                         ELEMENTS.add(cell.id);
-
-                        str += "<tr>Сопротивление<td><input type=\"text\" class='show_U_and_R' unit='r' onchange='validate_values(this)' value='6000000'>" + "</td>" +
+                        str += "<tr>Сопротивление<td><input type=\"text\" class_name='voltmeter' class='show_U_and_R' unit='r' onchange='validate_values(this)' value='6000000'>" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мОм</option><option value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Реостат":
                         ELEMENTS.add(cell.id);
-
-                        str += "<tr>Сопротивление<td><input type=\"text\" class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "</td>" +
+                        str += "<tr>Сопротивление<td><input type=\"text\" class_name='rheostat' class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мОм</option><option value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Амперметр":
                         ELEMENTS.add(cell.id);
 
-                        str += "<tr>Сопротивление<td><input type=\"text\" class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "</td>" +
+                        str += "<tr>Сопротивление<td><input type=\"text\" class_name='ammeter' class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мОм</option><option value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Омметр":
                         ELEMENTS.add(cell.id);
-                        str += "<tr>Сопротивление<td><input type=\"text\" class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "</td>" +
+                        str += "<tr>Сопротивление<td><input type=\"text\" class_name='ohmmeter' class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мОм</option><option value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                 }
             }
-
         }
     }
     table.innerHTML = str;
+
+    for (let i = 0; i < N * M; i++) {
+        let current_button;
+        if (document.getElementById('button_' + i) !== null) {
+            current_button = document.getElementById('button_' + i);
+            let inputs = document.getElementsByClassName('show_U_and_R');
+            //console.log(inputs[0]);
+            for (let j = 0; j < inputs.length; j++) {
+                if (inputs[j].type === 'text' && inputs[j].getAttribute('class_name') === current_button.getAttribute('name')) {
+                    let value = inputs[j].value;
+                    let select = inputs[j].parentElement.parentElement.children[1].getElementsByClassName("show_U_and_R")[0];
+                    switch (select.value) {
+                        case "deca":
+                            value *= 1;
+                            break;
+                        case "mili":
+                            value *= 0.001;
+                            break;
+                        case "kilo":
+                            value *= 1000;
+                            break;
+                        case "mega":
+                            value *= 1000000;
+                            break;
+                        case "mikro":
+                            value *= 0.000001;
+                            break;
+                        case "nano":
+                            value *= 0.000000001;
+                            break;
+                        case "pica":
+                            value *= 0.000000000001;
+                            break;
+                        case "m/s":
+                            value *= 1;
+                            break;
+                        case "km/h":
+                            value = value / 1000 * 60 * 60;
+                            break;
+                        case "deg":
+                            value = value * 180 * Math.PI;
+                            break;
+                        case "rad":
+                            value *= 1;
+                            break;
+
+                    }
+                    current_button.setAttribute(inputs[j].getAttribute("unit"), value);
+                }
+            }
+        }
+    }
 }
 
 
@@ -242,17 +297,15 @@ function light_picture(e, where) {
 
 function validate_values(e) {
     let input;
-    if(e.type==="text") input = e;
-    else if(e.type==="select-one") input = e.parentElement.parentElement.children[0].children[0];
+    if (e.type === "text") input = e;
+    else if (e.type === "select-one") input = e.parentElement.parentElement.children[0].children[0];
     input.getAttribute("unit");
     let value = input.value;
-    console.log(value);
     if (!/^-?\d+([.,])?\d*$/i.test(value)) {
         alert("Некорректные данные.");
         value = "";
         document.getElementById("start_button").disabled = true;
-    }
-    else {
+    } else {
         document.getElementById("start_button").disabled = false;
         let div = input.parentElement.parentElement.parentElement.parentElement.parentElement;
         let id = div.getAttribute("id").split("_")[1];
@@ -496,20 +549,20 @@ function current_direction(cell) {
 }
 
 
-function process_up(cell, c, q, used, dir=null) {
+function process_up(cell, c, q, used, dir = null) {
     if (has_up(cell) && !used[id_up(c)] && has_down(id_cell(id_up(c)))) {
         if (id_cell(id_up(c)).getAttribute('src') !== OPEN_KEY) {
-            if(dir !== null) q.enqueue([id_up(c), dir]);
+            if (dir !== null) q.enqueue([id_up(c), dir]);
             else q.enqueue(id_up(c));
             used[id_up(c)] = true;
         }
     }
 }
 
-function process_down(cell, c, q, used, dir=null) {
+function process_down(cell, c, q, used, dir = null) {
     if (has_down(cell) && !used[id_down(c)] && has_up(id_cell(id_down(c)))) {
         if (id_cell(id_down(c)).getAttribute('src') !== OPEN_KEY) {
-            if(dir !== null) q.enqueue([id_down(c), dir]);
+            if (dir !== null) q.enqueue([id_down(c), dir]);
             else q.enqueue(id_down(c));
             used[id_down(c)] = true;
         }
@@ -517,34 +570,34 @@ function process_down(cell, c, q, used, dir=null) {
 }
 
 
-function process_left(cell, c, q, used, dir=null) {
+function process_left(cell, c, q, used, dir = null) {
     if (has_left(cell) && !used[id_left(c)] && has_right(id_cell(id_left(c)))) {
         if (id_cell(id_left(c)).getAttribute('src') !== OPEN_KEY) {
-            if(dir !== null) q.enqueue([id_left(c), dir]);
+            if (dir !== null) q.enqueue([id_left(c), dir]);
             else q.enqueue(id_left(c));
             used[id_left(c)] = true;
         }
     }
 }
 
-function process_right(cell, c, q, used, dir=null) {
+function process_right(cell, c, q, used, dir = null) {
     if (has_right(cell) && !used[id_right(c)] && has_left(id_cell(id_right(c)))) {
         if (id_cell(id_right(c)).getAttribute('src') !== OPEN_KEY) {
-            if(dir !== null) q.enqueue([id_right(c), dir]);
+            if (dir !== null) q.enqueue([id_right(c), dir]);
             else q.enqueue(id_right(c));
             used[id_right(c)] = true;
         }
     }
 }
 
-function toMatrix(){
+function toMatrix() {
     //TODO запретить разомкнутый ключ
     let matrix = []
 
     // Заполнить нулями
-    for(let i = 0; i < N; i++){
+    for (let i = 0; i < N; i++) {
         matrix[i] = []
-        for(let j = 0; j < M; j++){
+        for (let j = 0; j < M; j++) {
             matrix[i][j] = 0
         }
     }
@@ -562,29 +615,25 @@ function toMatrix(){
             const wire_reg = /wire/;
             const triple_reg = /triple/;
 
-            if(src === DESK){
+            if (src === DESK) {
                 matrix[i][j] = 0;
-            }
-            else if(src.match(wire_reg) != null){
-                if(src.match(triple_reg) != null){
+            } else if (src.match(wire_reg) != null) {
+                if (src.match(triple_reg) != null) {
                     matrix[i][j] = P; //узел
-                }
-                else matrix[i][j] = S; //просто провод
-            }
-            else if(src === SOURCE || src === BATTERY ||
+                } else matrix[i][j] = S; //просто провод
+            } else if (src === SOURCE || src === BATTERY ||
                 src === GENERATOR || src === ENGINE ||
-                src === CLOSED_KEY || src === OPEN_KEY){
+                src === CLOSED_KEY || src === OPEN_KEY) {
                 matrix[i][j] = S; //источник тока рассмотрим как просто провод
-            }
-            else{
+            } else {
                 let button = document.getElementById('button_' + id_num(cell.id));
                 let R = button.getAttribute('r');
-                if(R !== null) matrix[i][j] = R;
+                if (R !== null) matrix[i][j] = R;
                 else matrix[i][j] = 'R';
             }
 
             //пересчитаем размеры рабочего пространства, чтобы эффективней с ним работать
-            if(src !== DESK){
+            if (src !== DESK) {
                 x_max = Math.max(x_max, i);
                 y_max = Math.max(y_max, j);
                 x_min = Math.min(x_min, i);
@@ -595,8 +644,8 @@ function toMatrix(){
         }
     }
     let small_matrix = []
-    for(let i = x_min; i < x_max; i++){
-        for(let j = y_min; j < M; j++){
+    for (let i = x_min; i < x_max; i++) {
+        for (let j = y_min; j < M; j++) {
 
         }
     }
@@ -607,7 +656,7 @@ function toMatrix(){
 /*
 Поиск двух ближайших узлов к элементу
  */
-function searchClothestP(start){
+function searchClothestP(start) {
     //console.log("let's search triples for " + start);
     let used = [];
     let triples = [];
@@ -626,12 +675,12 @@ function searchClothestP(start){
         let cell = id_cell(c);
         let src = cell.getAttribute('src');
         //нашли узел
-        if(src.match(regex) != null && !USED_TR[c]){
+        if (src.match(regex) != null && !USED_TR[c]) {
             //console.log("I found triple " + c);
             triples.push(c);
             continue;
         }
-        if(src === SOURCE || src === BATTERY){ //TODO добавить сюда проверку на другие источники тока.
+        if (src === SOURCE || src === BATTERY) { //TODO добавить сюда проверку на другие источники тока.
             sources.push(c);
         }
         process_up(cell, c, q, used);
@@ -639,7 +688,7 @@ function searchClothestP(start){
         process_left(cell, c, q, used);
         process_right(cell, c, q, used);
     }
-    if(sources.length !== 0){
+    if (sources.length !== 0) {
         //TODO is it okay to delete through iteration?
         console.log('found source, delete ' + id_str(start));
         SERIAL.push(start); //есть эдс -> считаем последовательным
@@ -647,19 +696,18 @@ function searchClothestP(start){
         return null;
     }
 
-    if(triples.length === 2){
-        if(triples[0] > triples[1]){ //меняем местами, чтобы пара была отсортирована
+    if (triples.length === 2) {
+        if (triples[0] > triples[1]) { //меняем местами, чтобы пара была отсортирована
             let t = triples[0];
             triples[0] = triples[1];
             triples[1] = t;
         }
         return [triples, used]; //чтобы функция была мультифункциональна, вернем массив использованных эл-тов.
-    }
-    else return null;
+    } else return null;
 
 } //примерно O(cnt(N) * 10) <= 100 операций
 
-function findPPairs(){
+function findPPairs() {
     console.log(ELEMENTS);
     let elementTriples = new Map();
     let triplePairs = new Set();
@@ -668,9 +716,9 @@ function findPPairs(){
         let c = id_num(value);
         //console.log(c);
         let pairs = searchClothestP(c);
-        if(pairs !== null){
+        if (pairs !== null) {
             let p = (pairs[0][0].toString() + '_' + pairs[0][1].toString());
-            if(elementTriples.get(p) === undefined) elementTriples.set(p, []);
+            if (elementTriples.get(p) === undefined) elementTriples.set(p, []);
             elementTriples.get(p).push(c);
             triplePairs.add(p);
         }
@@ -682,37 +730,36 @@ function findPPairs(){
 Для элементов, привязанных к одним узлам, проверим, соединены они последовательно или нет.
 Правильная реализация --- СНМ, но сейчас будет опираться на то, что групп не больше двух.
  */
-function formPairGroups(pairElements){
+function formPairGroups(pairElements) {
     let usedResult = searchClothestP(pairElements[0])[1];
     let firstGroup = [pairElements[0]]; //есть путь до 1 элемента
     let secondGroup = []; //нет пути до 1 элемента
-    for(let i = 1; i < pairElements.length; i++){
+    for (let i = 1; i < pairElements.length; i++) {
         let currentElement = pairElements[i];
-        if(usedResult[currentElement]) {
+        if (usedResult[currentElement]) {
             firstGroup.push(currentElement);
-        }
-        else secondGroup.push(currentElement);
+        } else secondGroup.push(currentElement);
     }
     return [firstGroup, secondGroup];
 }
 
-function getGroupNumber(a){
+function getGroupNumber(a) {
     console.log(a);
     let aCount = 0;
-    if(a[0].length === 0) aCount++;
-    if(a[1].length === 0) aCount++;
+    if (a[0].length === 0) aCount++;
+    if (a[1].length === 0) aCount++;
     return aCount;
 }
 
-function compareGroupPriority(a, b){
+function compareGroupPriority(a, b) {
     let aCount = 0;
     let bCount = 0;
-    if(a[1][0].length === 0) aCount++;
-    if(a[1][1].length === 0) aCount++;
-    if(b[1][0].length === 0) bCount++;
-    if(b[1][1].length === 0) bCount++;
-    if(aCount > bCount) return 1;
-    if(aCount === bCount) return 0;
+    if (a[1][0].length === 0) aCount++;
+    if (a[1][1].length === 0) aCount++;
+    if (b[1][0].length === 0) bCount++;
+    if (b[1][1].length === 0) bCount++;
+    if (aCount > bCount) return 1;
+    if (aCount === bCount) return 0;
     return -1;
 }
 
@@ -720,14 +767,14 @@ function compareGroupPriority(a, b){
 Принимает массив ЯЧЕЕК и заменяет его на массив каких-то данных о ячейке.
 Например, сопротивление.
  */
-function cellArrayToNumber(array, atr){
+function cellArrayToNumber(array, atr) {
     let numberArray = [];
-    for(let i = 0; i < array.length; i++){
+    for (let i = 0; i < array.length; i++) {
         let atrContainer = document.getElementById('button_' + array[i]);
-        if(atrContainer === null) atrContainer = id_cell(array[i]); //если нет кнопки, то мы в узле --- достанем значение из него
+        if (atrContainer === null) atrContainer = id_cell(array[i]); //если нет кнопки, то мы в узле --- достанем значение из него
         let val = atrContainer.getAttribute(atr);
-        if(val !== null) numberArray.push(parseFloat(val)); //вообще если атрибута нет, то это ошибка
-        else{
+        if (val !== null) numberArray.push(parseFloat(val)); //вообще если атрибута нет, то это ошибка
+        else {
             console.log(atrContainer);
         }
     }
@@ -737,9 +784,9 @@ function cellArrayToNumber(array, atr){
 /*
 Считает последовательное соединение относительно массива ЧИСЕЛ
  */
-function countSerialR(array){
+function countSerialR(array) {
     let R = 0;
-    for(let i = 0; i < array.length; i++){
+    for (let i = 0; i < array.length; i++) {
         R += array[i];
     }
     return R;
@@ -748,42 +795,42 @@ function countSerialR(array){
 /*
 Считает параллельное соединение относительно массива ЧИСЕЛ
  */
-function countParallelR(array){
+function countParallelR(array) {
     let R = 0;
-    for(let i = 0; i < array.length; i++){
-        R += 1/array[i];
+    for (let i = 0; i < array.length; i++) {
+        R += 1 / array[i];
     }
-    return 1/R;
+    return 1 / R;
 }
 
 /*
 Считает силу тока по закону Ома для полной цепи
  */
-function countFullCircuitI(R, r, e){
-    return (e/(R + r)).toFixed(5);
+function countFullCircuitI(R, r, e) {
+    return (e / (R + r)).toFixed(5);
 }
 
 /*
 Считает сопротивление для параллельного блока
  */
-function countGroupR(group){
+function countGroupR(group) {
     let left = cellArrayToNumber(group[0], 'r');
     let right = cellArrayToNumber(group[1], 'r');
     let leftR = countSerialR(left);
     let rightR = countSerialR(right);
-    console.log(leftR + ' + ' +  rightR);
+    console.log(leftR + ' + ' + rightR);
     return countParallelR([leftR, rightR]);
 }
 
 /*
 Удаляет из списка элементов те, которые уже рассчитаны.
  */
-function removeGroup(group){
-    for(let i = 0; i < group[0].length; i++){
+function removeGroup(group) {
+    for (let i = 0; i < group[0].length; i++) {
         ELEMENTS.delete(id_str(group[0][i]));
         //console.log(group[0][i]);
     }
-    for(let i = 0; i < group[1].length; i++){
+    for (let i = 0; i < group[1].length; i++) {
         ELEMENTS.delete(id_str(group[1][i]));
         //console.log(group[1][i]);
     }
@@ -793,11 +840,11 @@ function removeGroup(group){
 /*
 Формирует для каждой пары узлов списки элементов по обе стороны от них и определяет приоритетность расчета всех углов.
  */
-function handlePairGroups(){
+function handlePairGroups() {
     let triplePairs = new Map();
     let resultMap = new Map();
     let cnt = 0;
-    while (ELEMENTS.size !== 0){
+    while (ELEMENTS.size !== 0) {
         let elementPairs = findPPairs();
         //let doublePairs = new Map();
         //console.log(elementPairs);
@@ -805,11 +852,11 @@ function handlePairGroups(){
         let groupQueue = new Queue();
         for (let [key, value] of elementPairs) {
             let groups = formPairGroups(value);
-            if(getGroupNumber(groups) === 0){
+            if (getGroupNumber(groups) === 0) {
                 groupQueue.enqueue([key, groups]);
             }
         }
-        while (!groupQueue.isEmpty){
+        while (!groupQueue.isEmpty) {
             let key = groupQueue.peek()[0];
             let splitted = key.split('_');
             //console.log(splitted);
@@ -838,13 +885,12 @@ function handlePairGroups(){
     let source = document.getElementById('button_' + id_num(current_source[0].id));
     let r = parseFloat(source.getAttribute('r'));
     let e = parseFloat(source.getAttribute('e'));
-    if(r !== null && e !== null){
+    if (r !== null && e !== null) {
         let finalI = countFullCircuitI(finalR, r, e);
         resultMap.set('Сила тока в цепи', [finalI, 'A']);
 
     }
     return resultMap;
-
 
 
     /*const arrayPairs = [... doublePairs];
@@ -864,18 +910,19 @@ function handlePairGroups(){
 /*
 Рисует таблицу с расссчитанными для цепи значениями
  */
-function drawResultTable(results){
-    let resTable =  $('#calcResults');
-    for (let [key, value] of results){
+function drawResultTable(results) {
+    let resTable = $('#calcResults');
+    for (let [key, value] of results) {
         resTable.append('<tr><td>' + key + '</td><td>'
             + value[0] + ' ' + value[1] + '</td></tr>');
     }
 }
+
 /*
 Расчет цепи.
  */
-function countChain(){
-    for(let i = 0; i < N * M; i++) USED_TR.push(false);
+function countChain() {
+    for (let i = 0; i < N * M; i++) USED_TR.push(false);
     let results = handlePairGroups();
     drawResultTable(results);
     //console.log(findPPairs());
@@ -935,7 +982,7 @@ function runChain(e) {
 
             const regex = /triple/;
             //console.log(cell.getAttribute('src'));
-            if(cell.getAttribute('src').match(regex) != null){
+            if (cell.getAttribute('src').match(regex) != null) {
                 console.log("I go to triple " + c);
             }
             cell.style.filter = 'drop-shadow(5px 5px 10px yellow)';
@@ -984,7 +1031,6 @@ function startWorkingMode() {
         console.log("unable to run");
     }
     addElementButton();
-
 
 
 }
