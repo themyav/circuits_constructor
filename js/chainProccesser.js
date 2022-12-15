@@ -35,6 +35,7 @@ const R = 'R'
 // TODO добавить в addElement все необходимое, например конденсатор
 // Массив ячеек, из которых мы намерены обходить цепь
 let ELEMENTS = new Set();
+
 //Массив ячеек, которые будут посчитаны последовательным соединением
 let SERIAL = [];
 let USED_TR = [];
@@ -387,6 +388,9 @@ class Queue {
         return this.elements[this.head];
     }
 }
+
+let ELEMENTS_COUNT_Q = new Queue();
+
 
 
 function id_num(id) {
@@ -781,10 +785,13 @@ function cellArrayToNumber(array, atr) {
     return numberArray;
 }
 
+function countVoltmeter(array){
+
+}
 /*
 Считает последовательное соединение относительно массива ЧИСЕЛ
  */
-function countSerialR(array) {
+function countSerialR(array) { //показывает, что это наш последний расчет в самом конце
     let R = 0;
     for (let i = 0; i < array.length; i++) {
         R += array[i];
@@ -804,22 +811,130 @@ function countParallelR(array) {
 }
 
 /*
+Вычисляет напряжение на параллельном уучастке цепи.
+ */
+function countSerialU(I, array){
+    return I * countSerialR(array);
+}
+
+function countParallelU(I, array){
+}
+
+/*
 Считает силу тока по закону Ома для полной цепи
  */
 function countFullCircuitI(R, r, e) {
     return (e / (R + r)).toFixed(5);
 }
+/*
+Вычленяет вольтметры и амперметры при параллельном соединении.
+Проверяет правильность построения цепи.
+ */
+function countingParallelElementsInGroup(left, right) {
+    let valid = true;
+    let actions = [];
+    for(let i = 0; i < left.length; i++){
+        let cell = id_cell(left[i]);
+        let src = cell.getAttribute('src');
+        if(src === APPLIANCES.get('Вольтметр')){
+            if(left.length !== 1){ //есть еще кто-то, подключенный параллельно с вольтметром.
+                console.log('Circut is incorrect: voltmeter');
+                valid = false;
+            }
+            else{
+                actions.push([cell, right, true]); //<- последний аргумент --- это для параллельного
+                //ELEMENTS_COUNT_Q.enqueue([cell, right]); //посчитаем напряжение на параллельном ему участке
+            }
+        }
+        if(src === APPLIANCES.get('Амперметр')){
+            if(left.length === 1){ //один амперметр подключен параллельно к кому-то
+                console.log('Circuit is incorrect: ammeter');
+                valid = false;
+            }
+            else{
+                actions.push([cell, left, true]);
+            }
+        }
+    }
+    if(!valid) return null;
+    else return actions;
+}
+
+function countingSerialElementsInGroup(array){
+    let valid = true;
+    let actions = [];
+    for(let i = 0; i < array.length; i++){
+        let cell = id_cell(array[i]);
+        let src = cell.getAttribute('src');
+        if(src === APPLIANCES.get('Вольтметр')){
+            console.log('Circuit is incorrect: voltmeter'); //вольтметру нельзя быть подключенным последовательно
+            valid = false;
+        }
+        else if(src === APPLIANCES.get('Амперметр')){
+            actions.push([cell, array, false]); //<- false, тк не параллельно.
+        }
+    }
+    if(!valid) return null;
+    else return actions;
+}
 
 /*
-Считает сопротивление для параллельного блока
+Находит все элементы в параллельном блоке, для которых необходимы расчеты
  */
-function countGroupR(group) {
+function findParallelCountingElements(group){
+    let left = group[0];
+    let right = group[1];
+
+    let leftActions = countingParallelElementsInGroup(left, right);
+    let rightActions = countingParallelElementsInGroup(right, left);
+    if(leftActions !== null && rightActions !== null){ //если цепь составлена правильно
+        for(let i = 0; i < leftActions.length; i++){
+            ELEMENTS_COUNT_Q.enqueue(leftActions[i]);
+        }
+        for(let i = 0; i < rightActions.length; i++){
+            ELEMENTS_COUNT_Q.enqueue(rightActions[i]);
+        }
+    }
+
+}
+
+/*
+Находит все элементы в последовательном блоке, для которых необходимы рассчеты.
+С последовательным блоком работаем только в самом конце...
+ */
+function findSerialCountingElements(array){
+    let actions = countingSerialElementsInGroup(array);
+    if(actions !== null){
+        for(let i = 0; i < actions.length; i++){
+            ELEMENTS_COUNT_Q.enqueue(actions[i]);
+        }
+    }
+}
+
+/*
+Находит в параллельном блоке элементы, которые необходимо рассчитать.
+Считает сопротивление для параллельного блока.
+ */
+
+function countParallelGroupR(group){
+    findParallelCountingElements(group);
+    //console.log("Some elements need to be counted later");
+    //console.log(ELEMENTS_COUNT_Q);
     let left = cellArrayToNumber(group[0], 'r');
     let right = cellArrayToNumber(group[1], 'r');
     let leftR = countSerialR(left);
     let rightR = countSerialR(right);
     console.log(leftR + ' + ' + rightR);
     return countParallelR([leftR, rightR]);
+}
+/*
+Находит в последовательном блоке элементы, которые необходимо рассчитать.
+Считает сопротивление для последовательного блока
+ */
+function countSerialGroupR(array){
+    findSerialCountingElements(array);
+    let numArray = cellArrayToNumber(array, 'r');
+    return countSerialR(numArray);
 }
 
 /*
@@ -864,7 +979,7 @@ function handlePairGroups() {
             let P2 = parseInt(splitted[1]);
             let value = groupQueue.peek()[1]; //тут два массива: левый и правый.
             groupQueue.dequeue();
-            let R = countGroupR(value).toFixed(5);
+            let R = countParallelGroupR(value).toFixed(5);
             console.log('my R is ' + R + ' on ' + P1 + ' ' + P2);
             removeGroup(value);
             USED_TR[P1] = true;
@@ -878,7 +993,7 @@ function handlePairGroups() {
     }
 
     //считаем полное сопротивление в цепи
-    let finalR = countSerialR(cellArrayToNumber(SERIAL, 'r'));
+    let finalR = countSerialGroupR(SERIAL);//countSerialR(cellArrayToNumber(SERIAL, 'r'), true);
     resultMap.set('Полное сопротивление в цепи', [finalR, 'Ом']);
 
     //считаем полную силу тока в цепи
@@ -901,12 +1016,15 @@ function handlePairGroups() {
     let groupQueue = new Queue();
 
     for (let [key, value] of doublePairs){
-        let R = countGroupR(value);
+        let R = countParallelGroupR(value);
         console.log('my R is ' + R);
         break;
     }*/
 }
 
+function drawTableRow(row){
+    //drawRe
+}
 /*
 Рисует таблицу с расссчитанными для цепи значениями
  */
@@ -918,15 +1036,36 @@ function drawResultTable(results) {
     }
 }
 
+function handleElementActions(results){
+    while (!ELEMENTS_COUNT_Q.isEmpty){
+        let action = ELEMENTS_COUNT_Q.peek();
+        ELEMENTS_COUNT_Q.dequeue();
+        let element = action[0];
+        let array = action[1];
+        let isParallel = action[2];
+        let src = element.getAttribute('src');
+        if(src === APPLIANCES.get('Вольтметр')){
+           // console.log('Сейчас запустимся с силой тока ' + results.get('Сила тока в цепи')[0]);
+            let result = countSerialU(results.get('Сила тока в цепи')[0], array);
+            console.log('Результат для вольтметра ' + result);
+        }
+        else if(src === APPLIANCES.get('Амперметр')){
+            let I = results.get('Сила тока в цепи')[0];
+            let result = (countSerialU(I, array)).toFixed(5);
+            if(isParallel) result /= 2; //при параллельном соединении ток поделится пополам;
+            console.log('Результат для амперметра ' + result);
+        }
+    }
+}
 /*
-Расчет цепи.
+Входная точка расчета цепи.
  */
 function countChain() {
     for (let i = 0; i < N * M; i++) USED_TR.push(false);
     let results = handlePairGroups();
+    handleElementActions(results);
     drawResultTable(results);
-    //console.log(findPPairs());
-    //console.log(triplePairs);
+
 }
 
 /*
@@ -1021,6 +1160,7 @@ function startWorkingMode() {
     current_source = [];
 
     ELEMENTS = new Set();
+    ELEMENTS_COUNT_Q = new Queue();
     SERIAL = [];
     USED_TR = [];
 
