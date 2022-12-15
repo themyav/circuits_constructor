@@ -57,6 +57,7 @@ function searchSource() {
             if(src === SOURCES[j]){
                 current_source.push(cell);
                 runnable = true;
+                if(src === AC_SOURCE) IS_I_CONST = false; //переменный ток!
             }
         }
     }
@@ -567,13 +568,12 @@ function process_right(cell, c, q, used, dir = null) {
  */
 
 function runChain(e) {
-    countChain();
-    //return;
-    let MESSAGE = document.getElementById('message');
+    //let MESSAGE = document.getElementById('message');
     if (e.getAttribute("is_running") === "false") {
         fieldChange(true);
         e.style.backgroundColor = "indianred";
         e.setAttribute("is_running", "true");
+        countChain();
 
 
         // if (!runnable || current_source.length === 0) {

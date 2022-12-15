@@ -28,8 +28,8 @@ function searchClothestP(start) {
             triples.push(c);
             continue;
         }
-        if (src === SOURCE || src === BATTERY) { //TODO добавить сюда проверку на другие источники тока.
-            sources.push(c);
+        for(let j = 0; j < SOURCES.length; j++){
+            if(src === SOURCES[j]) sources.push(c);
         }
         process_up(cell, c, q, used);
         process_down(cell, c, q, used);
@@ -262,8 +262,7 @@ function findSerialCountingElements(array){
 Считает сопротивление для параллельного блока.
  */
 function countParallelGroupR(group){
-    console.log("testing complex ");
-    console.log(reciprocal([4, 1]));
+    console.log("energy is " + IS_I_CONST);
     findParallelCountingElements(group);
     //считаем сопротивление для постоянного тока -> вернем обычное число
     if(IS_I_CONST){
@@ -341,6 +340,8 @@ function handlePairGroups() {
     let resultMap = new Map();
     while (ELEMENTS.size !== 0) {
         let elementPairs = findPPairs();
+        console.log(elementPairs);
+        console.log(ELEMENTS);
 
         let groupQueue = new Queue();
         for (let [key, value] of elementPairs) {
@@ -360,17 +361,16 @@ function handlePairGroups() {
 
             //посчитаем сопротивление в зависимости от источника тока
             let R = 0;
-            R = countParallelGroupR(value).toFixed(5);
+            R = countParallelGroupR(value);
+            console.log(R);
             console.log('my R is ' + R + ' on ' + P1 + ' ' + P2);
             removeGroup(value);
             USED_TR[P1] = true;
             USED_TR[P2] = true;
             triplePairs.set(P1, P2);
             //TODO вот тут очень важный момент! у всяких резистров это очевидно число, а у узлов --- уже комплексное.
-            id_cell(P1).setAttribute('r', R.toString());
-            console.log('I have just put to attribute ' + R.toString());
-            break;
-            ELEMENTS.add(id_str(P1)); //map с ассоциированными значениями?
+            id_cell(P1).setAttribute('r', R.toString()); //если у нас число->поставится именно оно, иначе через запятую 2 числа
+            ELEMENTS.add(id_str(P1));
         }
     }
 
@@ -379,7 +379,7 @@ function handlePairGroups() {
         countFullI(resultMap);
     }
     else{
-
+        countFullComplexR(resultMap);
     }
 
     return resultMap;
@@ -410,13 +410,13 @@ function handleElementActions(results){
         let src = element.getAttribute('src');
         if(src === APPLIANCES.get('Вольтметр')){
             // console.log('Сейчас запустимся с силой тока ' + results.get('Сила тока в цепи')[0]);
-            let result = countSerialU(results.get('Сила тока в цепи')[0], array);
+            let result = countSerialU(results.get('Сила тока в цепи')[0], array).toFixed(3);
             //console.log('Результат для вольтметра ' + result);
             ELEMENT_CALCULATION.set(id_num(element.id), ['Измеренное напряжение', result]);
         }
         else if(src === APPLIANCES.get('Амперметр')){
             let I = results.get('Сила тока в цепи')[0];
-            let result = (countSerialU(I, array)).toFixed(5);
+            let result = (countSerialU(I, array)).toFixed(3);
             if(isParallel) result /= 2; //при параллельном соединении ток поделится пополам;
             //console.log('Результат для амперметра ' + result);
             ELEMENT_CALCULATION.set(id_num(element.id), ['Измеренная сила тока', result]);

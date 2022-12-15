@@ -1,5 +1,5 @@
 /*
-Библиотека для работы с комплексными числами
+Библиотека для работы с комплексными числами и переменным током
  */
 
 /*
@@ -78,7 +78,8 @@ function cellArrayToComplexR(array, atr='r'){ //здесь такой расче
         //если нет кнопки, то мы в узле --- достанем значение из него
         if (atrContainer === null) {
             atrContainer = cell;
-            val = [parseFloat(atrContainer.getAttribute(atr)), 0]; //число без мнимой части
+            val = atrContainer.getAttribute(atr).split(','); //число без мнимой части
+            val = [parseFloat(val[0]), parseFloat(val[1])];
         }
         //иначе кнопка есть и можно проверить на конденсатор и катушку
         else{
@@ -91,13 +92,27 @@ function cellArrayToComplexR(array, atr='r'){ //здесь такой расче
             }
             else val = [parseFloat(atrContainer.getAttribute(atr)), 0];
         }
-        if (val !== null) complexArray.push(parseFloat(val)); //вообще если атрибута нет, то это ошибка
+        if (val !== null) complexArray.push(val); //вообще если атрибута нет, то это ошибка
         else console.log('null attribute error ' + atrContainer);
     }
     return complexArray;
 }
 
+/*
+Вычисляет значение полного сопротивления в цепи
+ */
 function countFullComplexR(resultMap){
-    let finalR = countSerialGroupR(SERIAL);//countSerialR(cellArrayToNumber(SERIAL, 'r'), true);
+    let complexR = cellArrayToComplexR(SERIAL);
+    let R = countComplexSerialR(complexR);
+    R = Math.sqrt(R[0]*R[0] + R[1]*R[1]);
+    resultMap.set('Полное сопротивление в цепи', [R.toFixed(3), 'Ом']);
 
 }
+
+/*
+Вычисляет значение силы мгновенной силы тока в цепи
+ */
+
+/*
+Вычисляет значение мгновенного сопротивления в цепи
+ */
