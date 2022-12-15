@@ -135,9 +135,9 @@ function addElementButton() {
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Источник постоянного тока":
-                        str += "<tr>ЭДС<td><input type=\"text\" class='show_U_and_R' unit='e' onchange='validate_values(this)'/></td>" +
+                        str += "<tr>ЭДС<td><input type=\"text\" class='show_U_and_R' unit='e' onchange='validate_values(this)' value='1600'/></td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мВ</option><option value='deca'>В</option><option value='kilo'>кВ</option><option value='mega'>МВ</option></select></td></tr>"
-                            + "<tr>Внутреннее сопротивление<td><input type=\"text\" class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "</td>" +
+                            + "<tr>Внутреннее сопротивление<td><input type=\"text\" class='show_U_and_R' unit='r' onchange='validate_values(this)' value='500'>" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мОм</option><option value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
@@ -177,7 +177,7 @@ function addElementButton() {
                         ELEMENTS.add(cell.id);
                         str += "<tr>Напряжение<td><input type=\"text\" class='show_U_and_R' unit='u' onchange='validate_values(this)'>" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мВ</option><option value='deca'>В</option><option value='kilo'>кВ</option><option value='mega'>МВ</option></select></td></tr>"
-                            + "<tr>Сопротивление<td><input type=\"text\" class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "</td>" +
+                            + "<tr>Сопротивление<td><input type=\"text\" class='show_U_and_R' unit='r' onchange='validate_values(this)' value='500000'>" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мОм</option><option value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
                             + "<tr>Мощность<td><input type=\"text\" class='show_U_and_R' unit='p' onchange='validate_values(this)'>" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мВт</option><option value='deca'>Вт</option><option value='kilo'>кВТ</option><option value='mega'>МВТ</option></select></td></tr>"
@@ -192,7 +192,7 @@ function addElementButton() {
                     case "Вольтметр":
                         ELEMENTS.add(cell.id);
 
-                        str += "<tr>Сопротивление<td><input type=\"text\" class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "</td>" +
+                        str += "<tr>Сопротивление<td><input type=\"text\" class='show_U_and_R' unit='r' onchange='validate_values(this)' value='6000000'>" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мОм</option><option value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
@@ -737,7 +737,7 @@ function cellArrayToNumber(array, atr){
 /*
 Считает последовательное соединение относительно массива ЧИСЕЛ
  */
-function countSerial(array){
+function countSerialR(array){
     let R = 0;
     for(let i = 0; i < array.length; i++){
         R += array[i];
@@ -748,7 +748,7 @@ function countSerial(array){
 /*
 Считает параллельное соединение относительно массива ЧИСЕЛ
  */
-function countParallel(array){
+function countParallelR(array){
     let R = 0;
     for(let i = 0; i < array.length; i++){
         R += 1/array[i];
@@ -757,15 +757,22 @@ function countParallel(array){
 }
 
 /*
+Считает силу тока по закону Ома для полной цепи
+ */
+function countFullCircuitI(R, r, e){
+    return e/(R + r).toFixed(5);
+}
+
+/*
 Считает сопротивление для параллельного блока
  */
 function countGroupR(group){
     let left = cellArrayToNumber(group[0], 'r');
     let right = cellArrayToNumber(group[1], 'r');
-    let leftR = countSerial(left);
-    let rightR = countSerial(right);
+    let leftR = countSerialR(left);
+    let rightR = countSerialR(right);
     console.log(leftR + ' + ' +  rightR);
-    return countParallel([leftR, rightR]);
+    return countParallelR([leftR, rightR]);
 }
 
 /*
@@ -788,6 +795,7 @@ function removeGroup(group){
  */
 function handlePairGroups(){
     let triplePairs = new Map();
+    let resultMap = new Map();
     let cnt = 0;
     while (ELEMENTS.size !== 0){
         let elementPairs = findPPairs();
@@ -818,12 +826,26 @@ function handlePairGroups(){
             id_cell(P1).setAttribute('r', R.toString());
             ELEMENTS.add(id_str(P1)); //map с ассоциированными значениями?
         }
-        cnt++;
-        if(cnt === 5) break;
+        //cnt++;
+        //if(cnt === 5) break;
     }
 
-    let finalR = countSerial(cellArrayToNumber(SERIAL, 'r'));
-    console.log(finalR);
+    //считаем полное сопротивление в цепи
+    let finalR = countSerialR(cellArrayToNumber(SERIAL, 'r'));
+    resultMap.set('Полное сопротивление в цепи', [finalR, 'Ом']);
+
+    //считаем полную силу тока в цепи
+    let source = document.getElementById('button_' + id_num(current_source[0].id));
+    let r = source.getAttribute('r');
+    let e = source.getAttribute('e')
+    if(r !== null && e !== null){
+        let finalI = countFullCircuitI(finalR, r, e);
+        resultMap.set('Сила тока в цепи', [finalI, 'A']);
+
+    }
+    return resultMap;
+
+
 
     /*const arrayPairs = [... doublePairs];
     const sortedArrayPairs = arrayPairs.sort((a, b) => compareGroupPriority(a, b));
@@ -838,12 +860,24 @@ function handlePairGroups(){
         break;
     }*/
 }
+
+/*
+Рисует таблицу с расссчитанными для цепи значениями
+ */
+function drawResultTable(results){
+    let resTable =  $('#calcResults');
+    for (let [key, value] of results){
+        resTable.append('<tr><td>' + key + '</td><td>'
+            + value[0] + ' ' + value[1] + '</td></tr>');
+    }
+}
 /*
 Расчет цепи.
  */
 function countChain(){
     for(let i = 0; i < N * M; i++) USED_TR.push(false);
-    handlePairGroups();
+    let results = handlePairGroups();
+    drawResultTable(results);
     //console.log(findPPairs());
     //console.log(triplePairs);
 }
