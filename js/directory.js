@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function () {
 function add_to_directory(e) {
     let where_to_add = document.getElementById("for_description");
     if (e.getAttribute("id") === "project_description") {
-        where_to_add.innerHTML = "Здесь будет красивое опсание нашего проекта, возможности приложение и тд";
+        where_to_add.innerHTML = "<div id='only_description' style='width: 700px;'>Здесь будет красивое опсание нашего проекта, возможности приложение и тд</div>";
     } else if (e.getAttribute("id") === "elements_description") {
         let start_table = "<div id='only_buttons' style='z-index: 2; position: absolute;'><table><tr><td>";
         let end_table = "</td></tr></table></div><div id='only_description' style='width: 700px; z-index: 1; position: absolute; left: 225px; top: 90px;'></div></td></tr></table>";
@@ -85,7 +85,7 @@ function add_to_directory(e) {
         }
         where_to_add.innerHTML = start_table + button + end_table;
     } else if (e.getAttribute("id") === "instruction") {
-        where_to_add.innerHTML = "Здесь будут простые инстуркуции по пострению";
+        where_to_add.innerHTML = "<div id='only_description' style='width: 700px;'>Здесь будет инструкции</div>";
     }
 }
 
@@ -99,7 +99,7 @@ function add_description(e) {
         let xhr = new XMLHttpRequest();
         xhr.open('GET', "resource/description/" + element + '.html');
         xhr.onload = function () {
-            document.getElementById("only_description").innerHTML = "<div>" + picture + "</div><br><div class='text_elements_description'>" + xhr.response + "</div>";
+            document.getElementById("only_description").innerHTML = "<div>" + picture + "</div><br><div class='text_elements_description' style='text-align: left'>" + xhr.response + "</div>";
         }
         xhr.send();
     }

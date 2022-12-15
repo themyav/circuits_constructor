@@ -37,7 +37,7 @@ aside {
 }
 
 
-#start_button{
+#start_button {
     font-family: "Nunito", sans-serif;
     font-weight: 600;
     background-color: darkseagreen;
@@ -46,7 +46,7 @@ aside {
     border: 0;
 }
 
-#start_button:hover{
+#start_button:hover {
     background-color: darkgreen;
 
 }
@@ -82,7 +82,7 @@ button:hover {
     display: none;
 }
 
-.wires_dropdown button:hover img{
+.wires_dropdown button:hover img {
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -147,7 +147,7 @@ aside {
     font-weight: 600;
     background-color: #76b2da;
     color: black;
-    width: 100%;
+    width: 205px;
     height: 50px;
     border: 0;
     cursor: pointer;
@@ -346,12 +346,12 @@ button[id*="scale"]:hover {
 
 /* Стили для кнопок. Мы ведь порядочные разработчики, негоже простые ссылки оставлять */
 
-#js-open-modal{
+table #js-open-modal {
     font-family: "Nunito", sans-serif;
     font-weight: 600;
     background-color: lightpink;
     color: black;
-    width: 100%;
+    width: 205px;
     height: 50px;
     border: 0;
     cursor: pointer;
@@ -386,7 +386,7 @@ button[id*="scale"]:hover {
     background-color: lightpink;
 }
 
-#js-open-modal:hover{
+#js-open-modal:hover {
     background-color: indianred;
 }
 
@@ -394,10 +394,16 @@ button {
     border-radius: 8px;
 }
 
-.text_elements_description{
+.text_elements_description {
     font-size: medium;
     font-family: "Nunito", sans-serif;
     font-weight: 600;
 }
 
-/*Для бокового меню с элементами*/
+#only_description{
+    font-size: medium;
+    font-family: "Nunito", sans-serif;
+    font-weight: 600;
+}
+
+/*Для меню с элементами*/
