@@ -668,9 +668,7 @@ function runChain(e) {
     let MESSAGE = document.getElementById('message');
 
     if (e.getAttribute("is_running")==="false") {
-        console.log('adding class work');
         e.style.backgroundColor = "indianred";
-        console.log(e.classList);
         // fieldChange();
         // e.setAttribute("is_running", "true");
         // if (!runnable || current_source.length === 0) {
@@ -728,7 +726,6 @@ function runChain(e) {
         // resizeGallery(true);
         // drawGraphic()
     } else {
-        console.log('adding class work');
         e.style.backgroundColor = "darkseagreen";
         e.setAttribute("is_running", "false");
         //drawGraphic(false); //если я правильно поняла, тут кнопка отжимается

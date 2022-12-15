@@ -124,17 +124,70 @@ window.onclick = function (event) {
     }
 }
 
-function circuits_one() {
-    console.log("did first");
+function circuits_one(first = false) {
+    if (!first) clean_all(false);
 
+    let start = 153;
+    let scheme = [
+        [start + 1, 'corner_wire_4'],
+        [start + 2, 'wire'],
+        [start + 3, 'ac_source'],
+        [start + 4, 'wire'],
+        [start + 5, 'corner_wire'],
+
+        [start + M, 'corner_wire_4'],
+        [start + M + 1, 'triple_wire_3'],
+        [start + M + 2, 'corner_wire'],
+        [start + M + 4, 'corner_wire_4'],
+        [start + M + 5, 'triple_wire_3'],
+        [start + M + 6, 'corner_wire'],
+
+        [start + 2 * M, 'coil', rotate_left],
+        [start + 2 * M + 2, 'resistor', rotate_left],
+        [start + 2 * M + 4, 'coil', rotate_left],
+        [start + 2 * M + 6, 'capacitor', rotate_left],
+
+        [start + 3 * M, 'corner_wire_3'],
+        [start + 3 * M + 1, 'triple_wire'],
+        [start + 3 * M + 2, 'corner_wire_2'],
+        [start + 3 * M + 4, 'corner_wire_3'],
+        [start + 3 * M + 5, 'triple_wire'],
+        [start + 3 * M + 6, 'corner_wire_2'],
+
+        [start + 4 * M + 1, 'corner_wire_3'],
+        [start + 4 * M + 2, 'wire'],
+        [start + 4 * M + 3, 'wire'],
+        [start + 4 * M + 4, 'wire'],
+        [start + 4 * M + 5, 'corner_wire_2'],
+    ]
+    draw_circuit(start, scheme);
 }
 
-function circuits_two() {
-    console.log("did second");
+function circuits_two(first = false) {
+    if (!first) clean_all(false); //TODO немного затормаживает в первый раз, мб какой-то флаг навесить
+
+    let start = 153;
+    let scheme = [
+        [start, 'corner_wire_4'],
+        [start + 1, 'wire'],
+        [start + 2, 'ac_source'],
+        [start + 3, 'wire'],
+        [start + 4, 'corner_wire'],
+        [start + M, 'wire_2'],
+        [start + M + 4, 'wire_2'],
+        [start + 2 * M, 'wire_2'],
+        [start + 2 * M + 4, 'wire_2'],
+        [start + 3 * M, 'corner_wire_3'],
+        [start + 3 * M + 1, 'resistor'],
+        [start + 3 * M + 2, 'coil'],
+        [start + 3 * M + 3, 'capacitor'],
+        [start + 3 * M + 4, 'corner_wire_2'],
+    ]
+    draw_circuit(start, scheme);
 }
 
-function circuits_three(first=false) {
-    if(!first) clean_all(false);
+function circuits_three(first = false) {
+    if (!first) clean_all(false);
     let start = 2;
     let scheme = [
         [start, 'corner_wire_4'],
@@ -160,8 +213,8 @@ function circuits_three(first=false) {
 }
 
 //постоянный ток, последовательное соединение
-function circuits_four(first=false) {
-    if(!first) clean_all(false); //TODO немного затормаживает в первый раз, мб какой-то флаг навесить
+function circuits_four(first = false) {
+    if (!first) clean_all(false); //TODO немного затормаживает в первый раз, мб какой-то флаг навесить
     let start = 5; //M + Math.round(M/2)
     let scheme = [
         [start, 'corner_wire_4'],
@@ -173,15 +226,11 @@ function circuits_four(first=false) {
         [start + 2 * M + 1, 'key'],
         [start + 2 * M + 2, 'corner_wire_2'],
     ]
-    for (let i = 0; i < N * M; i++) {
-        let cell = document.getElementById('img_' + i.toString());
-        clean(cell);
-    }
     draw_circuit(start, scheme);
 }
 
 function circuits_five(first = false) {
-    if(!first) clean_all(false); //TODO немного затормаживает в первый раз, мб какой-то флаг навесить
+    if (!first) clean_all(false); //TODO немного затормаживает в первый раз, мб какой-то флаг навесить
     let start = 53;
     let scheme = [
         [start, 'corner_wire_4'],
@@ -207,15 +256,11 @@ function circuits_five(first = false) {
         [start + 4 * M + 3, 'wire'],
         [start + 4 * M + 4, 'corner_wire_2']
     ]
-    for (let i = 0; i < N * M; i++) {
-        let cell = document.getElementById('img_' + i.toString());
-        clean(cell);
-    }
     draw_circuit(start, scheme);
 }
 
-function circuits_six(first=false) {
-    if(!first) clean_all(false); //TODO немного затормаживает в первый раз, мб какой-то флаг навесить
+function circuits_six(first = false) {
+    if (!first) clean_all(false); //TODO немного затормаживает в первый раз, мб какой-то флаг навесить
 
     let start = 53;
     let scheme = [
