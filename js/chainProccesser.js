@@ -1,5 +1,4 @@
 let runnable = false;
-let is_running = false;
 let current_key = []; //список ключей
 let current_source = []; //список источников тока
 
@@ -1073,76 +1072,75 @@ function countChain() {
  */
 
 function runChain(e) {
-
-
     countChain();
-    return;
+    //return;
     let MESSAGE = document.getElementById('message');
 
-    if (!is_running) {
-        e.setAttribute("style", "background-color: darkseagreen;")
-        fieldChange();
-        e.setAttribute("is_running", "true");
-        is_running = true;
-        if (!runnable || current_source.length === 0) {
-            MESSAGE.innerText = 'В цепи нет источника питания!';
-            MESSAGE.style.color = 'red';
-            return;
-        }
-
-        MESSAGE.innerText = 'Начинаю эмуляцию';
-        MESSAGE.style.color = 'black';
-
-        //toMatrix();
-
-        let used = []
-        for (let i = 0; i <= N * M; i++) used.push(false);
-        let q = new Queue();
-
-        //Пока что ток растекается только от первого источника энергии
-        let start = id_num(current_source[0].id);
-
-        //Определим направление тока:
-        let direction = current_direction(current_source[0]);
-        console.log(direction);
-
-        //Положим в очередь источник тока и направление
-        q.enqueue([start, direction]);
-        used[start] = true;
-        while (!q.isEmpty) {
-            let c = q.peek()[0];
-            let dir = q.peek()[1];
-            q.dequeue();
-            //console.log('go to ' + c);
-
-            let cell = id_cell(c);
-            //тут будет вызываться функция прибора
-            //этот фильтр будет заменен на что-нибудь красивее..
-
-            const regex = /triple/;
-            //console.log(cell.getAttribute('src'));
-            if (cell.getAttribute('src').match(regex) != null) {
-                console.log("I go to triple " + c);
-            }
-            cell.style.filter = 'drop-shadow(5px 5px 10px yellow)';
-            if (c === start) {
-                if (dir === 'up') process_up(cell, c, dir, q, used); else if (dir === 'down') process_down(cell, c, dir, q, used); else if (dir === 'left') process_left(cell, c, dir, q, used); else if (dir === 'right') process_right(cell, c, dir, q, used);
-
-            } else {
-                process_up(cell, c, dir, q, used);
-                process_down(cell, c, dir, q, used);
-                process_left(cell, c, dir, q, used);
-                process_right(cell, c, dir, q, used);
-            }
-
-        }
-        resizeGallery(true);
-        drawGraphic()
+    if (e.getAttribute("is_running")==="false") {
+        console.log('adding class work');
+        e.style.backgroundColor = "indianred";
+        console.log(e.classList);
+        // fieldChange();
+        // e.setAttribute("is_running", "true");
+        // if (!runnable || current_source.length === 0) {
+        //     MESSAGE.innerText = 'В цепи нет источника питания!';
+        //     MESSAGE.style.color = 'red';
+        //     return;
+        // }
+        //
+        // MESSAGE.innerText = 'Начинаю эмуляцию';
+        // MESSAGE.style.color = 'black';
+        //
+        // //toMatrix();
+        //
+        // let used = []
+        // for (let i = 0; i <= N * M; i++) used.push(false);
+        // let q = new Queue();
+        //
+        // //Пока что ток растекается только от первого источника энергии
+        // let start = id_num(current_source[0].id);
+        //
+        // //Определим направление тока:
+        // let direction = current_direction(current_source[0]);
+        // console.log(direction);
+        //
+        // //Положим в очередь источник тока и направление
+        // q.enqueue([start, direction]);
+        // used[start] = true;
+        // while (!q.isEmpty) {
+        //     let c = q.peek()[0];
+        //     let dir = q.peek()[1];
+        //     q.dequeue();
+        //     //console.log('go to ' + c);
+        //
+        //     let cell = id_cell(c);
+        //     //тут будет вызываться функция прибора
+        //     //этот фильтр будет заменен на что-нибудь красивее..
+        //
+        //     const regex = /triple/;
+        //     //console.log(cell.getAttribute('src'));
+        //     if (cell.getAttribute('src').match(regex) != null) {
+        //         console.log("I go to triple " + c);
+        //     }
+        //     cell.style.filter = 'drop-shadow(5px 5px 10px yellow)';
+        //     if (c === start) {
+        //         if (dir === 'up') process_up(cell, c, dir, q, used); else if (dir === 'down') process_down(cell, c, dir, q, used); else if (dir === 'left') process_left(cell, c, dir, q, used); else if (dir === 'right') process_right(cell, c, dir, q, used);
+        //
+        //     } else {
+        //         process_up(cell, c, dir, q, used);
+        //         process_down(cell, c, dir, q, used);
+        //         process_left(cell, c, dir, q, used);
+        //         process_right(cell, c, dir, q, used);
+        //     }
+        //
+        // }
+        // resizeGallery(true);
+        // drawGraphic()
     } else {
-        is_running = false;
-        e.setAttribute("style", "background-color: darkgreen;")
+        console.log('adding class work');
+        e.style.backgroundColor = "darkseagreen";
         e.setAttribute("is_running", "false");
-        drawGraphic(false); //если я правильно поняла, тут кнопка отжимается
+        //drawGraphic(false); //если я правильно поняла, тут кнопка отжимается
     }
 }
 
