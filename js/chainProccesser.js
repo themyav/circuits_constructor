@@ -441,7 +441,7 @@ function has_right(cell) {
 }
 
 //Функция меняющие поля ввода на просто текст в момент запуска
-function fieldChange() {
+function fieldChange(is_running) {
     for (let i = 0; i < N * M; i++) {
         let element;
         let div = document.getElementById("UandR_" + i);
@@ -451,68 +451,15 @@ function fieldChange() {
             if (cell.getAttribute("src") === pair[1]) element = pair[0];
         }
         if (button !== null) {
-            //Скорее всего надо будтет просто из кнопки вытаскивать значения и писать их в div либо просто сделать input disabled
+
+            document.querySelectorAll('.show_U_and_R').forEach(input => {
+                if (is_running === true) input.disabled = true;
+                else input.disabled = false;
+            });
             switch (element) {
-                case "Источник переменного тока":
-                    div.innerHTML = "<table>"
-                        + "<tr><td><div class='show_U_and_R'>" + "ЭДС - " + button.getAttribute("e").toString() + "</td></tr>"
-                        + "<tr><td><div class='show_U_and_R'>" + "Внутреннее сопротивление - " + button.getAttribute("r").toString() + "</td></tr>"
-                        + "<tr><td><div class='show_U_and_R'>" + "Амплитуда - " + button.getAttribute("a").toString() + "</td></tr>"
-                        + "<tr><td><div class='show_U_and_R'>" + "Частота - " + button.getAttribute("nu").toString() + "</td></tr>"
-                        + "<tr><td><div class='show_U_and_R'>" + "Фаза - " + button.getAttribute("fi").toString() + "</td></tr>"
-                        + "</table>";
-                    break;
-                case "Источник постоянного тока":
-                    div.innerHTML = "<table>"
-                        + "<tr><td><div class='show_U_and_R'>" + "ЭДС - " + button.getAttribute("e").toString() + "</td></tr>"
-                        + "<tr><td><div class='show_U_and_R'>" + "Внутреннее сопротивление - " + button.getAttribute("r").toString() + "</td></tr>"
-                        + "</table>";
-                    break;
-                case "Двигатель постоянного тока":
-                    div.innerHTML = "<table>"
-                        + "<tr><td><div class='show_U_and_R'>" + "ЭДС - " + button.getAttribute("e").toString() + "</td></tr>"
-                        + "<tr><td><div class='show_U_and_R'>" + "Внутреннее сопротивление - " + button.getAttribute("r").toString() + "</td></tr>"
-                        + "<tr><td><div class='show_U_and_R'>" + "Скорость холостого тока - " + button.getAttribute("v").toString() + "</td></tr>"
-                        + "</table>";
-                    break;
-                case "Источник напряжения":
-                    div.innerHTML = "<table>"
-                        + "<tr><td><div class='show_U_and_R'>" + "Напряжение - " + button.getAttribute("u").toString() + "</td></tr>"
-                        + "<tr><td><div class='show_U_and_R'>" + "Внутреннее сопротивление - " + button.getAttribute("r").toString() + "</td></tr>"
-                        + "</table>";
-                    break;
-                case "Конденсатор":
-                    div.innerHTML = "<table>"
-                        + "<tr><td><div class='show_U_and_R'>" + "Ёмкость - " + button.getAttribute("c").toString() + "</td></tr>"
-                        + "<tr><td><div class='show_U_and_R'>" + "Внутреннее сопротивление - " + button.getAttribute("r").toString() + "</td></tr>"
-                        + "</table>";
-                    break;
-                case "Катушка индуктивности":
-                    div.innerHTML = "<table>"
-                        + "<tr><td><div class='show_U_and_R'>" + "Индуктивнсоть - " + button.getAttribute("l").toString() + "</td></tr>"
-                        + "<tr><td><div class='show_U_and_R'>" + "Внутреннее сопротивление - " + button.getAttribute("r").toString() + "</td></tr>"
-                        + "</table>";
-                    break;
-                case "Лампа":
-                    div.innerHTML = "<table>"
-                        + "<tr><td><div class='show_U_and_R'>" + "Напряжение - " + button.getAttribute("u").toString() + "</td></tr>"
-                        + "<tr><td><div class='show_U_and_R'>" + "Сопротивление - " + button.getAttribute("r").toString() + "</td></tr>"
-                        + "<tr><td><div class='show_U_and_R'>" + "Мощность - " + button.getAttribute("p").toString() + "</td></tr>"
-                        + "</table>";
-                    break;
-                case "Резистор":
-                    div.innerHTML = "<table>"
-                        + "<tr><td><div class='show_U_and_R'>" + "Сопротивление - " + button.getAttribute("r").toString() + "</td></tr>"
-                        + "</table>";
-                    break;
                 case "Вольтметр":
                     div.innerHTML = "<table>"
-                        + "<tr><td><div class='show_U_and_R'>" + "Сопротивление - " + button.getAttribute("r").toString() + "</td></tr>"
-                        + "</table>";
-                    break;
-                case "Реостат":
-                    div.innerHTML = "<table>"
-                        + "<tr><td><div class='show_U_and_R'>" + "Сопротивление - " + button.getAttribute("r").toString() + "</td></tr>"
+                        + "<tr><td><label>Результат измерения</label><div class='show_U_and_R'>" + "Сопротивление - " + button.getAttribute("r").toString() + "</td></tr>"
                         + "</table>";
                     break;
                 case "Амперметр":
@@ -666,11 +613,12 @@ function runChain(e) {
     countChain();
     //return;
     let MESSAGE = document.getElementById('message');
-
-    if (e.getAttribute("is_running")==="false") {
+    if (e.getAttribute("is_running") === "false") {
+        fieldChange(true);
         e.style.backgroundColor = "indianred";
-        // fieldChange();
-        // e.setAttribute("is_running", "true");
+        e.setAttribute("is_running", "true");
+
+
         // if (!runnable || current_source.length === 0) {
         //     MESSAGE.innerText = 'В цепи нет источника питания!';
         //     MESSAGE.style.color = 'red';
@@ -726,6 +674,7 @@ function runChain(e) {
         // resizeGallery(true);
         // drawGraphic()
     } else {
+        fieldChange(false);
         e.style.backgroundColor = "darkseagreen";
         e.setAttribute("is_running", "false");
         //drawGraphic(false); //если я правильно поняла, тут кнопка отжимается
