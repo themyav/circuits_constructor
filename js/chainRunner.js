@@ -1,6 +1,9 @@
 /*
 Поиск двух ближайших узлов к элементу
  */
+
+let ELEMENT_CALCULATION = new Map();
+
 function searchClothestP(start) {
     //console.log("let's search triples for " + start);
     let used = [];
@@ -370,13 +373,16 @@ function handleElementActions(results){
         if(src === APPLIANCES.get('Вольтметр')){
             // console.log('Сейчас запустимся с силой тока ' + results.get('Сила тока в цепи')[0]);
             let result = countSerialU(results.get('Сила тока в цепи')[0], array);
-            console.log('Результат для вольтметра ' + result);
+            //console.log('Результат для вольтметра ' + result);
+            ELEMENT_CALCULATION.set(id_num(element.id), ['Измеренное напряжение', result]);
         }
         else if(src === APPLIANCES.get('Амперметр')){
             let I = results.get('Сила тока в цепи')[0];
             let result = (countSerialU(I, array)).toFixed(5);
             if(isParallel) result /= 2; //при параллельном соединении ток поделится пополам;
-            console.log('Результат для амперметра ' + result);
+            //console.log('Результат для амперметра ' + result);
+            ELEMENT_CALCULATION.set(id_num(element.id), ['Измеренная сила тока', result]);
+
         }
     }
 }
@@ -388,5 +394,6 @@ function countChain() {
     let results = handlePairGroups();
     handleElementActions(results);
     drawResultTable(results);
+    console.log(ELEMENT_CALCULATION);
 
 }

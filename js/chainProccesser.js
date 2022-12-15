@@ -750,6 +750,7 @@ function startWorkingMode() {
 
     ELEMENTS = new Set();
     ELEMENTS_COUNT_Q = new Queue();
+    ELEMENT_CALCULATION = new Map();
     SERIAL = [];
     USED_TR = [];
 
