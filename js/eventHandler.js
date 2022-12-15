@@ -133,7 +133,6 @@ function circuits_two() {
     console.log("did second");
 }
 function circuits_three() {
-    console.log("did third");
     let start = 2;
     let scheme = [
         [start, 'corner_wire_4'],
@@ -160,7 +159,6 @@ function circuits_three() {
 
 //постоянный ток, последовательное соединение
 function circuits_four() {
-    console.log("did fourth");
     let start = 5; //M + Math.round(M/2)
     let scheme = [
         [start, 'corner_wire_4'],
@@ -175,7 +173,42 @@ function circuits_four() {
     draw_circuit(start, scheme);
 }
 
+function circuits_five(){
+    let start = 53;
+    let scheme = [
+        [start, 'corner_wire_4'],
+        [start + 1, 'wire'],
+        [start + 2, 'current_source'],
+        [start + 3, 'wire'],
+        [start + 4, 'corner_wire'],
+        [start + M - 1, 'corner_wire_4'],
+        [start + M, 'triple_wire_2'],
+        [start + M + 4, 'triple_wire_4'],
+        [start + M + 5, 'corner_wire'],
+        [start + 2*M - 1, 'voltmeter', rotate_left],
+        [start + 2*M, 'lamp', rotate_left],
+        [start + 2*M + 4, 'lamp', rotate_right],
+        [start + 2*M + 5, 'voltmeter', rotate_right],
+        [start + 3*M - 1, 'corner_wire_3'],
+        [start + 3*M, 'triple_wire_2'],
+        [start + 3*M + 4, 'triple_wire_4'],
+        [start + 3*M + 5, 'corner_wire_2'],
+        [start + 4*M, 'corner_wire_3'],
+        [start + 4*M + 1, 'wire'],
+        [start + 4*M + 2, 'wire'],
+        [start + 4*M + 3, 'wire'],
+        [start + 4*M + 4, 'corner_wire_2']
+    ]
+    draw_circuit(start, scheme);
+}
+
+function circuits_six(){
+
+
+}
+
 function draw_circuit(start, scheme){
+    //clean_all(false); //TODO немного затормаживает в первый раз, мб какой-то флаг навесить
     let oldCurrent = current;
     let oldAction = action;
 

@@ -112,8 +112,10 @@ function clean(cell){
     set_connections(picture, false, false, false, false)
 }
 
-function clean_all(){
-    if(!confirm("Вы действительно хотите все удалить?")) return;
+function clean_all(message=true){
+    if(message){
+        if(!confirm("Вы действительно хотите все удалить?")) return;
+    }
     for(let i = 0; i < N * M; i++){
         let cell = document.getElementById('img_' + i.toString());
         clean(cell);
