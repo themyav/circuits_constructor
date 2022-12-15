@@ -3,6 +3,7 @@
  */
 
 let ELEMENT_CALCULATION = new Map();
+let IS_I_CONST = true;
 
 function searchClothestP(start) {
     //console.log("let's search triples for " + start);
@@ -254,21 +255,33 @@ function findSerialCountingElements(array){
     }
 }
 
+
+
 /*
 Находит в параллельном блоке элементы, которые необходимо рассчитать.
 Считает сопротивление для параллельного блока.
  */
-
 function countParallelGroupR(group){
+    console.log("testing complex ");
+    console.log(reciprocal([4, 1]));
     findParallelCountingElements(group);
-    //console.log("Some elements need to be counted later");
-    //console.log(ELEMENTS_COUNT_Q);
-    let left = cellArrayToNumber(group[0], 'r');
-    let right = cellArrayToNumber(group[1], 'r');
-    let leftR = countSerialR(left);
-    let rightR = countSerialR(right);
-    console.log(leftR + ' + ' + rightR);
-    return countParallelR([leftR, rightR]);
+    //считаем сопротивление для постоянного тока -> вернем обычное число
+    if(IS_I_CONST){
+        let left = cellArrayToNumber(group[0], 'r');
+        let right = cellArrayToNumber(group[1], 'r');
+        let leftR = countSerialR(left);
+        let rightR = countSerialR(right);
+        return countParallelR([leftR, rightR]);
+
+    }
+    //считаем сопротивление для переменного тока -> вернем комплексное число
+    else{
+        let left = cellArrayToComplexR(group[0], 'r');
+        let right = cellArrayToComplexR(group[1], 'r');
+        let leftR = countComplexSerialR(left);
+        let rightR = countComplexSerialR(right);
+        return countComplexParallelR([leftR, rightR]);
+    }
 }
 /*
 Находит в последовательном блоке элементы, которые необходимо рассчитать.
@@ -296,12 +309,36 @@ function removeGroup(group) {
 }
 
 /*
+Считает полное сопротивление в цепи
+ */
+function countFullR(resultMap){
+    //считаем полное сопротивление в цепи
+    let finalR = countSerialGroupR(SERIAL);//countSerialR(cellArrayToNumber(SERIAL, 'r'), true);
+    resultMap.set('Полное сопротивление в цепи', [finalR, 'Ом']);
+
+}
+
+/*
+Считает полную силу тока в цепи
+ */
+function countFullI(resultMap){
+    let finalR = resultMap.get('Полное сопротивление в цепи')[0];
+    let source = document.getElementById('button_' + id_num(current_source[0].id));
+    let r = parseFloat(source.getAttribute('r'));
+    let e = parseFloat(source.getAttribute('e'));
+    if (r !== null && e !== null) {
+        let finalI = countFullCircuitI(finalR, r, e);
+        resultMap.set('Сила тока в цепи', [finalI, 'A']);
+
+    }
+}
+
+/*
 Формирует для каждой пары узлов списки элементов по обе стороны от них и определяет приоритетность расчета всех углов.
  */
 function handlePairGroups() {
     let triplePairs = new Map();
     let resultMap = new Map();
-    let cnt = 0;
     while (ELEMENTS.size !== 0) {
         let elementPairs = findPPairs();
 
@@ -320,30 +357,31 @@ function handlePairGroups() {
             let P2 = parseInt(splitted[1]);
             let value = groupQueue.peek()[1]; //тут два массива: левый и правый.
             groupQueue.dequeue();
-            let R = countParallelGroupR(value).toFixed(5);
+
+            //посчитаем сопротивление в зависимости от источника тока
+            let R = 0;
+            R = countParallelGroupR(value).toFixed(5);
             console.log('my R is ' + R + ' on ' + P1 + ' ' + P2);
             removeGroup(value);
             USED_TR[P1] = true;
             USED_TR[P2] = true;
             triplePairs.set(P1, P2);
+            //TODO вот тут очень важный момент! у всяких резистров это очевидно число, а у узлов --- уже комплексное.
             id_cell(P1).setAttribute('r', R.toString());
+            console.log('I have just put to attribute ' + R.toString());
+            break;
             ELEMENTS.add(id_str(P1)); //map с ассоциированными значениями?
         }
     }
 
-    //считаем полное сопротивление в цепи
-    let finalR = countSerialGroupR(SERIAL);//countSerialR(cellArrayToNumber(SERIAL, 'r'), true);
-    resultMap.set('Полное сопротивление в цепи', [finalR, 'Ом']);
-
-    //считаем полную силу тока в цепи
-    let source = document.getElementById('button_' + id_num(current_source[0].id));
-    let r = parseFloat(source.getAttribute('r'));
-    let e = parseFloat(source.getAttribute('e'));
-    if (r !== null && e !== null) {
-        let finalI = countFullCircuitI(finalR, r, e);
-        resultMap.set('Сила тока в цепи', [finalI, 'A']);
+    if(IS_I_CONST){
+        countFullR(resultMap);
+        countFullI(resultMap);
+    }
+    else{
 
     }
+
     return resultMap;
 }
 
@@ -390,6 +428,7 @@ function handleElementActions(results){
 Входная точка расчета цепи.
  */
 function countChain() {
+    if(!IS_I_CONST) countW();
     for (let i = 0; i < N * M; i++) USED_TR.push(false);
     let results = handlePairGroups();
     handleElementActions(results);
