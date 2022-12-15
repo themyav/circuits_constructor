@@ -37,7 +37,7 @@ aside {
 }
 
 
-#start_button {
+#start_button  {
     font-family: "Nunito", sans-serif;
     font-weight: 600;
     background-color: darkseagreen;
@@ -50,6 +50,11 @@ aside {
     background-color: darkgreen;
 
 }
+
+.work button{
+    background-color: indianred;
+}
+
 
 .instruments button {
     font-family: "Nunito", sans-serif;
@@ -107,7 +112,7 @@ button:hover {
 }
 
 .container {
-    width: 60%;
+    width: 80%;
     margin: 2rem auto;
 }
 
@@ -116,6 +121,7 @@ button:hover {
     grid-template-columns: repeat(50, 1fr);
     grid-gap: 0;
     max-height: 700px;
+    min-width: 600px;
     overflow-y: scroll;
     overflow-x: scroll;
 }

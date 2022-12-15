@@ -1,5 +1,4 @@
 let runnable = false;
-let is_running = false;
 let current_key = []; //список ключей
 let current_source = []; //список источников тока
 
@@ -934,17 +933,15 @@ function countChain() {
  */
 
 function runChain(e) {
-
-
     countChain();
     return;
     let MESSAGE = document.getElementById('message');
 
-    if (!is_running) {
-        e.setAttribute("style", "background-color: darkseagreen;")
+    if (e.getAttribute("is_running")==="false") {
+        console.log('removing class work');
+        e.classList.remove('work');
         fieldChange();
         e.setAttribute("is_running", "true");
-        is_running = true;
         if (!runnable || current_source.length === 0) {
             MESSAGE.innerText = 'В цепи нет источника питания!';
             MESSAGE.style.color = 'red';
@@ -1000,8 +997,8 @@ function runChain(e) {
         resizeGallery(true);
         drawGraphic()
     } else {
-        is_running = false;
-        e.setAttribute("style", "background-color: darkgreen;")
+        console.log('adding class work');
+        e.classList.add('work');
         e.setAttribute("is_running", "false");
         drawGraphic(false); //если я правильно поняла, тут кнопка отжимается
     }
