@@ -9,6 +9,10 @@ const SOURCE = 'resource/element/current_source/current_source.png';
 const BATTERY = "resource/element/battery_of_elements/battery_of_elements.png";
 const ENGINE = "resource/element/battery_of_elements/battery_of_elements.png";
 const GENERATOR = "resource/element/generator/generator.png";
+const AC_SOURCE = "resource/element/ac_source/ac_source.png";
+
+let SOURCES = [SOURCE, BATTERY, ENGINE, GENERATOR, AC_SOURCE];
+
 const DESK = "resource/element/desk.png";
 
 const APPLIANCES = new Map([["Источник переменного тока", "resource/element/ac_source/ac_source.png"],
@@ -49,19 +53,12 @@ function searchSource() {
         let cell = document.getElementById("img_" + i);
         let src = cell.getAttribute("src");
 
-        //TODO нужно ли совершить какие-то отдельные действия для всех источников энергии? или можно объединить их в один if
-        if (src === BATTERY) {
-            current_source.push(cell);
-            runnable = true;
-        } else if (src === SOURCE) {
-            current_source.push(cell);
-            runnable = true;
-        } else if (src === ENGINE) {
-            current_source.push(cell);
-            runnable = true;
-        } else if (src === GENERATOR) {
-            current_source.push(cell);
-            runnable = true;
+        for(let j = 0; j < SOURCES.length; j++){
+            if(src === SOURCES[j]){
+                current_source.push(cell);
+                runnable = true;
+                if(src === AC_SOURCE) IS_I_CONST = false; //переменный ток!
+            }
         }
     }
 
@@ -566,83 +563,17 @@ function process_right(cell, c, q, used, dir = null) {
     }
 }
 
-function toMatrix() {
-    //TODO запретить разомкнутый ключ
-    let matrix = []
-
-    // Заполнить нулями
-    for (let i = 0; i < N; i++) {
-        matrix[i] = []
-        for (let j = 0; j < M; j++) {
-            matrix[i][j] = 0
-        }
-    }
-
-    let index = 0;
-    let x_min = N, y_min = M;
-    let x_max = 0, y_max = 0;
-
-
-    for (let i = 0; i < matrix.length; i++) {
-        for (let j = 0; j < matrix.length; j++) {
-
-            let cell = document.getElementById('img_' + index.toString());
-            let src = cell.getAttribute('src');
-            const wire_reg = /wire/;
-            const triple_reg = /triple/;
-
-            if (src === DESK) {
-                matrix[i][j] = 0;
-            } else if (src.match(wire_reg) != null) {
-                if (src.match(triple_reg) != null) {
-                    matrix[i][j] = P; //узел
-                } else matrix[i][j] = S; //просто провод
-            } else if (src === SOURCE || src === BATTERY ||
-                src === GENERATOR || src === ENGINE ||
-                src === CLOSED_KEY || src === OPEN_KEY) {
-                matrix[i][j] = S; //источник тока рассмотрим как просто провод
-            } else {
-                let button = document.getElementById('button_' + id_num(cell.id));
-                let R = button.getAttribute('r');
-                if (R !== null) matrix[i][j] = R;
-                else matrix[i][j] = 'R';
-            }
-
-            //пересчитаем размеры рабочего пространства, чтобы эффективней с ним работать
-            if (src !== DESK) {
-                x_max = Math.max(x_max, i);
-                y_max = Math.max(y_max, j);
-                x_min = Math.min(x_min, i);
-                y_min = Math.min(y_min, j);
-            }
-
-            index++;
-        }
-    }
-    let small_matrix = []
-    for (let i = x_min; i < x_max; i++) {
-        for (let j = y_min; j < M; j++) {
-
-        }
-    }
-    console.log(x_min, y_min, x_max, y_max);
-}
-
-
-
-
 /*
 Вызывается при нажатии на кнопку "пуск". Имитирует течение тока в цепи.
  */
 
 function runChain(e) {
-    countChain();
-    //return;
-    let MESSAGE = document.getElementById('message');
+    //let MESSAGE = document.getElementById('message');
     if (e.getAttribute("is_running") === "false") {
         fieldChange(true);
         e.style.backgroundColor = "indianred";
         e.setAttribute("is_running", "true");
+        countChain();
 
 
         // if (!runnable || current_source.length === 0) {
