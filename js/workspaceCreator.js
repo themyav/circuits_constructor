@@ -27,7 +27,7 @@ function createAside(){
 function createDesk(){
     let code = '';
     for(let i = 0; i < N*M; i++){
-        code += '<figure><img src=\'resource/element/desk.png\' alt="Gallery image 1" free=true id=\'img_' + i.toString() + '\' rotation = 1 reflectionX = 1 reflectionY = 1 left=false right=false up=false down=false class="gallery__img"></figure>';
+        code += '<figure class="cell"><img src=\'resource/element/desk.png\' alt="Gallery image 1" free=true id=\'img_' + i.toString() + '\' rotation = 1 reflectionX = 1 reflectionY = 1 left=false right=false up=false down=false class="gallery__img"></figure>';
     }
     $("#gallery").html(code);
 }

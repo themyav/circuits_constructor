@@ -217,6 +217,7 @@ function switchMode(shown, hidden) {
 
 // let class_cell = document.getElementsByClassName("gallery__img")
 // for (let i = 0; i < N * M; i++) {
+//     console.log(class_cell[i]);
 //     class_cell[i].onmouseover = function (e) {
 //         console.log("gallery is touched");
 //         let id = e.id.split("_")[1]
@@ -226,3 +227,12 @@ function switchMode(shown, hidden) {
 //         }
 //     }
 // }
+//
+// $(".cell").onmouseenter(function (e){
+//     console.log("gallery is touched");
+//     let id = e.id.split("_")[1]
+//     let button = document.getElementById("button_" + id);
+//     if (button !== null && button !== undefined) {
+//         button.style.backgroundColor = "lightpink";
+//     }
+// });

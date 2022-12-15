@@ -84,6 +84,28 @@ $(document).ready(function () {
 
     });
 
+    $('body').on('mouseover', 'img', function (event) {
+        let cell = this;
+        if (MODE === WORK){
+            let id = cell.id.split("_")[1]
+            let button = document.getElementById("button_" + id);
+            if (button !== null && button !== undefined) {
+                button.style.backgroundColor = "lightpink";
+            }
+        }
+    });
+
+    $('body').on('mouseout', 'img', function (event) {
+        let cell = this;
+        if (MODE === WORK){
+            let id = cell.id.split("_")[1]
+            let button = document.getElementById("button_" + id);
+            if (button !== null && button !== undefined) {
+                button.style.backgroundColor = "aliceblue";
+            }
+        }
+    });
+
     // Отлавливаем нажатие на кнопку и выбираем, с каким элементом меню заботаем
     $('button').on('click', function () {
         let cell = this;
@@ -91,6 +113,9 @@ $(document).ready(function () {
         else handleWorkModeButton(cell);
 
     });
+
+
+
 });
 
 
