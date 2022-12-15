@@ -11,10 +11,11 @@ const ENGINE = "resource/element/battery_of_elements/battery_of_elements.png";
 const GENERATOR = "resource/element/generator/generator.png";
 const DESK = "resource/element/desk.png";
 
-const APPLIANCES = new Map([["Амперметр", "resource/element/ammeter/ammeter.png"],
+const APPLIANCES = new Map([["Источник переменного тока", "resource/element/ac_source/ac_source.png"],
+    ["Амперметр", "resource/element/ammeter/ammeter.png"],
     ["Батарея элементов", "resource/element/battery_of_elements/battery_of_elements.png"],
     ["Конденсатор", "resource/element/capacitor/capacitor.png"],
-    ["Катушка", "resource/element/coil/coil.png"],
+    ["Катушка индуктивности", "resource/element/coil/coil.png"],
     ["Источник постоянного тока", "resource/element/current_source/current_source.png"],
     ["Двигатель", "resource/element/engine/engine.png"],
     ["Предохраниетель", "resource/element/fuse/fuse.png"],
@@ -147,7 +148,21 @@ function addElementButton() {
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мОм</option><option value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
-                    case "Двигатель постоянного тока":
+                    case "Батарея элементов":
+                        str += "<tr>ЭДС<td><input type=\"text\" class_name='battery_of_elements' class='show_U_and_R' unit='e' onchange='validate_values(this)' value='1600'/></td>" +
+                            "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мВ</option><option value='deca'>В</option><option value='kilo'>кВ</option><option value='mega'>МВ</option></select></td></tr>"
+                            + "<tr>Внутреннее сопротивление<td><input type=\"text\" class_name='battery_of_elements' class='show_U_and_R' unit='r' onchange='validate_values(this)' value='500'>" + "</td>" +
+                            "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мОм</option><option value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
+                            + "</table>" + "</div></td></tr>";
+                        break;
+                    case "Генератор":
+                        str += "<tr>ЭДС<td><input type=\"text\" class_name='generator' class='show_U_and_R' unit='e' onchange='validate_values(this)' value='1600'/></td>" +
+                            "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мВ</option><option value='deca'>В</option><option value='kilo'>кВ</option><option value='mega'>МВ</option></select></td></tr>"
+                            + "<tr>Внутреннее сопротивление<td><input type=\"text\" class_name='generator' class='show_U_and_R' unit='r' onchange='validate_values(this)' value='500'>" + "</td>" +
+                            "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мОм</option><option value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
+                            + "</table>" + "</div></td></tr>";
+                        break;
+                    case "Двигатель":
                         str += "<tr>ЭДС<td><input type=\"text\" class_name='generator' class='show_U_and_R' unit='e' onchange='validate_values(this)'/></td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мВ</option><option value='deca'>В</option><option value='kilo'>кВ</option><option value='mega'>МВ</option></select></td></tr>"
                             + "<tr>Внутреннее сопротивление<td><input type=\"text\" class_name='generator' class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "</td>" +
@@ -192,6 +207,12 @@ function addElementButton() {
                     case "Резистор":
                         ELEMENTS.add(cell.id);
                         str += "<tr>Сопротивление<td><input type=\"text\" class_name='resistor' class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "</td>" +
+                            "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мОм</option><option value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
+                            + "</table>" + "</div></td></tr>";
+                        break;
+                    case "Предохраниетель":
+                        ELEMENTS.add(cell.id);
+                        str += "<tr>Сопротивление<td><input type=\"text\" class_name='fuse' class='show_U_and_R' unit='r' onchange='validate_values(this)'>" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мОм</option><option value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
@@ -296,6 +317,7 @@ function light_picture(e, where) {
 */
 
 function validate_values(e) {
+
     let input;
     if (e.type === "text") input = e;
     else if (e.type === "select-one") input = e.parentElement.parentElement.children[0].children[0];
@@ -312,6 +334,7 @@ function validate_values(e) {
         let button = input.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.getElementsByClassName("button_" + id)[0];
         let select = input.parentElement.parentElement.children[1].getElementsByClassName("show_U_and_R")[0];
 
+        document.cookie += "button:"+button.id+", input:"+input.getAttribute("unit")+", value:"+value+", metering:"+select.value;
         switch (select.value) {
             case "deca":
                 value *= 1;
@@ -458,18 +481,21 @@ function fieldChange(is_running) {
             });
             switch (element) {
                 case "Вольтметр":
-                    div.innerHTML = "<table>"
-                        + "<tr><td><label>Результат измерения</label><div class='show_U_and_R'>" + "Сопротивление - " + button.getAttribute("r").toString() + "</td></tr>"
+                    let U = ELEMENT_CALCULATION.get(i)[1];
+                    div.innerHTML += "<br><table>"
+                        + "<tr><td><header style='font-size: larger'>Результат измерения</header><div class='show_U_and_R' style='font-size: medium'>" + "Напряжение на участке цепи: " + U + " В</td></tr>"
                         + "</table>";
                     break;
                 case "Амперметр":
-                    div.innerHTML = "<table>"
-                        + "<tr><td><div class='show_U_and_R'>" + "Сопротивление - " + button.getAttribute("r").toString() + "</td></tr>"
+                    let I = ELEMENT_CALCULATION.get(i)[1];
+                    div.innerHTML += "<br><table>"
+                        + "<tr><td><header style='font-size: larger'>Результат измерения</header><div class='show_U_and_R'>" + "Сила тока на участке цепи: " + I + " А</td></tr>"
                         + "</table>";
                     break;
                 case "Омметр":
-                    div.innerHTML = "<table>"
-                        + "<tr><td><div class='show_U_and_R'>" + "Сопротивление - " + button.getAttribute("r").toString() + "</td></tr>"
+                    let R = ELEMENT_CALCULATION.get(i)[1];
+                    div.innerHTML += "<br><table>"
+                        + "<tr><td><header style='font-size: larger'>Результат измерения</header><div class='show_U_and_R' style='font-size: medium'>" + "Сопротивление на участке цепи: " + R + " Ом</td></tr>"
                         + "</table>";
                     break;
             }

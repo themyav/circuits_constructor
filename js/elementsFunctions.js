@@ -16,5 +16,4 @@ function handle_ohmmeter(cell){
 }
 
 function handle_voltmeter(cell){
-
 }
