@@ -135,7 +135,7 @@ function addElementButton() {
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мОм</option><option value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
                             + "<tr>Амплитуда<td><input class_name='ac_source' type=\"text\" class='show_U_and_R' unit='a' onchange='validate_values(this)' value='1000'>" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мА</option><option value='deca'>А</option><option value='kilo'>кА</option><option value='mega'>МА</option></select></td></tr>"
-                            + "<tr>Частота<td><input class_name='ac_source' type=\"text\" class='show_U_and_R' unit='nu' onchange='validate_values(this)'> value='2000'" + "</td>" +
+                            + "<tr>Частота<td><input class_name='ac_source' type=\"text\" class='show_U_and_R' unit='nu' onchange='validate_values(this)'value='2000'> " + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='deca'>Гц</option><option value='kilo'>кГц</option><option value='mega'>МГц</option></select></td></tr>"
                             + "<tr>Фаза<td><input class_name='ac_source' type=\"text\" class='show_U_and_R' unit='fi' onchange='validate_values(this)' value='32'>" + "</td>" +
                             "<td><select class='show_U_and_R' onchange='validate_values(this)'><option value='deg'>Градусы</option><option value='rad'>Радианы</option></select></td></tr>"

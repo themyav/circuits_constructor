@@ -180,15 +180,16 @@ aside {
 .UandR_dropdown {
     font-family: "Nunito", sans-serif;
     font-weight: 600;
+    font-size: medium;
     display: none;
     position: absolute;
     background-color: #f1f1f1;
-    min-width: 160px;
+    border-radius: 8px;
+    min-width: 200px;
     overflow: auto;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
 }
-
 
 .circuits_dropdown button {
     font-family: "Nunito", sans-serif;
@@ -319,9 +320,10 @@ button[id*="scale"]:hover {
     box-shadow: 0 3px 10px -.5px rgba(0, 0, 0, .2);
     text-align: center;
     padding: 30px;
-    border-radius: 3px;
+    border-radius: 8px;
     background-color: #fff;
     transition: 0.3s all;
+
 }
 
 
