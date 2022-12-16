@@ -333,11 +333,27 @@ function countFullI(resultMap){
 }
 
 /*
+Удалить элементы, в которые ток всяко не потечет.
+ */
+function removeNonAllowedElements(){
+    ELEMENTS.forEach((value) => {
+        if(IS_BAD_CELL[id_num(value)]) {
+            console.log('going to delete ' + value);
+            ELEMENTS.delete(value);
+        }
+    });
+}
+/*
 Формирует для каждой пары узлов списки элементов по обе стороны от них и определяет приоритетность расчета всех углов.
  */
 function handlePairGroups() {
+
+    removeNonAllowedElements();
+
     let triplePairs = new Map();
     let resultMap = new Map();
+    let stop = 0;
+
     while (ELEMENTS.size !== 0) {
         let elementPairs = findPPairs();
         console.log(elementPairs);
@@ -372,6 +388,8 @@ function handlePairGroups() {
             id_cell(P1).setAttribute('r', R.toString()); //если у нас число->поставится именно оно, иначе через запятую 2 числа
             ELEMENTS.add(id_str(P1));
         }
+        stop++;
+        if(stop === 100) break;
     }
 
     if(IS_I_CONST){

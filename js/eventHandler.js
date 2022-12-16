@@ -339,7 +339,6 @@ function draw_circuit(start, scheme) {
 
     for (let i = 0; i < scheme.length; i++) {
         current = scheme[i][1]
-        console.log(scheme[i][0])
         let cell = document.getElementById("img_" + scheme[i][0])
         chooseElement(cell)
         if (scheme[i].length > 2) scheme[i][2](cell)

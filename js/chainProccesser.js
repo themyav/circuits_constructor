@@ -531,7 +531,7 @@ function current_direction(cell) {
 
 
 function process_up(cell, c, q, used, dir = null) {
-    if (has_up(cell) && !used[id_up(c)] && has_down(id_cell(id_up(c)))) {
+    if (has_up(cell) && !used[id_up(c)] && has_down(id_cell(id_up(c))) && !IS_BAD_CELL[id_up(c)]) {
         if (id_cell(id_up(c)).getAttribute('src') !== OPEN_KEY) {
             if (dir !== null) q.enqueue([id_up(c), dir]);
             else q.enqueue(id_up(c));
@@ -541,7 +541,7 @@ function process_up(cell, c, q, used, dir = null) {
 }
 
 function process_down(cell, c, q, used, dir = null) {
-    if (has_down(cell) && !used[id_down(c)] && has_up(id_cell(id_down(c)))) {
+    if (has_down(cell) && !used[id_down(c)] && has_up(id_cell(id_down(c))) && !IS_BAD_CELL[id_down(c)]) {
         if (id_cell(id_down(c)).getAttribute('src') !== OPEN_KEY) {
             if (dir !== null) q.enqueue([id_down(c), dir]);
             else q.enqueue(id_down(c));
@@ -552,7 +552,7 @@ function process_down(cell, c, q, used, dir = null) {
 
 
 function process_left(cell, c, q, used, dir = null) {
-    if (has_left(cell) && !used[id_left(c)] && has_right(id_cell(id_left(c)))) {
+    if (has_left(cell) && !used[id_left(c)] && has_right(id_cell(id_left(c))) && !IS_BAD_CELL[id_left(c)]) {
         if (id_cell(id_left(c)).getAttribute('src') !== OPEN_KEY) {
             if (dir !== null) q.enqueue([id_left(c), dir]);
             else q.enqueue(id_left(c));
@@ -562,7 +562,7 @@ function process_left(cell, c, q, used, dir = null) {
 }
 
 function process_right(cell, c, q, used, dir = null) {
-    if (has_right(cell) && !used[id_right(c)] && has_left(id_cell(id_right(c)))) {
+    if (has_right(cell) && !used[id_right(c)] && has_left(id_cell(id_right(c))) && !IS_BAD_CELL[id_right(c)]) {
         if (id_cell(id_right(c)).getAttribute('src') !== OPEN_KEY) {
             if (dir !== null) q.enqueue([id_right(c), dir]);
             else q.enqueue(id_right(c));
@@ -624,7 +624,7 @@ function dfs(cell){
     let c = id_num(cell.id);
     IS_BAD_CELL[c] = true;
     if(cell.getAttribute('src') !== DESK) {
-        cell.style.filter = 'drop-shadow(5px 5px 10px red)';
+        //cell.style.filter = 'drop-shadow(5px 5px 10px red)';
         //console.log('evil dfs from ' + c);
     }
     if(has_up(cell)){
@@ -660,92 +660,97 @@ function checkCurrentWay(){
             dfs(cell);
         }
     }
-    for(let i = 0; i < N * M; i++){
-        let cell = document.getElementById(id_str(i));
-        if(!IS_BAD_CELL[i]) cell.style.filter = 'drop-shadow(5px 5px 10px yellow)';
-    }
 }
 
 /*
 Проверяет, какие угловые провода перестали выполнять функцию угловых проводов
  */
 
-
+function checkTripleFunctionality(){
+    for(let i = 0; i < N * M; i++){
+        let cell = document.getElementById(id_str(i));
+        //if(!IS_BAD_CELL[i]) cell.style.filter = 'drop-shadow(5px 5px 10px yellow)';
+        const regex = /triple/;
+        if(cell.getAttribute('src').match(regex)){
+            if(countNonAllowedWays(cell) > 1){ // -> в 2+ ячейки нельзя больше зайти, уже какой-то не угловой провод
+                USED_TR[id_num(cell.id)] = true;
+            }
+        }
+    }
+}
 
 /*
-Вызывается при нажатии на кнопку "пуск". Имитирует течение тока в цепи.
+Изменяет сообщение, выводимое сверху
  */
+function changeInfoMessage(message, info, color){
+    message.innerText = info;
+    message.style.color = color;
+}
 
+/*
+Вызывается при нажатии на кнопку "пуск". Имитирует течение тока в цепи,
+то есть именно рисует, как ток пойдет...
+ */
 function runChain(e) {
-    //let MESSAGE = document.getElementById('message');
+    let MESSAGE = document.getElementById('message');
     if (e.getAttribute("is_running") === "false") {
         fieldChange(true);
         e.style.backgroundColor = "indianred";
         e.setAttribute("is_running", "true");
 
         checkCurrentWay();
+        checkTripleFunctionality();
         countChain();
 
 
-        // if (!runnable || current_source.length === 0) {
-        //     MESSAGE.innerText = 'В цепи нет источника питания!';
-        //     MESSAGE.style.color = 'red';
-        //     return;
-        // }
-        //
-        // MESSAGE.innerText = 'Начинаю эмуляцию';
-        // MESSAGE.style.color = 'black';
-        //
-        // //toMatrix();
-        //
-        // let used = []
-        // for (let i = 0; i <= N * M; i++) used.push(false);
-        // let q = new Queue();
-        //
-        // //Пока что ток растекается только от первого источника энергии
-        // let start = id_num(current_source[0].id);
-        //
-        // //Определим направление тока:
-        // let direction = current_direction(current_source[0]);
-        // console.log(direction);
-        //
-        // //Положим в очередь источник тока и направление
-        // q.enqueue([start, direction]);
-        // used[start] = true;
-        // while (!q.isEmpty) {
-        //     let c = q.peek()[0];
-        //     let dir = q.peek()[1];
-        //     q.dequeue();
-        //     //console.log('go to ' + c);
-        //
-        //     let cell = id_cell(c);
-        //     //тут будет вызываться функция прибора
-        //     //этот фильтр будет заменен на что-нибудь красивее..
-        //
-        //     const regex = /triple/;
-        //     //console.log(cell.getAttribute('src'));
-        //     if (cell.getAttribute('src').match(regex) != null) {
-        //         console.log("I go to triple " + c);
-        //     }
-        //     cell.style.filter = 'drop-shadow(5px 5px 10px yellow)';
-        //     if (c === start) {
-        //         if (dir === 'up') process_up(cell, c, dir, q, used); else if (dir === 'down') process_down(cell, c, dir, q, used); else if (dir === 'left') process_left(cell, c, dir, q, used); else if (dir === 'right') process_right(cell, c, dir, q, used);
-        //
-        //     } else {
-        //         process_up(cell, c, dir, q, used);
-        //         process_down(cell, c, dir, q, used);
-        //         process_left(cell, c, dir, q, used);
-        //         process_right(cell, c, dir, q, used);
-        //     }
-        //
-        // }
-        // resizeGallery(true);
-        // drawGraphic()
+        if (!runnable || current_source.length === 0) {
+            changeInfoMessage(MESSAGE, 'В цепи нет источника питания!', 'red');
+            return;
+        }
+        changeInfoMessage(MESSAGE, 'Эмуляция запуска цепи...', 'black');
+
+        let used = []
+        for (let i = 0; i <= N * M; i++) used.push(false);
+        let q = new Queue();
+        //Пока что ток растекается только от первого источника энергии
+        let start = null;
+        let direction = null;
+        for(let i = 0; i < current_source.length; i++){
+            if(!IS_BAD_CELL[id_num(current_source[i].id)]){
+                start = id_num(current_source[0].id);
+                direction = current_direction(current_source[0]);
+            }
+        }
+        if(start === null){
+            changeInfoMessage(MESSAGE, 'В цепи не будет течь ток', 'red');
+        }
+
+        //Положим в очередь источник тока и направление
+        q.enqueue([start, direction]);
+        used[start] = true;
+        while (!q.isEmpty) {
+            let c = q.peek()[0];
+            let dir = q.peek()[1];
+            q.dequeue();
+            let cell = id_cell(c);
+            let src = cell.getAttribute('src');
+            cell.setAttribute('src', src.split('.')[0] + '_work.png');
+            if (c === start) {
+                if (dir === 'up') process_up(cell, c, q, used, dir);
+                else if (dir === 'down') process_down(cell, c, q, used, dir);
+                else if (dir === 'left') process_left(cell, c, q, used, dir);
+                else if (dir === 'right') process_right(cell, c, q, used, dir);
+            } else {
+                process_up(cell, c, q, used, dir);
+                process_down(cell, c, q, used, dir);
+                process_left(cell, c, q, used, dir);
+                process_right(cell, c, q, used, dir);
+            }
+        }
     } else {
         fieldChange(false);
         e.style.backgroundColor = "darkseagreen";
         e.setAttribute("is_running", "false");
-        //drawGraphic(false); //если я правильно поняла, тут кнопка отжимается
     }
 }
 
@@ -768,6 +773,7 @@ function startWorkingMode() {
     SERIAL = [];
     USED_TR = [];
     IS_BAD_CELL = []
+    IS_I_CONST = true;
 
     searchKeys();
     searchSource();
@@ -775,7 +781,7 @@ function startWorkingMode() {
     if (!runnable) {
         console.log("unable to run");
     }
-    addElementButton();
+    addElementButton(); //TODO связано с проверочным обходом
 
 
 }
