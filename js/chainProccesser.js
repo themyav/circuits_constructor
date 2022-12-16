@@ -713,7 +713,6 @@ function changeInfoMessage(message, info, color){
 function runChain(e) {
     let MESSAGE = document.getElementById('message');
     if (e.getAttribute("is_running") === "false") {
-        fieldChange(true);
         e.style.backgroundColor = "indianred";
         e.setAttribute("is_running", "true");
 
@@ -739,6 +738,7 @@ function runChain(e) {
             return;
         }
         countChain();
+        fieldChange(true);
         changeInfoMessage(MESSAGE, 'Эмуляция запуска цепи...', 'black');
 
 
