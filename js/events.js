@@ -210,6 +210,7 @@ function switchMode(shown, hidden) {
         message.style.color = 'black';
         document.getElementById("start_button").style.backgroundColor = "darkseagreen";
         document.getElementById("start_button").setAttribute("is_running", "false");
+        stopWorkingMode();
     }
     //setCookie()
     document.getElementById(hidden).style.display = 'block';

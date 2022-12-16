@@ -52,6 +52,7 @@ function searchSource() {
     for (let i = 0; i < N * M; i++) {
         let cell = document.getElementById("img_" + i);
         let src = cell.getAttribute("src");
+        if(src === DESK) continue;
 
         for(let j = 0; j < SOURCES.length; j++){
             if(src === SOURCES[j]){
@@ -61,6 +62,7 @@ function searchSource() {
             }
         }
     }
+    console.log('check for runable ' + runnable);
 
 }
 
@@ -698,8 +700,7 @@ function runChain(e) {
         e.style.backgroundColor = "indianred";
         e.setAttribute("is_running", "true");
 
-        checkCurrentWay();
-        checkTripleFunctionality();
+
         countChain();
 
 
@@ -781,7 +782,24 @@ function startWorkingMode() {
     if (!runnable) {
         console.log("unable to run");
     }
+    checkCurrentWay();
+    checkTripleFunctionality();
     addElementButton(); //TODO связано с проверочным обходом
+}
 
+/*
 
+ */
+
+function stopWorkingMode(){
+    for(let i = 0; i < N * M; i++){
+        let cell = document.getElementById(id_str(i));
+        let src = cell.getAttribute('src');
+        if(src === DESK) continue;
+        let newSrc = src.split('_work');
+        if(newSrc.length === 1) continue; //ячейка не была помечена рабочей
+        newSrc = newSrc[0] + '.png';
+        cell.setAttribute('src', newSrc);
+    }
+    document.getElementById('calcResults').innerHTML = '';
 }

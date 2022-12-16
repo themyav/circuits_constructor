@@ -410,4 +410,11 @@ button {
     font-weight: 600;
 }
 
+h3{
+    font-size: 30px;
+}
+
+#calcResults{
+    font-size: 20px;
+}
 /*Для меню с элементами*/

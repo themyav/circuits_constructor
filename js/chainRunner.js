@@ -413,7 +413,7 @@ function drawResultTable(results) {
    let result =  $('#calcResults');
    result.html('');
     for (let [key, value] of results) {
-        drawTableRow(result, '<tr><td>' + key + '</td><td>'
+        drawTableRow(result, '<tr><td>' + key + ': ' + '</td><td>'
             + value[0] + ' ' + value[1] + '</td></tr>');
     }
 }

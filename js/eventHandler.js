@@ -185,7 +185,6 @@ function circuits_one(first = false) {
         [start + 4 * M + 5, 'corner_wire_2'],
     ]
     draw_circuit(start, scheme);
-    addElementButton();
 }
 
 function circuits_two(first = false) {
@@ -209,7 +208,6 @@ function circuits_two(first = false) {
         [start + 3 * M + 4, 'corner_wire_2'],
     ]
     draw_circuit(start, scheme);
-    addElementButton();
 }
 
 function circuits_three(first = false) {
@@ -236,7 +234,6 @@ function circuits_three(first = false) {
 
     ]
     draw_circuit(start, scheme);
-    addElementButton();
 }
 
 //постоянный ток, последовательное соединение
@@ -254,7 +251,6 @@ function circuits_four(first = false) {
         [start + 2 * M + 2, 'corner_wire_2'],
     ]
     draw_circuit(start, scheme);
-    addElementButton();
 }
 
 function circuits_five(first = false) {
@@ -285,7 +281,6 @@ function circuits_five(first = false) {
         [start + 4 * M + 4, 'corner_wire_2']
     ]
     draw_circuit(start, scheme);
-    addElementButton();
 }
 
 function circuits_six(first = false) {
@@ -330,7 +325,6 @@ function circuits_six(first = false) {
         [start + 5 * M + 4, 'corner_wire_2'],
     ]
     draw_circuit(start, scheme);
-    addElementButton();
 }
 
 function draw_circuit(start, scheme) {
