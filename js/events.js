@@ -208,6 +208,8 @@ function switchMode(shown, hidden) {
         for (let i = 0; i < M * N; i++) document.getElementById('img_' + i.toString()).style.filter = '';
         message.innerText = 'Вы в режиме строительства';
         message.style.color = 'black';
+        document.getElementById("start_button").style.backgroundColor = "darkseagreen";
+        document.getElementById("start_button").setAttribute("is_running", "false");
     }
     //setCookie()
     document.getElementById(hidden).style.display = 'block';
