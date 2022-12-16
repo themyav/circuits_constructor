@@ -700,15 +700,10 @@ function runChain(e) {
         e.style.backgroundColor = "indianred";
         e.setAttribute("is_running", "true");
 
-
-        countChain();
-
-
         if (!runnable || current_source.length === 0) {
             changeInfoMessage(MESSAGE, 'В цепи нет источника питания!', 'red');
             return;
         }
-        changeInfoMessage(MESSAGE, 'Эмуляция запуска цепи...', 'black');
 
         let used = []
         for (let i = 0; i <= N * M; i++) used.push(false);
@@ -724,7 +719,11 @@ function runChain(e) {
         }
         if(start === null){
             changeInfoMessage(MESSAGE, 'В цепи не будет течь ток', 'red');
+            return;
         }
+        countChain();
+        changeInfoMessage(MESSAGE, 'Эмуляция запуска цепи...', 'black');
+
 
         //Положим в очередь источник тока и направление
         q.enqueue([start, direction]);
