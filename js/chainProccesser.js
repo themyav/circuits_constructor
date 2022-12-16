@@ -75,7 +75,8 @@ function searchKeys() {
         if (src === OPEN_KEY) {
             current_key.push(cell)
 
-            cell.style.filter = 'brightness(50%)'; //TODO выделять как-нибудь нормально
+            //TODO вернуть
+            //cell.style.filter = 'brightness(50%)'; //TODO выделять как-нибудь нормально
             let message = document.getElementById('message');
             message.innerText = 'У вас есть незакрытый ключ!';
             message.style.color = 'red';
@@ -478,22 +479,29 @@ function fieldChange(is_running) {
             });
             switch (element) {
                 case "Вольтметр":
-                    let U = ELEMENT_CALCULATION.get(i)[1];
-                    div.innerHTML += "<br><table>"
-                        + "<tr><td><header style='font-size: larger'>Результат измерения</header><div class='show_U_and_R' style='font-size: medium'>" + "Напряжение на участке цепи: " + U + " В</td></tr>"
-                        + "</table>";
+                    if(ELEMENT_CALCULATION.has(i)){
+                        let U = ELEMENT_CALCULATION.get(i)[1];
+                        div.innerHTML += "<br><table>"
+                            + "<tr><td><header style='font-size: larger'>Результат измерения</header><div class='show_U_and_R' style='font-size: medium'>" + "Напряжение на участке цепи: " + U + " В</td></tr>"
+                            + "</table>";
+                    }
+
                     break;
                 case "Амперметр":
-                    let I = ELEMENT_CALCULATION.get(i)[1];
-                    div.innerHTML += "<br><table>"
-                        + "<tr><td><header style='font-size: larger'>Результат измерения</header><div class='show_U_and_R'>" + "Сила тока на участке цепи: " + I + " А</td></tr>"
-                        + "</table>";
+                    if(ELEMENT_CALCULATION.has(i)) {
+                        let I = ELEMENT_CALCULATION.get(i)[1];
+                        div.innerHTML += "<br><table>"
+                            + "<tr><td><header style='font-size: larger'>Результат измерения</header><div class='show_U_and_R'>" + "Сила тока на участке цепи: " + I + " А</td></tr>"
+                            + "</table>";
+                    }
                     break;
                 case "Омметр":
-                    let R = ELEMENT_CALCULATION.get(i)[1];
-                    div.innerHTML += "<br><table>"
-                        + "<tr><td><header style='font-size: larger'>Результат измерения</header><div class='show_U_and_R' style='font-size: medium'>" + "Сопротивление на участке цепи: " + R + " Ом</td></tr>"
-                        + "</table>";
+                    if(ELEMENT_CALCULATION.has(i)) {
+                        let R = ELEMENT_CALCULATION.get(i)[1];
+                        div.innerHTML += "<br><table>"
+                            + "<tr><td><header style='font-size: larger'>Результат измерения</header><div class='show_U_and_R' style='font-size: medium'>" + "Сопротивление на участке цепи: " + R + " Ом</td></tr>"
+                            + "</table>";
+                    }
                     break;
             }
         }
@@ -564,6 +572,107 @@ function process_right(cell, c, q, used, dir = null) {
 }
 
 /*
+Храним, какие ячейки тупиковые, а какие нет
+ */
+let IS_BAD_CELL = [];
+
+/*
+
+ */
+
+function countNonAllowedWays(cell){
+    let k = 0;
+    let c = id_num(cell.id);
+    if(!has_up(cell) || !has_down(id_cell(id_up(c))) || IS_BAD_CELL[id_up(c)]) {
+        //console.log(has_up(cell));
+        //console.log(has_down(id_cell(id_up(c))));
+        k++;
+    }
+    //нет вообще соседа, либо он есть, но нет пути от него
+    if(!has_left(cell) || !has_right(id_cell(id_left(c))) || IS_BAD_CELL[id_left(c)]) {
+        //console.log(has_left(cell));
+        //console.log(has_right(id_cell(id_left(c))));
+        k++;
+    }
+    if(!has_down(cell) || !has_up(id_cell(id_down(c))) || IS_BAD_CELL[id_down(c)]) k++;
+
+    if(!has_right(cell) || !has_left(id_cell(id_right(c))) || IS_BAD_CELL[id_right(c)]){
+        k++;
+    }
+    return k;
+}
+
+/*
+Проверяем, является ли ячейка тупиковой.
+Тупик = есть проход не больше, чем в одну сторону
+ */
+function isDeadEnd(cell){
+    if(IS_BAD_CELL[id_num(cell.id)]) return false; //если мы уже проверяли, то больше не интересно
+    else if(cell.getAttribute('src') === DESK ||
+      cell.getAttribute('src') === OPEN_KEY) return true; //а если в первый раз, то
+
+    let k = countNonAllowedWays(cell);
+    //console.log('k is ' + k + ' ' + cell.id);
+    return k > 2;
+}
+
+
+/*
+Обход цепи в глубину
+ */
+function dfs(cell){
+    let c = id_num(cell.id);
+    IS_BAD_CELL[c] = true;
+    if(cell.getAttribute('src') !== DESK) {
+        cell.style.filter = 'drop-shadow(5px 5px 10px red)';
+        //console.log('evil dfs from ' + c);
+    }
+    if(has_up(cell)){
+        let up = id_cell(id_up(c));
+        if(has_down(up) && isDeadEnd(up)) dfs(up);
+    }
+    if(has_down(cell)){
+        let down = id_cell(id_down(c));
+        if(has_up(down) && isDeadEnd(down)) dfs(down);
+    }
+    if(has_left(cell)){
+        let left = id_cell(id_left(c));
+        //console.log('I am ' + c + ' my left is ' + left.id + ' his end ' + his_status);
+
+        if(has_right(left) && isDeadEnd(left)) dfs(left);
+    }
+    if(has_right(cell)){
+        let right = id_cell(id_right(c));
+        if(has_left(right) && isDeadEnd(right)) dfs(right);
+    }
+}
+
+/*
+Проверяет, в каких участках цепи ток будет течь бесконечно, а в каких --- нет.
+ */
+
+function checkCurrentWay(){
+    for(let i = 0; i < N * M; i++) IS_BAD_CELL.push(false);
+
+    for(let i = 0; i < N * M; i++) {
+        let cell = document.getElementById(id_str(i));
+        if (isDeadEnd(cell)) {
+            dfs(cell);
+        }
+    }
+    for(let i = 0; i < N * M; i++){
+        let cell = document.getElementById(id_str(i));
+        if(!IS_BAD_CELL[i]) cell.style.filter = 'drop-shadow(5px 5px 10px yellow)';
+    }
+}
+
+/*
+Проверяет, какие угловые провода перестали выполнять функцию угловых проводов
+ */
+
+
+
+/*
 Вызывается при нажатии на кнопку "пуск". Имитирует течение тока в цепи.
  */
 
@@ -573,6 +682,8 @@ function runChain(e) {
         fieldChange(true);
         e.style.backgroundColor = "indianred";
         e.setAttribute("is_running", "true");
+
+        checkCurrentWay();
         countChain();
 
 
@@ -656,6 +767,7 @@ function startWorkingMode() {
     ELEMENT_CALCULATION = new Map();
     SERIAL = [];
     USED_TR = [];
+    IS_BAD_CELL = []
 
     searchKeys();
     searchSource();
