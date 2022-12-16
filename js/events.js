@@ -198,6 +198,7 @@ function switchMode(shown, hidden) {
     let message = document.getElementById('message');
     if (shown === 'buildingMode') {
         //console.log(document.cookie);
+        document.getElementById("button_for_default_circ").disabled = true;
         MODE = WORK;
         message.innerText = 'Вы в режиме запуска';
         startWorkingMode();
@@ -205,6 +206,7 @@ function switchMode(shown, hidden) {
 
     } else {
         MODE = BUILD;
+        document.getElementById("button_for_default_circ").disabled = false;
         for (let i = 0; i < M * N; i++) document.getElementById('img_' + i.toString()).style.filter = '';
         message.innerText = 'Вы в режиме строительства';
         message.style.color = 'black';
