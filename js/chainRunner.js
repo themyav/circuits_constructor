@@ -158,7 +158,8 @@ function countParallelR(array) {
 Вычисляет напряжение на параллельном уучастке цепи.
  */
 function countSerialU(I, array){
-    return I * countSerialR(array);
+    console.log("Counting serial U: with " + I + " and " + array + " and " + countSerialR(array));
+    return I * countSerialR(cellArrayToNumber(array, "r"));
 }
 
 function countParallelU(I, array){

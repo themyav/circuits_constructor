@@ -89,7 +89,7 @@ function searchKeys() {
             //TODO вернуть
             //cell.style.filter = 'brightness(50%)'; //TODO выделять как-нибудь нормально
             is_closed = false;
-        } else if (src === CLOSED_KEY) {;
+        } else if (src === CLOSED_KEY) {
             is_closed = true;
             current_key.push(cell);
         }
@@ -104,23 +104,6 @@ function searchKeys() {
         message.style.color = 'black';
     }
 }
-
-//Закрытие ключа по клику
-
-// window.onclick = function (e) {
-//     let cell;
-//     searchKeys();
-//     //TODO: вытащить из е элемент
-//     for (let i = 0; i < N * M; i++) {
-//         cell = document.getElementById("img_" + i);
-//         //console.log(e);
-//         if (e === cell && MODE === WORK) {
-//             console.log("is function");
-//             if (runnable) e.setAttribute("src", "resource/element/key/closed_key.png");
-//             else e.setAttribute("src", OPEN_KEY);
-//         }
-//     }
-// }
 
 function addElementButton() {
     let cell;
@@ -765,10 +748,19 @@ function runChain(e) {
             }
         }
     } else {
+        makeCellsDefault();
+        cleanRunArrays();
         fieldChange(false);
         e.style.backgroundColor = "darkseagreen";
         e.setAttribute("is_running", "false");
     }
+}
+
+/*
+Очищает все глобальные массивы */
+function cleanRunArrays(){
+    //TODO нужно очищать все лишнее
+    ELEMENT_CALCULATION = new Map();
 }
 
 
@@ -776,7 +768,6 @@ function runChain(e) {
 Точка входа, из которой запускается вся предобработка.
 Нужна для того, чтобы инкапсулировать режим работы
  */
-
 
 function startWorkingMode() {
     //обновим значения, если цепь до этого запускалась
@@ -804,10 +795,9 @@ function startWorkingMode() {
 }
 
 /*
-
+Снимает анимацию тока с элементов
  */
-
-function stopWorkingMode(){
+function makeCellsDefault(){
     for(let i = 0; i < N * M; i++){
         let cell = document.getElementById(id_str(i));
         let src = cell.getAttribute('src');
@@ -817,5 +807,13 @@ function stopWorkingMode(){
         newSrc = newSrc[0] + '.png';
         cell.setAttribute('src', newSrc);
     }
+}
+
+/*
+Выполняется при выходе из режима работы
+ */
+
+function stopWorkingMode(){
+    makeCellsDefault();
     document.getElementById('calcResults').innerHTML = '';
 }
