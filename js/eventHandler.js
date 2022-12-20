@@ -46,7 +46,8 @@ function handleBuildModeButton(cell) {
     removeButtonsLighting();
     //отсекаем рабочие кнопки
     if (cell.id === '' || cell.id === 'scale_plus' || cell.id === 'scale_minus'
-        || cell.id === 'project_description' || cell.id === 'elements_description' || cell.id === 'instruction') return;
+        || cell.id === 'project_description' || cell.id === 'elements_description' || cell.id === 'instruction'
+        || cell.id === 'button_for_default_circ') return;
     current = cell.id;
     document.getElementById(current).style.filter = 'brightness(50%)';
     let category = document.getElementById(current).closest('table').classList[0];
