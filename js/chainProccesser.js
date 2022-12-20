@@ -482,7 +482,7 @@ function fieldChange(is_running) {
             switch (element) {
                 case "Вольтметр":
                     if(ELEMENT_CALCULATION.has(i)){
-                        let U = ELEMENT_CALCULATION.get(i)[1];
+                        let U = ELEMENT_CALCULATION.get(i)[1].toFixed(5);
                         div.innerHTML += "<br><table>"
                             + "<tr><td><header style='font-size: larger'>Результат измерения</header><div class='show_U_and_R' style='font-size: medium'>" + "Напряжение на участке цепи: " + U + " В</td></tr>"
                             + "</table>";
@@ -491,7 +491,7 @@ function fieldChange(is_running) {
                     break;
                 case "Амперметр":
                     if(ELEMENT_CALCULATION.has(i)) {
-                        let I = ELEMENT_CALCULATION.get(i)[1];
+                        let I = ELEMENT_CALCULATION.get(i)[1].toFixed(5);
                         div.innerHTML += "<br><table>"
                             + "<tr><td><header style='font-size: larger'>Результат измерения</header><div class='show_U_and_R'>" + "Сила тока на участке цепи: " + I + " А</td></tr>"
                             + "</table>";
@@ -499,7 +499,7 @@ function fieldChange(is_running) {
                     break;
                 case "Омметр":
                     if(ELEMENT_CALCULATION.has(i)) {
-                        let R = ELEMENT_CALCULATION.get(i)[1];
+                        let R = ELEMENT_CALCULATION.get(i)[1].toFixed(5);
                         div.innerHTML += "<br><table>"
                             + "<tr><td><header style='font-size: larger'>Результат измерения</header><div class='show_U_and_R' style='font-size: medium'>" + "Сопротивление на участке цепи: " + R + " Ом</td></tr>"
                             + "</table>";
@@ -720,9 +720,9 @@ function runChain(e) {
             changeInfoMessage(MESSAGE, 'В цепи не будет течь ток', 'red');
             return;
         }
+        changeInfoMessage(MESSAGE, 'Эмуляция запуска цепи...', 'black');
         countChain();
         fieldChange(true);
-        changeInfoMessage(MESSAGE, 'Эмуляция запуска цепи...', 'black');
 
 
         //Положим в очередь источник тока и направление

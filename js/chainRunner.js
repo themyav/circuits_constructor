@@ -210,12 +210,15 @@ function countingParallelElementsInGroup(left, right) {
 }
 
 function countingSerialElementsInGroup(array){
+    console.log('counting serial now...');
     let valid = true;
     let actions = [];
     for(let i = 0; i < array.length; i++){
         let cell = id_cell(array[i]);
         let src = cell.getAttribute('src');
         if(src === APPLIANCES.get('Вольтметр')){
+            let MESSAGE = document.getElementById('message');
+            changeInfoMessage(MESSAGE, 'Вольтметр подключен последовательно!', 'red');
             console.log('Circuit is incorrect: voltmeter'); //вольтметру нельзя быть подключенным последовательно
             valid = false;
         }
@@ -439,9 +442,10 @@ function handleElementActions(results){
         }
         else if(src === APPLIANCES.get('Амперметр')){
             //сила тока на участке цепи: I = U/R, U, R для участка. Тогда нам нужно: получить напр, получить r и считать
-            let I = results.get('Сила тока в цепи')[0];
-            let result = (countSerialU(I, array)).toFixed(3);
-            if(isParallel) result /= 2; //при параллельном соединении ток поделится пополам;
+            let I = results.get('Сила тока в цепи')[0], result = 0;
+            if(!isParallel) result = I;
+            //let result = (countSerialU(I, array)).toFixed(3);
+            //if(isParallel) result /= 2; //при параллельном соединении ток поделится пополам;
             //console.log('Результат для амперметра ' + result);
             ELEMENT_CALCULATION.set(id_num(element.id), ['Измеренная сила тока', result]);
 
