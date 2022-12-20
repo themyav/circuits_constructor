@@ -427,7 +427,21 @@ h3{
 }
 
 #calcResults{
-    font-size: 10px;
+    font-size: 15px;
+    border-collapse: collapse;
+    background-color: darkseagreen;
+    border-radius: 5px;
+}
+
+#calcResults tr{
+    border-radius: 5px;
+    text-align: center;
+
+}
+
+#calcResults tr:nth-child(even) {
+    background: aliceblue;
+    font-weight: bold;
 }
 
 #message{

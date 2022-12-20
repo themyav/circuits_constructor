@@ -155,21 +155,25 @@ function countParallelR(array) {
 }
 
 /*
-Вычисляет напряжение на параллельном уучастке цепи.
+Вычисляет напряжение на параллельном участке цепи.
  */
 function countSerialU(I, array){
-    console.log("Counting serial U: with " + I + " and " + array + " and " + countSerialR(array));
+    console.log("Counting serial U: with " + I + " and " + array + " and " + countSerialR(cellArrayToNumber(array, "r")));
     return I * countSerialR(cellArrayToNumber(array, "r"));
 }
 
-function countParallelU(I, array){
+/*
+Считаем силу току на участке цепи (для амперметра), если он является участником параллельного соединения.
+ */
+function countParallelI(){
+
 }
 
 /*
 Считает силу тока по закону Ома для полной цепи
  */
 function countFullCircuitI(R, r, e) {
-    return (e / (R + r)).toFixed(5);
+    return (e / (R + r));
 }
 /*
 Вычленяет вольтметры и амперметры при параллельном соединении.
@@ -414,8 +418,8 @@ function drawResultTable(results) {
    let result =  $('#calcResults');
    result.html('');
     for (let [key, value] of results) {
-        drawTableRow(result, '<tr><td>' + key + ': ' + '</td><td>'
-            + value[0] + ' ' + value[1] + '</td></tr>');
+        drawTableRow(result, '<tr><td>' + key + '</td></tr><tr><td>'
+            + value[0].toFixed(5) + ' ' + value[1] + '</td></tr>');
     }
 }
 
@@ -434,6 +438,7 @@ function handleElementActions(results){
             ELEMENT_CALCULATION.set(id_num(element.id), ['Измеренное напряжение', result]);
         }
         else if(src === APPLIANCES.get('Амперметр')){
+            //сила тока на участке цепи: I = U/R, U, R для участка. Тогда нам нужно: получить напр, получить r и считать
             let I = results.get('Сила тока в цепи')[0];
             let result = (countSerialU(I, array)).toFixed(3);
             if(isParallel) result /= 2; //при параллельном соединении ток поделится пополам;
