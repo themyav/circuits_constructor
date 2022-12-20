@@ -320,11 +320,12 @@ function validate_values(e) {
 
     let input;
     if (e.type === "text") input = e;
-    else if (e.type === "select-one") input = e.parentElement.parentElement.children[0].children[0];
+    else if (e.type === "select-one") input = e.parentElement.parentElement.children[0].children[1];
     input.getAttribute("unit");
     let value = input.value;
-    if (!/^-?\d+([.,])?\d*$/i.test(value)) {
-        alert("Некорректные данные.");
+    let regex = /^-?\d+[.,]?\d{0,10}$/;
+    if (value.match(regex) === null) {
+        alert("Вы ввели некорректные данные в форму: " + value);
         value = "";
         document.getElementById("start_button").disabled = true;
     } else {
