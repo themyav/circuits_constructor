@@ -1,9 +1,32 @@
 /*
+Словарь, который сопоставляет вычислительному прибору участок, где нужно будет посчитать U|I|R(?)
+ */
+let ELEMENT_CALCULATION = new Map();
+/*
+Показывает, работаем с источником переменного тока или постоянного
+ */
+let IS_I_CONST = true;
+/*
+Словарь, который сопоставляет узлу вложенные в него узлы
+ */
+let P_INNER = new Map();
+
+/*
+Словарь, который сопоставляет узлу текущий через него постоянный ток
+ */
+let P_CONST_I = new Map();
+/*
+Словарь, который сопоставляет узлу родительский узел
+ */
+let P_PARENT = new Map();
+/*
+Пара узлов, для которых мы сейчас считаем сопротивление
+ */
+let P1 = null, P2 = null;
+
+/*
 Поиск двух ближайших узлов к элементу
  */
-
-let ELEMENT_CALCULATION = new Map();
-let IS_I_CONST = true;
 
 function searchClothestP(start) {
     //console.log("let's search triples for " + start);
@@ -119,7 +142,13 @@ function cellArrayToNumber(array, atr) {
     let numberArray = [];
     for (let i = 0; i < array.length; i++) {
         let atrContainer = document.getElementById('button_' + array[i]);
-        if (atrContainer === null) atrContainer = id_cell(array[i]); //если нет кнопки, то мы в узле --- достанем значение из него
+        if (atrContainer === null) {
+            //если нет кнопки, то мы в узле --- достанем значение из него и сохраним вложенный узел
+            if(!P_INNER.has(P1)) P_INNER.set(P1, []);
+            P_INNER.get(P1).push(array[i]);
+            P_PARENT.set(array[i], P1);
+            atrContainer = id_cell(array[i]);
+        }
         let val = atrContainer.getAttribute(atr);
         if (val !== null) numberArray.push(parseFloat(val)); //вообще если атрибута нет, то это ошибка
         else {
@@ -155,10 +184,9 @@ function countParallelR(array) {
 }
 
 /*
-Вычисляет напряжение на параллельном участке цепи.
+Вычисляет напряжение на параллельном участке цепи
  */
 function countSerialU(I, array){
-    console.log("Counting serial U: with " + I + " and " + array + " and " + countSerialR(cellArrayToNumber(array, "r")));
     return I * countSerialR(cellArrayToNumber(array, "r"));
 }
 
@@ -180,6 +208,7 @@ function countFullCircuitI(R, r, e) {
 Проверяет правильность построения цепи.
  */
 function countingParallelElementsInGroup(left, right) {
+    let MESSAGE = document.getElementById('message');
     let valid = true;
     let actions = [];
     for(let i = 0; i < left.length; i++){
@@ -187,21 +216,20 @@ function countingParallelElementsInGroup(left, right) {
         let src = cell.getAttribute('src');
         if(src === APPLIANCES.get('Вольтметр')){
             if(left.length !== 1){ //есть еще кто-то, подключенный параллельно с вольтметром.
-                console.log('Circut is incorrect: voltmeter');
+                changeInfoMessage(MESSAGE, 'Вольтметр подключен последовательно!', 'red'); //console.log('Circut is incorrect: voltmeter');
                 valid = false;
             }
             else{
-                actions.push([cell, right, true]); //<- последний аргумент --- это для параллельного
-                //ELEMENTS_COUNT_Q.enqueue([cell, right]); //посчитаем напряжение на параллельном ему участке
+                actions.push([cell, right, true, P1]); //<- true --- это для параллельного
             }
         }
         if(src === APPLIANCES.get('Амперметр')){
             if(left.length === 1){ //один амперметр подключен параллельно к кому-то
-                console.log('Circuit is incorrect: ammeter');
+                changeInfoMessage(MESSAGE, 'Амперметр подключен параллельно!', 'red');
                 valid = false;
             }
             else{
-                actions.push([cell, left, true]);
+                actions.push([cell, left, true, P1]);
             }
         }
     }
@@ -210,20 +238,19 @@ function countingParallelElementsInGroup(left, right) {
 }
 
 function countingSerialElementsInGroup(array){
-    console.log('counting serial now...');
+    let MESSAGE = document.getElementById('message');
     let valid = true;
     let actions = [];
     for(let i = 0; i < array.length; i++){
         let cell = id_cell(array[i]);
         let src = cell.getAttribute('src');
         if(src === APPLIANCES.get('Вольтметр')){
-            let MESSAGE = document.getElementById('message');
             changeInfoMessage(MESSAGE, 'Вольтметр подключен последовательно!', 'red');
             console.log('Circuit is incorrect: voltmeter'); //вольтметру нельзя быть подключенным последовательно
             valid = false;
         }
         else if(src === APPLIANCES.get('Амперметр')){
-            actions.push([cell, array, false]); //<- false, тк не параллельно.
+            actions.push([cell, array, false, P1]); //<- false, тк не параллельно.
         }
     }
     if(!valid) return null;
@@ -341,6 +368,30 @@ function countFullI(resultMap){
 }
 
 /*
+На основе полной силы тока (в цепи постоянного тока) считает силу тока для каждого узла
+ */
+function countIForInnerP(I){
+    let start = P1;
+    P_CONST_I.set(start, I);
+    let q = new Queue();
+    q.enqueue([start, I]);
+    while (!q.isEmpty){
+        let p = q.peek()[0];
+        let curI = q.peek()[1];
+        q.dequeue();
+        //console.log("I'm in " + p + " and I is " + curI);
+        if(!P_INNER.has(p)) continue;
+        let children = P_INNER.get(p);
+        //console.log(children);
+        curI /= (children.length * 2); //один вложенный узел на самом деле символизирует пару
+        for(let i = 0; i < children.length; i++){
+            P_CONST_I.set(children[i], curI);
+            q.enqueue([children[i], curI]);
+        }
+    }
+}
+
+/*
 Удалить элементы, в которые ток всяко не потечет.
  */
 function removeNonAllowedElements(){
@@ -378,16 +429,15 @@ function handlePairGroups() {
             let key = groupQueue.peek()[0];
             let splitted = key.split('_');
             //console.log(splitted);
-            let P1 = parseInt(splitted[0]);
-            let P2 = parseInt(splitted[1]);
+            P1 = parseInt(splitted[0]);
+            P2 = parseInt(splitted[1]);
             let value = groupQueue.peek()[1]; //тут два массива: левый и правый.
             groupQueue.dequeue();
 
             //посчитаем сопротивление в зависимости от источника тока
             let R = 0;
             R = countParallelGroupR(value);
-            console.log(R);
-            console.log('my R is ' + R + ' on ' + P1 + ' ' + P2);
+            console.log('just finished for ' + P1 + ' ' + P2);
             removeGroup(value);
             USED_TR[P1] = true;
             USED_TR[P2] = true;
@@ -401,8 +451,10 @@ function handlePairGroups() {
     }
 
     if(IS_I_CONST){
+        P1 = id_num(current_source[0].id);
         countFullR(resultMap);
         countFullI(resultMap);
+        countIForInnerP(resultMap.get('Сила тока в цепи')[0]);
     }
     else{
         countFullComplexR(resultMap);
@@ -426,6 +478,7 @@ function drawResultTable(results) {
     }
 }
 
+
 function handleElementActions(results){
     while (!ELEMENTS_COUNT_Q.isEmpty){
         let action = ELEMENTS_COUNT_Q.peek();
@@ -435,18 +488,17 @@ function handleElementActions(results){
         let isParallel = action[2];
         let src = element.getAttribute('src');
         if(src === APPLIANCES.get('Вольтметр')){
-            // console.log('Сейчас запустимся с силой тока ' + results.get('Сила тока в цепи')[0]);
-            let result = countSerialU(results.get('Сила тока в цепи')[0], array).toFixed(3);
-            //console.log('Результат для вольтметра ' + result);
+            let partI = P_CONST_I.get(P_PARENT.get(action[3])); //сила тока до того, как ток "разошелся", тк у вольтметра большое сопротивление
+            let result = countSerialU(partI, array).toFixed(3);
             ELEMENT_CALCULATION.set(id_num(element.id), ['Измеренное напряжение', result]);
         }
         else if(src === APPLIANCES.get('Амперметр')){
             //сила тока на участке цепи: I = U/R, U, R для участка. Тогда нам нужно: получить напр, получить r и считать
             let I = results.get('Сила тока в цепи')[0], result = 0;
             if(!isParallel) result = I;
-            //let result = (countSerialU(I, array)).toFixed(3);
-            //if(isParallel) result /= 2; //при параллельном соединении ток поделится пополам;
-            //console.log('Результат для амперметра ' + result);
+            else{
+                result = P_CONST_I.get(action[3]);
+            }
             ELEMENT_CALCULATION.set(id_num(element.id), ['Измеренная сила тока', result]);
 
         }

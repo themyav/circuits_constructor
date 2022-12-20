@@ -482,7 +482,7 @@ function fieldChange(is_running) {
             switch (element) {
                 case "Вольтметр":
                     if(ELEMENT_CALCULATION.has(i)){
-                        let U = ELEMENT_CALCULATION.get(i)[1].toFixed(5);
+                        let U = ELEMENT_CALCULATION.get(i)[1];
                         div.innerHTML += "<br><table>"
                             + "<tr><td><header style='font-size: larger'>Результат измерения</header><div class='show_U_and_R' style='font-size: medium'>" + "Напряжение на участке цепи: " + U + " В</td></tr>"
                             + "</table>";
@@ -491,7 +491,7 @@ function fieldChange(is_running) {
                     break;
                 case "Амперметр":
                     if(ELEMENT_CALCULATION.has(i)) {
-                        let I = ELEMENT_CALCULATION.get(i)[1].toFixed(5);
+                        let I = ELEMENT_CALCULATION.get(i)[1];
                         div.innerHTML += "<br><table>"
                             + "<tr><td><header style='font-size: larger'>Результат измерения</header><div class='show_U_and_R'>" + "Сила тока на участке цепи: " + I + " А</td></tr>"
                             + "</table>";
@@ -499,7 +499,7 @@ function fieldChange(is_running) {
                     break;
                 case "Омметр":
                     if(ELEMENT_CALCULATION.has(i)) {
-                        let R = ELEMENT_CALCULATION.get(i)[1].toFixed(5);
+                        let R = ELEMENT_CALCULATION.get(i)[1];
                         div.innerHTML += "<br><table>"
                             + "<tr><td><header style='font-size: larger'>Результат измерения</header><div class='show_U_and_R' style='font-size: medium'>" + "Сопротивление на участке цепи: " + R + " Ом</td></tr>"
                             + "</table>";
@@ -722,6 +722,11 @@ function runChain(e) {
         }
         changeInfoMessage(MESSAGE, 'Эмуляция запуска цепи...', 'black');
         countChain();
+        if(MESSAGE.style.color === 'red') {
+            //runChain(e); //TODO нужно как-то все прерывать и делать кнопку назад зеленой...
+            return;
+            //TODO возможно не стоит этого делать или проверять по другому, но если какой-то прибор не правильно подключен, то не пропустим ток
+        }
         fieldChange(true);
 
 
@@ -761,6 +766,10 @@ function runChain(e) {
 function cleanRunArrays(){
     //TODO нужно очищать все лишнее
     ELEMENT_CALCULATION = new Map();
+    P_INNER = new Map();
+    P_CONST_I = new Map();
+    P_PARENT = new Map();
+
 }
 
 
@@ -782,6 +791,11 @@ function startWorkingMode() {
     USED_TR = [];
     IS_BAD_CELL = []
     IS_I_CONST = true;
+    //про узлы
+    P_INNER = new Map();
+    P_CONST_I = new Map();
+    P_PARENT = new Map();
+
 
     searchKeys();
     searchSource();
