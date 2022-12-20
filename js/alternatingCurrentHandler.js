@@ -6,13 +6,36 @@
 Циклическая частота
  */
 let W;
+/*
+Амплитуда
+ */
+let I0;
+/*
+Фаза
+ */
+let PHI;
 
 /*
 Расчет циклической частоты.
  */
 function countW(){
-    let nu = document.getElementById('button_' + id_num(current_source[0].id)).getAttribute('nu');
+    let nu = parseFloat(document.getElementById('button_' + id_num(current_source[0].id)).getAttribute('nu'));
     W = 2 * Math.PI * nu;
+    console.log('W is ' + W);
+}
+
+/*
+Достает значение амплитуды
+ */
+function countI0(){
+    I0 = parseFloat(document.getElementById('button_' + id_num(current_source[0].id)).getAttribute('a'));
+}
+
+/*
+Достает значение фазы
+ */
+function countPhi(){
+    PHI = parseFloat(document.getElementById('button_' + id_num(current_source[0].id)).getAttribute('fi'));
 }
 
 /*
@@ -67,6 +90,14 @@ function countComplexParallelR(array){
 }
 
 /*
+
+ */
+
+function countMomentalI(t){
+    //console.log(I0,  W * t, Math.sin(W * t));
+    return I0 * Math.sin(W * t);
+}
+/*
 Получение массива комплексных значений для последовательного участка
  */
 function cellArrayToComplexR(array, atr='r'){ //здесь такой расчет имеет смысл только для сопротивления
@@ -87,7 +118,7 @@ function cellArrayToComplexR(array, atr='r'){ //здесь такой расче
             if(src === APPLIANCES.get('Конденсатор')){
                 val = capacitorR(array[i]);
             }
-            else if(src === APPLIANCES.get('Катушка')){
+            else if(src === APPLIANCES.get('Катушка индуктивности')){
                 val = coilR(array[i]);
             }
             else val = [parseFloat(atrContainer.getAttribute(atr)), 0];
@@ -105,7 +136,7 @@ function countFullComplexR(resultMap){
     let complexR = cellArrayToComplexR(SERIAL);
     let R = countComplexSerialR(complexR);
     R = Math.sqrt(R[0]*R[0] + R[1]*R[1]);
-    resultMap.set('Полное сопротивление в цепи', [R.toFixed(3), 'Ом']);
+    resultMap.set('Полное сопротивление в цепи', [R, 'Ом']);
 
 }
 

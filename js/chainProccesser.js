@@ -753,6 +753,7 @@ function runChain(e) {
                 process_right(cell, c, q, used, dir);
             }
         }
+        processGraphic();
     } else {
         makeCellsDefault();
         cleanRunArrays();

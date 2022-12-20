@@ -35,6 +35,6 @@ function createDesk(){
 function createWorkspace(){
     createAside()
     createDesk();
-    circuits_six(true);
+    circuits_two(true);
 
 }

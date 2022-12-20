@@ -311,9 +311,17 @@ function countParallelGroupR(group){
     //считаем сопротивление для переменного тока -> вернем комплексное число
     else{
         let left = cellArrayToComplexR(group[0], 'r');
+        // console.log('left array is ');
+        // console.log(left);
         let right = cellArrayToComplexR(group[1], 'r');
+        // console.log('right array is ');
+        // console.log(right);
         let leftR = countComplexSerialR(left);
+        // console.log('leftR array is ');
+        // console.log(leftR);
         let rightR = countComplexSerialR(right);
+        // console.log('rightR array is ');
+        // console.log(rightR);
         return countComplexParallelR([leftR, rightR]);
     }
 }
@@ -493,7 +501,7 @@ function handleElementActions(results){
             ELEMENT_CALCULATION.set(id_num(element.id), ['Измеренное напряжение', result]);
         }
         else if(src === APPLIANCES.get('Амперметр')){
-            //сила тока на участке цепи: I = U/R, U, R для участка. Тогда нам нужно: получить напр, получить r и считать
+            //Сила тока на участке цепи: I = U/R, U, R для участка. Тогда нам нужно: получить напр, получить r и считать
             let I = results.get('Сила тока в цепи')[0], result = 0;
             if(!isParallel) result = I;
             else{
@@ -508,7 +516,11 @@ function handleElementActions(results){
 Входная точка расчета цепи.
  */
 function countChain() {
-    if(!IS_I_CONST) countW();
+    if(!IS_I_CONST) {
+        countW();
+        countI0();
+        countPhi();
+    }
     for (let i = 0; i < N * M; i++) USED_TR.push(false);
     let results = handlePairGroups();
     handleElementActions(results);

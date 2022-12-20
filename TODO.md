@@ -53,6 +53,7 @@ https://studfile.net/preview/16543874/
 - [X] https://phys-ege.sdamgia.ru/problem?id=3537 - корректно
 - [X] https://self-edu.ru/ege2020_phis_30.php?id=8_25 - сила тока/сопротивление/вольтметр верные
 - [ ] https://www.bog5.in.ua/problems/volkenshtejin/dircur/volkenshtejin%20z10%2033.html - сила тока/сопротивление верные, у вольметра/амперметра странности..
+- [X] https://keisan.casio.com/exec/system/14192325220308 - сопротивление при переменном точке считается корректно
 
 
 ### Баги
