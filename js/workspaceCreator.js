@@ -39,13 +39,21 @@ function memorizing(){
     let rotation;
     let reflectionX;
     let reflectionY;
+    let left;
+    let right;
+    let up;
+    let down;
     for (let i = 0; i < N * M; i++) {
         cell = document.getElementById("img_" + i);
         src = cell.getAttribute("src");
         rotation = cell.getAttribute("rotation");
         reflectionX = cell.getAttribute("reflectionX");
         reflectionY = cell.getAttribute("reflectionY");
-        sessionStorage.setItem('cell_'+i, src+";"+rotation+";"+reflectionX+";"+reflectionY);
+        left = cell.getAttribute("left");
+        right = cell.getAttribute("right");
+        up = cell.getAttribute("up");
+        down = cell.getAttribute("down");
+        sessionStorage.setItem('cell_'+i, src+";"+rotation+";"+reflectionX+";"+reflectionY+";"+left+";"+right+";"+up+";"+down);
     }
 }
 
@@ -62,10 +70,18 @@ function loading(){
         let rotation = all_attr[1];
         let reflectionX = all_attr[2];
         let reflectionY = all_attr[3];
+        let left = all_attr[0];
+        let right = all_attr[1];
+        let up = all_attr[2];
+        let down = all_attr[3];
         cell.setAttribute("src", src);
         cell.setAttribute("rotation", rotation);
         cell.setAttribute("reflectionX", reflectionX);
         cell.setAttribute("reflectionY", reflectionY);
+        cell.setAttribute("left", left);
+        cell.setAttribute("right", right);
+        cell.setAttribute("up", up);
+        cell.setAttribute("down", down);
         switch (rotation){
             case "90":
                 cell.setAttribute("style", "transform: rotate(90deg);");
