@@ -191,6 +191,8 @@ function chooseElement(cell) {
     set_connections(picture, true, true, false, false);
     //если это провод, то соединения поменяются, иначе останутся дефолтными
     treat_wires(picture);
+
+    //memorizing();
 }
 
 

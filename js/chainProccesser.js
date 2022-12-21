@@ -52,13 +52,13 @@ function searchSource() {
     for (let i = 0; i < N * M; i++) {
         let cell = document.getElementById("img_" + i);
         let src = cell.getAttribute("src");
-        if(src === DESK) continue;
+        if (src === DESK) continue;
 
-        for(let j = 0; j < SOURCES.length; j++){
-            if(src === SOURCES[j]){
+        for (let j = 0; j < SOURCES.length; j++) {
+            if (src === SOURCES[j]) {
                 current_source.push(cell);
                 runnable = true;
-                if(src === AC_SOURCE) IS_I_CONST = false; //переменный ток!
+                if (src === AC_SOURCE) IS_I_CONST = false; //переменный ток!
             }
         }
     }
@@ -73,10 +73,10 @@ function searchSource() {
 function searchKeys() {
     let is_closed = true;
     let str;
-    if(MODE===WORK){
+    if (MODE === WORK) {
         str = "Вы в режиме запуска";
     }
-    if(MODE===BUILD){
+    if (MODE === BUILD) {
         str = "Вы в режиме строительства";
     }
 
@@ -94,11 +94,11 @@ function searchKeys() {
             current_key.push(cell);
         }
     }
-    if(!is_closed){
+    if (!is_closed) {
         let message = document.getElementById('message');
         message.innerText = 'У вас есть незакрытый ключ!';
         message.style.color = 'red';
-    }else{
+    } else {
         let message = document.getElementById('message');
         message.innerText = str;
         message.style.color = 'black';
