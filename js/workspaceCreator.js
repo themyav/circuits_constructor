@@ -70,10 +70,10 @@ function loading(){
         let rotation = all_attr[1];
         let reflectionX = all_attr[2];
         let reflectionY = all_attr[3];
-        let left = all_attr[0];
-        let right = all_attr[1];
-        let up = all_attr[2];
-        let down = all_attr[3];
+        let left = all_attr[4];
+        let right = all_attr[5];
+        let up = all_attr[6];
+        let down = all_attr[7];
         cell.setAttribute("src", src);
         cell.setAttribute("rotation", rotation);
         cell.setAttribute("reflectionX", reflectionX);
