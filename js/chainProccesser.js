@@ -24,11 +24,9 @@ const APPLIANCES = new Map([["Источник переменного тока",
     ["Двигатель", "resource/element/engine/engine.png"],
     ["Предохраниетель", "resource/element/fuse/fuse.png"],
     ["Омметр", "resource/element/ohmmeter/ohmmeter.png"],
-    ["Генератор", "resource/element/generator/generator.png"],
     ["Источник напряжения", "resource/element/voltage_source/voltage_source.png"],
     ["Лампа", "resource/element/lamp/lamp.png"],
     ["Резистор", "resource/element/resistor/resistor.png"],
-    ["Реостат", "resource/element/rheostat/rheostat.png"],
     ["Вольтметр", "resource/element/voltmeter/voltmeter.png"]])
 
 //константы для вычисления силы тока в цепи:
@@ -155,13 +153,6 @@ function addElementButton() {
                             "<td><br><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мОм</option><option value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
-                    case "Генератор":
-                        str += "<tr><td>ЭДС: <br><input type=\"text\" class_name='generator' class='show_U_and_R' unit='e' onchange='validate_values(this)' value='1600'/></td>" +
-                            "<td><br><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мВ</option><option value='deca'>В</option><option value='kilo'>кВ</option><option value='mega'>МВ</option></select></td></tr>"
-                            + "<tr><td>Внутреннее сопротивление: <br><input type=\"text\" class_name='generator' class='show_U_and_R' unit='r' onchange='validate_values(this)' value='500'>" + "</td>" +
-                            "<td><br><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мОм</option><option value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
-                            + "</table>" + "</div></td></tr>";
-                        break;
                     case "Двигатель":
                         str += "<tr><td>ЭДС: <br><input type=\"text\" class_name='generator' class='show_U_and_R' unit='e' onchange='validate_values(this)' value='1600'/></td>" +
                             "<td><br><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мВ</option><option value='deca'>В</option><option value='kilo'>кВ</option><option value='mega'>МВ</option></select></td></tr>"
@@ -219,12 +210,6 @@ function addElementButton() {
                     case "Вольтметр":
                         ELEMENTS.add(cell.id);
                         str += "<tr><td>Сопротивление: <br><input type=\"text\" class_name='voltmeter' class='show_U_and_R' unit='r' onchange='validate_values(this)' value='6000000'>" + "</td>" +
-                            "<td><br><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мОм</option><option value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
-                            + "</table>" + "</div></td></tr>";
-                        break;
-                    case "Реостат":
-                        ELEMENTS.add(cell.id);
-                        str += "<tr><td>Сопротивление: <br><input type=\"text\" class_name='rheostat' class='show_U_and_R' unit='r' onchange='validate_values(this)' value='150'>" + "</td>" +
                             "<td><br><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мОм</option><option value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
