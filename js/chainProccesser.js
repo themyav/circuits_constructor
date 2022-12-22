@@ -832,4 +832,5 @@ function makeCellsDefault(){
 function stopWorkingMode(){
     makeCellsDefault();
     document.getElementById('calcResults').innerHTML = '';
+    stopGraphic();
 }

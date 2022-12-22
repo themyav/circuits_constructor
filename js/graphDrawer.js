@@ -38,7 +38,7 @@ function drawSin(){
     let amplitude = I0 * 100; //увеличили масштаб
     ctx.moveTo(t, 50);
     while (t < width) {
-        y = height/2 - (amplitude * Math.sin(step * W + PHI));
+        y = height/2 - (amplitude * Math.sin(step * 2 * Math.PI + PHI));
         ctx.lineTo(t * 10, y);
         t+=0.1;
         step += 0.1;
@@ -102,12 +102,12 @@ function showAxes(ctx,axes) {
 
     ctx.stroke();
 }
-function drawPoint(ctx, y) {
+function drawPoint(x, y) {
     var radius = 3;
     ctx.beginPath();
 
     // Hold x constant at 4 so the point only moves up and down.
-    ctx.arc(4, y, radius, 0, 2 * Math.PI, false);
+    ctx.arc(x, y, radius, 0, 2 * Math.PI, false);
 
     ctx.fillStyle = 'red';
     ctx.fill();
@@ -124,6 +124,16 @@ function plotSine(ctx, xOffset, yOffset) {
 
     let t = 0;
     let y = 0;
+    let amplitude = I0 * 50; //увеличили масштаб
+    ctx.moveTo(t, 50);
+    while (t < width) {
+        y = height/2 - (amplitude * Math.sin(step * (W/1000) + PHI));
+        ctx.lineTo(t, y);
+        t+=0.1;
+        step += 0.1;
+
+    }
+    /*
     let amplitude = I0 * 10; //увеличили масштаб
     ctx.moveTo(t, 50);
     while (t < width) {
@@ -132,12 +142,11 @@ function plotSine(ctx, xOffset, yOffset) {
         //console.log(Math.sin(arg));
         ctx.lineTo(t * 10, y);
         t+=0.1;
-    }
+    }*/
     ctx.stroke();
     ctx.save();
 
     //console.log("Drawing point at y=" + y);
-    //drawPoint(ctx, y);
     ctx.stroke();
     ctx.restore();
 }
@@ -156,6 +165,8 @@ function draw() {
 
 
 function stopGraphic(){
-
+    canvas = document.getElementById("graphic");
+    ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 var step = 0;
