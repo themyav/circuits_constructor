@@ -37,6 +37,9 @@ const R = 'R'
 // Массив ячеек, из которых мы намерены обходить цепь
 let ELEMENTS = new Set();
 
+//Константный массив ячеек
+let ELEMENTS_GLOBAL = new Set();
+
 //Массив ячеек, которые будут посчитаны последовательным соединением
 let SERIAL = [];
 let USED_TR = [];
@@ -447,6 +450,13 @@ function has_right(cell) {
     return cell.getAttribute('right') === 'true';
 }
 
+function replaceField(div, value){
+    let html = div.innerHTML.split('<br>');
+    div.innerHTML = '';
+    for(let i = 0; i < html.length - 1; i++) div.innerHTML += html[i];
+    div.innerHTML += value;
+}
+
 //Функция меняющие поля ввода на просто текст в момент запуска
 function fieldChange(is_running) {
     for (let i = 0; i < N * M; i++) {
@@ -467,26 +477,26 @@ function fieldChange(is_running) {
                 case "Вольтметр":
                     if(ELEMENT_CALCULATION.has(i)){
                         let U = ELEMENT_CALCULATION.get(i)[1];
-                        div.innerHTML += "<br><table>"
+                        replaceField(div, "<br><table>"
                             + "<tr><td><header style='font-size: larger'>Результат измерения</header><div class='show_U_and_R' style='font-size: medium'>" + "Напряжение на участке цепи: " + U + " В</td></tr>"
-                            + "</table>";
+                            + "</table>");
                     }
 
                     break;
                 case "Амперметр":
                     if(ELEMENT_CALCULATION.has(i)) {
                         let I = ELEMENT_CALCULATION.get(i)[1];
-                        div.innerHTML += "<br><table>"
+                        replaceField(div, "<br><table>"
                             + "<tr><td><header style='font-size: larger'>Результат измерения</header><div class='show_U_and_R'>" + "Сила тока на участке цепи: " + I.toFixed(5) + " А</td></tr>"
-                            + "</table>";
+                            + "</table>");
                     }
                     break;
                 case "Омметр":
                     if(ELEMENT_CALCULATION.has(i)) {
                         let R = ELEMENT_CALCULATION.get(i)[1];
-                        div.innerHTML += "<br><table>"
+                        replaceField(div, "<br><table>"
                             + "<tr><td><header style='font-size: larger'>Результат измерения</header><div class='show_U_and_R' style='font-size: medium'>" + "Сопротивление на участке цепи: " + R + " Ом</td></tr>"
-                            + "</table>";
+                            + "</table>");
                     }
                     break;
             }
@@ -596,6 +606,7 @@ function isDeadEnd(cell){
     if(IS_BAD_CELL[id_num(cell.id)]) return false; //если мы уже проверяли, то больше не интересно
     else if(cell.getAttribute('src') === DESK ||
       cell.getAttribute('src') === OPEN_KEY) return true; //а если в первый раз, то
+    else if(IS_I_CONST && cell.getAttribute('src') === APPLIANCES.get('Конденсатор')) return true;
 
     let k = countNonAllowedWays(cell);
     //console.log('k is ' + k + ' ' + cell.id);
@@ -738,34 +749,21 @@ function runChain(e) {
         }
         if(!IS_I_CONST) startI();
     } else {
-        stopI();
+        if(!IS_I_CONST) stopI();
         makeCellsDefault();
-        cleanRunArrays();
         fieldChange(false);
         e.style.backgroundColor = "darkseagreen";
         e.setAttribute("is_running", "false");
+        prepareArrays();
+        ELEMENTS_GLOBAL.forEach((value) => {
+            ELEMENTS.add(value);
+        });
     }
 }
 
-/*
-Очищает все глобальные массивы */
-function cleanRunArrays(){
-    //TODO нужно очищать все лишнее
-    ELEMENT_CALCULATION = new Map();
-    P_INNER = new Map();
-    P_CONST_I = new Map();
-    P_PARENT = new Map();
-
-}
 
 
-/*
-Точка входа, из которой запускается вся предобработка.
-Нужна для того, чтобы инкапсулировать режим работы
- */
-
-function startWorkingMode() {
-    //обновим значения, если цепь до этого запускалась
+function prepareArrays(){
     runnable = false;
     current_key = [];
     current_source = [];
@@ -781,8 +779,6 @@ function startWorkingMode() {
     P_INNER = new Map();
     P_CONST_I = new Map();
     P_PARENT = new Map();
-
-
     searchKeys();
     searchSource();
 
@@ -791,7 +787,19 @@ function startWorkingMode() {
     }
     checkCurrentWay();
     checkTripleFunctionality();
+}
+
+/*
+Точка входа, из которой запускается вся предобработка.
+Нужна для того, чтобы инкапсулировать режим работы
+ */
+function startWorkingMode() {
+    //обновим значения, если цепь до этого запускалась
+    prepareArrays();
     addElementButton(); //TODO связано с проверочным обходом
+    ELEMENTS.forEach((value) => {
+        ELEMENTS_GLOBAL.add(value);
+    });
 }
 
 /*
