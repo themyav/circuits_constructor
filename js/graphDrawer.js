@@ -114,14 +114,13 @@ function plotSine(ctx, xOffset, yOffset) {
 
     let t = 0;
     let y = 0;
-    let amplitude = I0 * 10; //увеличили масштаб
+    let amplitude = I0 * 50; //увеличили масштаб
     ctx.moveTo(t, 50);
     while (t < width) {
-        y = height/2 - (amplitude * Math.sin((t + xOffset) * W + PHI));
-        let arg = (t + xOffset)*W;
-        console.log( Math.sin(arg));
+        y = height/2 - (amplitude * Math.sin(step * W + PHI));
         ctx.lineTo(t * 10, y);
         t+=0.1;
+        step += 0.1;
     }
     ctx.stroke();
     ctx.save();
@@ -140,7 +139,6 @@ function draw() {
     ctx.save();
     plotSine(ctx, step, 50);
     ctx.restore();
-    step += 4;
     window.requestAnimationFrame(draw);
 
 }
@@ -149,4 +147,4 @@ function draw() {
 function stopGraphic(){
 
 }
-var step = -4;
+var step = 0;
