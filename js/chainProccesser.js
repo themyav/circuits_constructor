@@ -494,7 +494,7 @@ function fieldChange(is_running) {
                     if(ELEMENT_CALCULATION.has(i)) {
                         let I = ELEMENT_CALCULATION.get(i)[1];
                         div.innerHTML += "<br><table>"
-                            + "<tr><td><header style='font-size: larger'>Результат измерения</header><div class='show_U_and_R'>" + "Сила тока на участке цепи: " + I + " А</td></tr>"
+                            + "<tr><td><header style='font-size: larger'>Результат измерения</header><div class='show_U_and_R'>" + "Сила тока на участке цепи: " + I.toFixed(5) + " А</td></tr>"
                             + "</table>";
                     }
                     break;
@@ -753,8 +753,9 @@ function runChain(e) {
                 process_right(cell, c, q, used, dir);
             }
         }
-        processGraphic();
+        if(!IS_I_CONST) startI();
     } else {
+        stopI();
         makeCellsDefault();
         cleanRunArrays();
         fieldChange(false);
