@@ -707,14 +707,20 @@ function runChain(e) {
         //Пока что ток растекается только от первого источника энергии
         let start = null;
         let direction = null;
+        let cnt = 0;
         for(let i = 0; i < current_source.length; i++){
             if(!IS_BAD_CELL[id_num(current_source[i].id)]){
                 start = id_num(current_source[0].id);
                 direction = current_direction(current_source[0]);
+                cnt++;
             }
         }
         if(start === null){
             changeInfoMessage(MESSAGE, 'В цепи не будет течь ток', 'red');
+            return;
+        }
+        else if(cnt > 1){
+            changeInfoMessage(MESSAGE, 'Конструктор не поддерживает работу с двумя источниками тока', 'orange');
             return;
         }
         changeInfoMessage(MESSAGE, 'Эмуляция запуска цепи...', 'black');
