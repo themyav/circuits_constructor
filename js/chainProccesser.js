@@ -8,10 +8,9 @@ const CLOSED_KEY = 'resource/element/key/closed_key.png';
 const SOURCE = 'resource/element/current_source/current_source.png';
 const BATTERY = "resource/element/battery_of_elements/battery_of_elements.png";
 const ENGINE = "resource/element/battery_of_elements/battery_of_elements.png";
-const GENERATOR = "resource/element/generator/generator.png";
 const AC_SOURCE = "resource/element/ac_source/ac_source.png";
 
-let SOURCES = [SOURCE, BATTERY, ENGINE, GENERATOR, AC_SOURCE];
+let SOURCES = [SOURCE, BATTERY, ENGINE, AC_SOURCE];
 
 const DESK = "resource/element/desk.png";
 
@@ -133,7 +132,7 @@ function addElementButton() {
                             "<td><br><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мОм</option><option value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
                             + "<tr><td>Амплитуда<br><input class_name='ac_source' type=\"text\" class='show_U_and_R' unit='a' onchange='validate_values(this)' value='1000'>" + "</td>" +
                             "<td><br><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мА</option><option value='deca'>А</option><option value='kilo'>кА</option><option value='mega'>МА</option></select></td></tr>"
-                            + "<tr><td>Частота<br><input class_name='ac_source' type=\"text\" class='show_U_and_R' unit='nu' onchange='validate_values(this)'value='2000'> " + "</td>" +
+                            + "<tr><td>Частота<br><input class_name='ac_source' type=\"text\" class='show_U_and_R' unit='nu' onchange='validate_values(this)'value='50'> " + "</td>" +
                             "<td><br><select class='show_U_and_R' onchange='validate_values(this)'><option value='deca'>Гц</option><option value='kilo'>кГц</option><option value='mega'>МГц</option></select></td></tr>"
                             + "<tr><td>Фаза<br><input class_name='ac_source' type=\"text\" class='show_U_and_R' unit='fi' onchange='validate_values(this)' value='32'>" + "</td>" +
                             "<td><br><select class='show_U_and_R' onchange='validate_values(this)'><option value='deg'>Градусы</option><option value='rad'>Радианы</option></select></td></tr>"
@@ -154,12 +153,14 @@ function addElementButton() {
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Двигатель":
-                        str += "<tr><td>ЭДС: <br><input type=\"text\" class_name='generator' class='show_U_and_R' unit='e' onchange='validate_values(this)' value='1600'/></td>" +
-                            "<td><br><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мВ</option><option value='deca'>В</option><option value='kilo'>кВ</option><option value='mega'>МВ</option></select></td></tr>"
-                            + "<tr><td>Внутреннее сопротивление: <br><input type=\"text\" class_name='generator' class='show_U_and_R' unit='r' onchange='validate_values(this)' value='300'>" + "</td>" +
+                        str += "<tr><td>Магнитный поток возбуждения: <br><input type=\"text\" class_name='engine' class='show_U_and_R' unit='f' onchange='validate_values(this)' value='1600'/></td>" +
+                            "<td><br><select class='show_U_and_R' onchange='validate_values(this)'><option value='mikro'>мкВб</option><option value='mili'>мВб</option><option value='deca'>Вб</option></select></td></tr>"
+                            + "<tr><td>Внутреннее сопротивление: <br><input type=\"text\" class_name='engine' class='show_U_and_R' unit='r' onchange='validate_values(this)' value='300'>" + "</td>" +
                             "<td><br><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мОм</option><option value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
-                            + "<tr><td>Скорость холостого тока: <br><input type=\"text\" class_name='generator' class='show_U_and_R' uint='v' onchange='validate_values(this)' value='10'>" + "</td>" +
-                            +"<td><br><select class='show_U_and_R' onchange='validate_values(this)'><option value='m/s'>м/c</option><option value='km/h'>км/ч</option></select></td></tr>"
+                            + "<tr><td>Частота вращения: <br><input type=\"text\" class_name='engine' class='show_U_and_R' uint='nu' onchange='validate_values(this)' value='50'>" + "</td>" +
+                            +"<td><br><select class='show_U_and_R' onchange='validate_values(this)'><option value='deca'>Гц</option><option value='kilo'>кГц</option><option value='mega'>МГц</option></select></td></tr>"
+                            + "<tr><td>Мощность: <br><input type=\"text\" class_name='engine' class='show_U_and_R' uint='p' onchange='validate_values(this)' value='1000'>" + "</td>" +
+                            +"<td><br><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мВт</option><option value='deca'>Вт</option><option value='kilo'>кВТ</option><option value='mega'>МВТ</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
                     case "Источник напряжения":
@@ -343,19 +344,16 @@ function validate_values(e) {
             case "pica":
                 value *= 0.000000000001;
                 break;
-            case "m/s":
-                value *= 1;
-                break;
-            case "km/h":
-                value = value / 1000 * 60 * 60;
-                break;
             case "deg":
-                value = value * 180 * Math.PI;
+                value = value * 180 * Math.PI
                 break;
             case "rad":
-                value *= 1;
                 break;
-
+            // case "deg":
+            //     break;
+            // case "rad":
+            //     value = value / (180 * Math.PI);
+            //     break;
         }
         button.setAttribute(input.getAttribute("unit"), value);
     }
