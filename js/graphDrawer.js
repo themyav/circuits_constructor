@@ -129,7 +129,7 @@ function plotSine(ctx, xOffset, yOffset) {
     while (t < width) {
         y = height/2 - (amplitude * Math.sin((t + xOffset) * W + PHI));
         let arg = (t + xOffset)*W;
-        console.log(Math.sin(arg));
+        //console.log(Math.sin(arg));
         ctx.lineTo(t * 10, y);
         t+=0.1;
     }

@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function () {
 function add_to_directory(e) {
     let where_to_add = document.getElementById("for_description");
     if (e.getAttribute("id") === "project_description") {
-        where_to_add.innerHTML = "<div id='only_description' style='width: 700px;'>Здесь будет красивое опсание нашего проекта, возможности приложение и тд</div>";
+        where_to_add.innerHTML = "<div id='only_description' style='width: 700px;'>Проект \"Конструктор электрических цепей\" создан для создания и эмуляции запуска элекстрических цепей.</div>";
     } else if (e.getAttribute("id") === "elements_description") {
         let start_table = "<div id='only_buttons' style='z-index: 2; position: absolute;'><table><tr><td>";
         let end_table = "</td></tr></table></div><div id='only_description' style='width: 700px; z-index: 1; position: absolute; left: 225px; top: 90px;'></div></td></tr></table>";
@@ -85,7 +85,7 @@ function add_to_directory(e) {
         }
         where_to_add.innerHTML = start_table + button + end_table;
     } else if (e.getAttribute("id") === "instruction") {
-        where_to_add.innerHTML = "<div id='only_description' style='width: 700px;'>Здесь будет инструкции</div>";
+        where_to_add.innerHTML = "<div id='only_description' style='width: 700px;'><a href='https://github.com/themyav/circuits_constructor'>Ссылка на гит с объяснением алогритма и использованием приложения.</a> </div>";
     }
 }
 
