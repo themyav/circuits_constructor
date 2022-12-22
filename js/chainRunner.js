@@ -354,8 +354,11 @@ function removeGroup(group) {
 Считает полное сопротивление в цепи
  */
 function countFullR(resultMap){
+    let MESSAGE = document.getElementById('message');
     //считаем полное сопротивление в цепи
     let finalR = countSerialGroupR(SERIAL);//countSerialR(cellArrayToNumber(SERIAL, 'r'), true);
+    if(finalR === 0) changeInfoMessage(MESSAGE, 'В цепи произойдет короткое замыкание!', 'red');
+    else console.log(finalR);
     resultMap.set('Полное сопротивление в цепи', [finalR, 'Ом']);
 
 }
