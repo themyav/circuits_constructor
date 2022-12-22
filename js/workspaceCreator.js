@@ -43,6 +43,7 @@ function memorizing(){
     let right;
     let up;
     let down;
+    let free;
     for (let i = 0; i < N * M; i++) {
         cell = document.getElementById("img_" + i);
         src = cell.getAttribute("src");
@@ -53,7 +54,8 @@ function memorizing(){
         right = cell.getAttribute("right");
         up = cell.getAttribute("up");
         down = cell.getAttribute("down");
-        sessionStorage.setItem('cell_'+i, src+";"+rotation+";"+reflectionX+";"+reflectionY+";"+left+";"+right+";"+up+";"+down);
+        free = cell.getAttribute("free");
+        sessionStorage.setItem('cell_'+i, src+";"+rotation+";"+reflectionX+";"+reflectionY+";"+left+";"+right+";"+up+";"+down+";"+free);
     }
 }
 
@@ -73,6 +75,7 @@ function loading(){
         let right = all_attr[5];
         let up = all_attr[6];
         let down = all_attr[7];
+        let free = all_attr[8];
         cell.setAttribute("src", src);
         cell.setAttribute("rotation", rotation);
         cell.setAttribute("reflectionX", reflectionX);
@@ -81,6 +84,7 @@ function loading(){
         cell.setAttribute("right", right);
         cell.setAttribute("up", up);
         cell.setAttribute("down", down);
+        cell.setAttribute("free", free);
         switch (rotation){
             case "90":
                 cell.setAttribute("style", "transform: rotate(90deg);");

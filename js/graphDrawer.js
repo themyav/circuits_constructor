@@ -26,20 +26,30 @@ function stopI() {
 }
 
 function drawSin(){
-    let amplitude = I0 * 10;
-    ctx.moveTo(10, amplitude);
-    drawPoint(10, canvas.height - amplitude);
+    const width = ctx.canvas.width;
+    const height = ctx.canvas.height;
 
-    ctx.moveTo(0, canvas.height / 2);
+    ctx.beginPath();
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = "rgb(66,44,255)";
+
     let t = 0;
-    var y = 0;
-    var frequency = 20;
-    while (t < canvas.width) {
-        y = canvas.height/2 + amplitude * Math.sin(t/frequency);
-        ctx.lineTo(t, y);
-        t++;
+    let y = 0;
+    let amplitude = I0 * 100; //увеличили масштаб
+    ctx.moveTo(t, 50);
+    while (t < width) {
+        y = height/2 - (amplitude * Math.sin(step * W + PHI));
+        ctx.lineTo(t * 10, y);
+        t+=0.1;
+        step += 0.1;
     }
     ctx.stroke();
+    ctx.save();
+
+    //console.log("Drawing point at y=" + y);
+    //drawPoint(ctx, y);
+    ctx.stroke();
+    ctx.restore();
 }
 
 function drawAlternativeI(){
@@ -114,13 +124,14 @@ function plotSine(ctx, xOffset, yOffset) {
 
     let t = 0;
     let y = 0;
-    let amplitude = I0 * 50; //увеличили масштаб
+    let amplitude = I0 * 10; //увеличили масштаб
     ctx.moveTo(t, 50);
     while (t < width) {
-        y = height/2 - (amplitude * Math.sin(step * W + PHI));
+        y = height/2 - (amplitude * Math.sin((t + xOffset) * W + PHI));
+        let arg = (t + xOffset)*W;
+        console.log(Math.sin(arg));
         ctx.lineTo(t * 10, y);
         t+=0.1;
-        step += 0.1;
     }
     ctx.stroke();
     ctx.save();
