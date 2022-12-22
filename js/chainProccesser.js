@@ -608,6 +608,7 @@ function isDeadEnd(cell){
     if(IS_BAD_CELL[id_num(cell.id)]) return false; //если мы уже проверяли, то больше не интересно
     else if(cell.getAttribute('src') === DESK ||
       cell.getAttribute('src') === OPEN_KEY) return true; //а если в первый раз, то
+    else if(IS_I_CONST && cell.getAttribute('src') === APPLIANCES.get('Конденсатор')) return true;
 
     let k = countNonAllowedWays(cell);
     //console.log('k is ' + k + ' ' + cell.id);
