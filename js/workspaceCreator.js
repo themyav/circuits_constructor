@@ -65,7 +65,6 @@ function loading(){
     for (let i = 0; i < N * M; i++) {
         cell = document.getElementById("img_" + i);
         all_attr = sessionStorage.getItem('cell_' + i).split(";");
-        //console.log(i+"  "+all_attr[0]+"  "+all_attr[1]+"  "+all_attr[2]+"  "+all_attr[3]);
         let src = all_attr[0];
         let rotation = all_attr[1];
         let reflectionX = all_attr[2];

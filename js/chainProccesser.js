@@ -452,6 +452,13 @@ function has_right(cell) {
     return cell.getAttribute('right') === 'true';
 }
 
+function replaceField(div, value){
+    let html = div.innerHTML.split('<br>');
+    div.innerHTML = '';
+    for(let i = 0; i < html.length - 1; i++) div.innerHTML += html[i];
+    div.innerHTML += value;
+}
+
 //Функция меняющие поля ввода на просто текст в момент запуска
 function fieldChange(is_running) {
     for (let i = 0; i < N * M; i++) {
@@ -472,26 +479,26 @@ function fieldChange(is_running) {
                 case "Вольтметр":
                     if(ELEMENT_CALCULATION.has(i)){
                         let U = ELEMENT_CALCULATION.get(i)[1];
-                        div.innerHTML += "<br><table>"
+                        replaceField(div, "<br><table>"
                             + "<tr><td><header style='font-size: larger'>Результат измерения</header><div class='show_U_and_R' style='font-size: medium'>" + "Напряжение на участке цепи: " + U + " В</td></tr>"
-                            + "</table>";
+                            + "</table>");
                     }
 
                     break;
                 case "Амперметр":
                     if(ELEMENT_CALCULATION.has(i)) {
                         let I = ELEMENT_CALCULATION.get(i)[1];
-                        div.innerHTML += "<br><table>"
+                        replaceField(div, "<br><table>"
                             + "<tr><td><header style='font-size: larger'>Результат измерения</header><div class='show_U_and_R'>" + "Сила тока на участке цепи: " + I.toFixed(5) + " А</td></tr>"
-                            + "</table>";
+                            + "</table>");
                     }
                     break;
                 case "Омметр":
                     if(ELEMENT_CALCULATION.has(i)) {
                         let R = ELEMENT_CALCULATION.get(i)[1];
-                        div.innerHTML += "<br><table>"
+                        replaceField(div, "<br><table>"
                             + "<tr><td><header style='font-size: larger'>Результат измерения</header><div class='show_U_and_R' style='font-size: medium'>" + "Сопротивление на участке цепи: " + R + " Ом</td></tr>"
-                            + "</table>";
+                            + "</table>");
                     }
                     break;
             }
