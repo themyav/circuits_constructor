@@ -105,6 +105,7 @@ function loading(){
                 cell.setAttribute("style", "transform: rotate(-270deg);");
                 break;
         }
+        makeCellsDefault();
     }
 }
 
