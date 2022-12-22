@@ -38,6 +38,9 @@ const R = 'R'
 // Массив ячеек, из которых мы намерены обходить цепь
 let ELEMENTS = new Set();
 
+//Константный массив ячеек
+let ELEMENTS_GLOBAL = new Set();
+
 //Массив ячеек, которые будут посчитаны последовательным соединением
 let SERIAL = [];
 let USED_TR = [];
@@ -740,34 +743,21 @@ function runChain(e) {
         }
         if(!IS_I_CONST) startI();
     } else {
-        stopI();
+        if(!IS_I_CONST) stopI();
         makeCellsDefault();
-        cleanRunArrays();
         fieldChange(false);
         e.style.backgroundColor = "darkseagreen";
         e.setAttribute("is_running", "false");
+        prepareArrays();
+        ELEMENTS_GLOBAL.forEach((value) => {
+            ELEMENTS.add(value);
+        });
     }
 }
 
-/*
-Очищает все глобальные массивы */
-function cleanRunArrays(){
-    //TODO нужно очищать все лишнее
-    ELEMENT_CALCULATION = new Map();
-    P_INNER = new Map();
-    P_CONST_I = new Map();
-    P_PARENT = new Map();
-
-}
 
 
-/*
-Точка входа, из которой запускается вся предобработка.
-Нужна для того, чтобы инкапсулировать режим работы
- */
-
-function startWorkingMode() {
-    //обновим значения, если цепь до этого запускалась
+function prepareArrays(){
     runnable = false;
     current_key = [];
     current_source = [];
@@ -783,8 +773,6 @@ function startWorkingMode() {
     P_INNER = new Map();
     P_CONST_I = new Map();
     P_PARENT = new Map();
-
-
     searchKeys();
     searchSource();
 
@@ -793,7 +781,19 @@ function startWorkingMode() {
     }
     checkCurrentWay();
     checkTripleFunctionality();
+}
+
+/*
+Точка входа, из которой запускается вся предобработка.
+Нужна для того, чтобы инкапсулировать режим работы
+ */
+function startWorkingMode() {
+    //обновим значения, если цепь до этого запускалась
+    prepareArrays();
     addElementButton(); //TODO связано с проверочным обходом
+    ELEMENTS.forEach((value) => {
+        ELEMENTS_GLOBAL.add(value);
+    });
 }
 
 /*
