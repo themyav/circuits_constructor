@@ -117,10 +117,10 @@ function addElementButton() {
             for (let pair of APPLIANCES.entries()) {
                 if (cell.getAttribute("src") === pair[1]) element = pair[0];
             }
-
             if (element !== undefined) {
                 for (let pair of APPLIANCES.entries()) {
                     if (element === pair[0]) name = pair[1].split('/')[2];
+
                 }
                 //console.log(name);
                 let button = "<tr><td><button id='button_" + i + "' class='button_" + i + "' is_show='false' name='" + name + "' onclick='toggle_U_and_R(this)' onmouseover='light_picture(this, \"on\")' onmouseout='light_picture(this, \"out\")'>" + element + "</button></td></tr>";
@@ -230,6 +230,8 @@ function addElementButton() {
                             "<td><br><select class='show_U_and_R' onchange='validate_values(this)'><option value='mili'>мОм</option><option value='deca'>Ом</option><option value='kilo'>кОм</option><option value='mega'>МОм</option></select></td></tr>"
                             + "</table>" + "</div></td></tr>";
                         break;
+                    default:
+
                 }
             }
         }
